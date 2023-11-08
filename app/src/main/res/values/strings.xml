@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Simple Task</string>
+    <string name="bottom_task_name">Tarefas</string>
+    <string name="bottom_habits_name">Hábitos</string>
+    <string name="bottom_tags_name">Tags</string>
+    <string name="title_activity_main">MainActivity</string>
+</resources>
