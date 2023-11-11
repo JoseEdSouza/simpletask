@@ -4,4 +4,12 @@
     <string name="bottom_habits_name">Hábitos</string>
     <string name="bottom_tags_name">Tags</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="ask_permission_notifications_msg">
+        Por favor permita o uso de notificações nas configurações.
+    </string>
+    <string name="settings">Configurações</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ask_permission_notifications_title">
+        Permitir Notificações
+    </string>
 </resources>
