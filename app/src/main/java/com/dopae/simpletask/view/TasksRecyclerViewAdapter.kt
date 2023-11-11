@@ -36,7 +36,6 @@ class TasksRecyclerViewAdapter(
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(binding: FragmentTasksBinding) : RecyclerView.ViewHolder(binding.root) {
-
     }
 
 }
