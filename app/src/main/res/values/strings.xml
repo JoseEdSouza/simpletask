@@ -12,4 +12,5 @@
     <string name="ask_permission_notifications_title">
         Permitir Notificações
     </string>
+    <string name="placeholder">Lorem ipsum dolor sit amet</string>
 </resources>
