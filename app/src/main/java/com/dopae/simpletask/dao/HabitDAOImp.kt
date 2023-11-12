@@ -40,6 +40,8 @@ class HabitDAOImp private constructor() : DAO<Habit> {
             it.description = model.description
             it.frequency = model.frequency
             it.startDate = model.startDate
+            it.actualStreak = model.actualStreak
+            it.bestStreak = model.bestStreak
             true
         } ?: false
     }
@@ -48,5 +50,7 @@ class HabitDAOImp private constructor() : DAO<Habit> {
         get(model.id) ?: return habits.add(model)
         return false
     }
+
+    override fun size(): Int = habits.size
 
 }

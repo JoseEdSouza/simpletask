@@ -108,7 +108,7 @@
         app:elevation="3dp"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:itemIconSize="40dp"
-        app:itemIconTint="@color/color_item_bottom_nav"
+        app:itemIconTint="@color/color_item_task_bottom_nav"
         app:itemPaddingBottom="16dp"
         app:itemPaddingTop="12dp"
         app:itemTextColor="@color/black"

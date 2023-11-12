@@ -1,5 +1,5 @@
 package com.dopae.simpletask.model
 
-import android.graphics.Color
+import com.dopae.simpletask.utils.TagColor
 
-data class Tag(var name:String, var color:Color)
+data class Tag(val id: Int, var name: String, var color: TagColor)

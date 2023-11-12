@@ -45,5 +45,6 @@ class UserDAOImp private constructor():DAO<User>{
         return false
     }
 
+    override fun size(): Int = users.size
 
 }

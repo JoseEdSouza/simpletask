@@ -5,4 +5,6 @@ interface DAO<T> {
     fun add(model:T):Boolean
     fun update(id:Int,model:T):Boolean
     fun remove(id:Int):Boolean
+    fun size():Int
+
 }

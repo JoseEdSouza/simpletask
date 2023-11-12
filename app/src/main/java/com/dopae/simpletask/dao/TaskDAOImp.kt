@@ -37,7 +37,7 @@ class TaskDAOImp private constructor() : DAO<Task> {
             it.name = model.name
             it.description = model.description
             it.concluded = model.concluded
-            it.tags = model.tags
+            task.tags.addAll(model.tags)
             true
         } ?: false
     }
@@ -46,5 +46,7 @@ class TaskDAOImp private constructor() : DAO<Task> {
         get(model.id) ?: return tasks.add(model)
         return false
     }
+
+    override fun size(): Int = tasks.size
 
 }
