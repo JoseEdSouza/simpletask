@@ -27,7 +27,7 @@ class TaskDAOImp private constructor() : DAO<Task> {
     }
 
     override fun remove(id: Int): Boolean {
-        var task: Task? = get(id) ?: return false
+        val task: Task = get(id) ?: return false
         return tasks.remove(task)
     }
 
@@ -48,5 +48,7 @@ class TaskDAOImp private constructor() : DAO<Task> {
     }
 
     override fun size(): Int = tasks.size
+
+    override fun getByPosition(position: Int): Task = tasks[position]
 
 }

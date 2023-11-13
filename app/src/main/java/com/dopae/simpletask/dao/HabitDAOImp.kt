@@ -53,4 +53,6 @@ class HabitDAOImp private constructor() : DAO<Habit> {
 
     override fun size(): Int = habits.size
 
+    override fun getByPosition(position: Int): Habit = habits[position]
+
 }

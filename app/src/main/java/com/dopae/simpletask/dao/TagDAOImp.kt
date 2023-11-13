@@ -1,6 +1,4 @@
 package com.dopae.simpletask.dao
-
-
 import com.dopae.simpletask.model.Tag
 
 
@@ -50,4 +48,5 @@ class TagDAOImp private constructor() : DAO<Tag> {
 
     override fun size(): Int = tags.size
 
+    override fun getByPosition(position: Int): Tag = tags[position]
 }

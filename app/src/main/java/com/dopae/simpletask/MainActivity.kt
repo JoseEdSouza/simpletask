@@ -1,13 +1,16 @@
 package com.dopae.simpletask
 
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -24,6 +27,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavView: BottomNavigationView
     private lateinit var floatingActionButton: FloatingActionButton
     private var lastFragmentId: Int = Int.MIN_VALUE
+    private val addActivityLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+            }
+        }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDAOTask()
@@ -31,7 +42,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        floatingActionButton = binding.floatingActionButton3
+
+
+        floatingActionButton = binding.fabAdd
         bottomNavView = binding.bottomNavigation
         changeFragment(binding.bottomNavigation.selectedItemId)
         bottomNavView.setOnItemSelectedListener {
@@ -61,9 +74,12 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    private fun replaceFragment(frag: Fragment) {
+        supportFragmentManager.beginTransaction().replace(binding.frameContainer.id, frag).commit()
+    }
 
-    private fun changeFabColor(itemId:Int){
-        val color = when(itemId) {
+    private fun changeFabColor(itemId: Int) {
+        val color = when (itemId) {
             R.id.bottom_tasks -> R.color.green_1
             R.id.bottom_habits -> R.color.red_1
             else -> R.color.blue_1
@@ -72,19 +88,14 @@ class MainActivity : AppCompatActivity() {
             ColorStateList.valueOf(ContextCompat.getColor(this, color))
     }
 
-    private fun changeBottomNavItemColor(itemId:Int){
-        val color = when(itemId) {
+    private fun changeBottomNavItemColor(itemId: Int) {
+        val color = when (itemId) {
             R.id.bottom_tasks -> R.color.color_item_task_bottom_nav
             R.id.bottom_habits -> R.color.color_item_habit_bottom_nav
             else -> R.color.color_item_tag_bottom_nav
         }
         bottomNavView.itemIconTintList =
             ColorStateList.valueOf(ContextCompat.getColor(this, color))
-    }
-
-    private fun replaceFragment(frag: Fragment) {
-        supportFragmentManager.beginTransaction().replace(binding.frameContainer.id, frag).commit()
-
     }
 
     private fun askNotificationsPerm(context: Context) {
@@ -107,20 +118,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDAOTask() {
-        val task1 = Task(1, "comprar presente", "", false, mutableSetOf())
-        val task2 = Task(2, "comprar carro", "", false, mutableSetOf())
-        val task3 = Task(3, "mercado claro", "comprar pão", false, mutableSetOf())
-        val task4 = Task(4, "mercado anatel", "comprar pão", false, mutableSetOf())
-        val task5 = Task(5, "mercado livre", "comprar pão", false, mutableSetOf())
-        val task6 = Task(6, "mercado livre aa", "", false, mutableSetOf())
-        val task7 = Task(7, "comprar iphone ", "fingir ser rica ", false, mutableSetOf())
+        var lastId = 0
+        val tasks = listOf(
+            Task(++lastId, "comprar presente", ""),
+            Task(++lastId, "comprar carro", ""),
+            Task(++lastId, "mercado claro", "comprar pão"),
+            Task(++lastId, "mercado anatel", "comprar pão"),
+            Task(++lastId, "mercado livre", "comprar pão"),
+            Task(++lastId, "mercado livre aa", ""),
+            Task(++lastId, "comprar iphone ", "fingir ser rica "),
+            Task(++lastId, "comprar iphone teste teste teste", ""),
+            Task(++lastId, "comprar iphone teste teste teste teste teste teste teste", ""),
+            Task(++lastId, "comprar iphone a   b   c   d   e   f   g", ""),
+            )
         val dao = TaskDAOImp.getInstance()
-        dao.add(task1)
-        dao.add(task2)
-        dao.add(task3)
-        dao.add(task4)
-        dao.add(task5)
-        dao.add(task6)
-        dao.add(task7)
+        tasks.forEach{ dao.add(it) }
     }
+
+    fun startAddActivity(view: View) {
+        val intent = Intent(this, AddTaskActivity::class.java)
+        addActivityLauncher.launch(intent)
+    }
+
+
 }

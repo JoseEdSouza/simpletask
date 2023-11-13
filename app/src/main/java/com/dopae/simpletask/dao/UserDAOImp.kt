@@ -47,4 +47,6 @@ class UserDAOImp private constructor():DAO<User>{
 
     override fun size(): Int = users.size
 
+    override fun getByPosition(position: Int): User = users[position]
+
 }

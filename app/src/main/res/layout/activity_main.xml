@@ -25,7 +25,8 @@
             android:src="@drawable/text_simple_task"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/imgBtnUser"
@@ -42,7 +43,8 @@
             app:layout_constraintStart_toEndOf="@+id/imgViewLogo"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.567"
-            app:tint="@color/gray_3" />
+            app:tint="@color/gray_3"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/imgViewIcon"
@@ -54,7 +56,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -67,15 +70,15 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton3"
+            android:id="@+id/fabAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:forceDarkAllowed="false"
+            android:onClick="startAddActivity"
             android:scaleType="center"
             android:src="@drawable/plus"
             android:theme="@null"
-            app:tint="@color/white"
             app:backgroundTint="@color/green_1"
             app:fabCustomSize="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +88,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.968"
             app:rippleColor="@color/white"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton"
+            app:tint="@color/white"
+            tools:ignore="ContentDescription" />
 
         <FrameLayout
             android:id="@+id/frame_container"
@@ -115,7 +120,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu">
+        app:menu="@menu/activity_main_menu"
+        tools:ignore="VisualLintBottomNav">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

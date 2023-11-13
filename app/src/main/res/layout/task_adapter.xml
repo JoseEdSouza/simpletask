@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginTop="14dp"
-    android:background="@android:color/transparent"
-    tools:layout_gravity="center">
+    android:background="@android:color/transparent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardTask"
@@ -28,10 +27,13 @@
 
             <TextView
                 android:id="@+id/txtViewTaskName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="10dp"
+                android:autoSizeMaxTextSize="22sp"
+                android:autoSizeMinTextSize="18sp"
+                android:autoSizeTextType="uniform"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/placeholder"
                 android:textColor="@color/black"
@@ -77,14 +79,6 @@
                         android:src="@drawable/location" />
 
                     <ImageView
-                        android:id="@+id/imgViewTime"
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/clock" />
-
-                    <ImageView
                         android:id="@+id/imgViewCalendar"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
@@ -98,7 +92,7 @@
                     android:id="@+id/linearLayoutTasksTags"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:maxHeight="24dp"
                     android:orientation="horizontal"

@@ -3,7 +3,7 @@ package com.dopae.simpletask.model
 import com.dopae.simpletask.utils.Frequency
 import java.util.Date
 
-class Habit(
+data class Habit(
     var id: Int,
     var name: String,
     var actualStreak:Int = 0,

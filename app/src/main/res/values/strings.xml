@@ -13,4 +13,10 @@
         Permitir Notificações
     </string>
     <string name="placeholder">Lorem ipsum dolor sit amet</string>
+    <string name="back">Voltar</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
+    <string name="save">Salvar</string>
+    <string name="concluded">Concluir</string>
+
 </resources>
