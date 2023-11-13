@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -46,9 +48,9 @@ class MainActivity : AppCompatActivity() {
 
         floatingActionButton = binding.fabAdd
         bottomNavView = binding.bottomNavigation
-        changeFragment(binding.bottomNavigation.selectedItemId)
+        swapFragment(binding.bottomNavigation.selectedItemId)
         bottomNavView.setOnItemSelectedListener {
-            changeFragment(it.itemId)
+            swapFragment(it.itemId)
         }
 
         if (!checkNotificationPerm(this)) {
@@ -57,9 +59,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun changeFragment(itemId: Int): Boolean {
+    private fun swapFragment(itemId: Int): Boolean {
         if (lastFragmentId == itemId)
             return false
+        lastFragmentId = itemId
         when (itemId) {
             R.id.bottom_tasks -> replaceFragment(TasksFragment())
             else -> Toast.makeText(
@@ -70,11 +73,11 @@ class MainActivity : AppCompatActivity() {
         }
         changeFabColor(itemId)
         changeBottomNavItemColor(itemId)
-        lastFragmentId = itemId
         return true
     }
 
     private fun replaceFragment(frag: Fragment) {
+        TransitionManager.beginDelayedTransition(binding.frameContainer, AutoTransition())
         supportFragmentManager.beginTransaction().replace(binding.frameContainer.id, frag).commit()
     }
 

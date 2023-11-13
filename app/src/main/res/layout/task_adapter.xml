@@ -12,7 +12,7 @@
         android:id="@+id/cardTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:backgroundTint="@color/white"
         android:outlineSpotShadowColor="@android:color/transparent"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,8 +22,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/txtViewTaskName"
@@ -32,11 +31,11 @@
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="10dp"
                 android:autoSizeMaxTextSize="22sp"
-                android:autoSizeMinTextSize="18sp"
+                android:autoSizeMinTextSize="16sp"
                 android:autoSizeTextType="uniform"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/placeholder"
-                android:textColor="@color/black"
+                android:text="@string/line_placeholder"
+                android:textColor="@color/gray_3"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -66,17 +65,22 @@
                         android:id="@+id/imgViewDescription"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2.5dp"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
+                        android:cropToPadding="true"
                         android:maxHeight="24dp"
-                        android:src="@drawable/description" />
+                        android:padding="2.6dp"
+                        android:src="@drawable/description"
+                        app:tint="@color/gray_1"
+                        tools:cropToPadding="false" />
 
                     <ImageView
                         android:id="@+id/imgViewLocation"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:src="@drawable/location" />
+                        android:src="@drawable/location"
+                        app:tint="@color/gray_1" />
 
                     <ImageView
                         android:id="@+id/imgViewCalendar"
@@ -84,7 +88,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:scaleX="0.95"
-                        android:src="@drawable/calendar" />
+                        android:src="@drawable/calendar"
+                        app:tint="@color/gray_1" />
 
                 </LinearLayout>
 
@@ -136,6 +141,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:src="@drawable/three_dots"
+                    app:tint="@color/gray_1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/linearLayoutTasksTags"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -144,8 +150,8 @@
 
             <ImageButton
                 android:id="@+id/imgBtnCheckbox"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
                 android:backgroundTint="@null"
@@ -154,6 +160,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray_1"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

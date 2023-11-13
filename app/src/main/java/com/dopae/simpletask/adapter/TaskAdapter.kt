@@ -28,9 +28,7 @@ class TaskAdapter(private val taskDAO: DAO<Task>) :
         val task = taskDAO.getByPosition(position)
         positionIdMap[position] = task.id
         holder.taskName.text = task.name
-        if (task.description == "") {
-            holder.taskIndicators.removeView(holder.binding.imgViewDescription)
-        }
+        holder.setTaskIndicators(task)
     }
 
     interface OnItemClickListener {
@@ -45,10 +43,8 @@ class TaskAdapter(private val taskDAO: DAO<Task>) :
     inner class TaskViewHolder(val binding: TaskAdapterBinding) :
         RecyclerView.ViewHolder(binding.root),
         View.OnClickListener {
-        val taskIndicators = binding.linearLayoutTasksIndicators
         var taskName = binding.txtViewTaskName
         private val tagDAO = TagDAOImp.getInstance()
-
         init {
             binding.root.setOnClickListener(this)
         }
@@ -62,22 +58,20 @@ class TaskAdapter(private val taskDAO: DAO<Task>) :
             }
         }
 
-        private fun setTaskIndicators(task: Task, indicatorsLayout: LinearLayout) {
-            if (task.description == "")
-                indicatorsLayout.removeView(binding.imgViewDescription)
+        fun setTaskIndicators(task: Task) {
+            if (task.hasDescription)
+                binding.imgViewDescription.visibility = View.GONE
         }
 
-        private fun setTaskTags(task: Task, tagsLayout: LinearLayout, parent: ConstraintLayout) {
-            if (task.tags.size <= 3) {
-                parent.removeView(binding.imgViewTreeDots)
+        private fun setTaskTags(task: Task) {
+            if (task.numTags <= 3) {
+                binding.imgViewTreeDots.visibility = View.GONE
                 binding.imgViewTag1.backgroundTintList =
-                    tagDAO.get(task.tags.first())?.color?.getColorStateList()
+                    tagDAO.get(task.tags.next())?.color?.getColorStateList()
 
             }
 
-
         }
-
 
     }
 }

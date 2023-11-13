@@ -1,18 +1,37 @@
 package com.dopae.simpletask.model
 
 data class Task(
-    var id: Int,
+    val id: Int,
     var name: String,
     var description: String,
     var concluded: Boolean = false,
-    val tags: MutableSet<Int> = mutableSetOf(),
+    private val tagSet: MutableSet<Int> = mutableSetOf(),
     var trigger: Trigger? = null
 ) {
-    fun addTag(tag: Tag) = tags.add(tag.id)
-    fun removeTag(tag: Tag) = tags.remove(tag.id)
-    fun addAllTags(tags: Collection<Tag>) {
+    val hasDescription: Boolean
+        get() = description == ""
+
+    val numTags: Int
+        get() = tagSet.size
+
+    val hasTrigger: Boolean
+        get() = trigger == null
+
+    fun flipStatus() {
+        concluded = !concluded
+    }
+
+    val tags: Iterator<Int>
+        get() = tagSet.sorted().iterator()
+
+    fun addTag(tag: Int) {
+        tagSet.add(tag)
+    }
+
+    fun removeTag(tag: Tag) = tagSet.remove(tag.id)
+    fun addAllTags(tags: Collection<Int>) {
         tags.forEach {
-            this.tags.add(it.id)
+            this.tagSet.add(it)
         }
     }
 
