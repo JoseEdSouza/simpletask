@@ -18,7 +18,7 @@
     <color name="gray_4">#E3E3E3</color>
     <color name="task_card">#CDFFD5</color>
     <color name="task_card_text">#26492C</color>
-    <color name="task_card_buttom">#5BBA6A</color>
+    <color name="task_card_button">#5BBA6A</color>
     <color name="bottom_menu_icon">#525351</color>
     <color name="input_text_bakcground">#D9D9D9</color>
 </resources>

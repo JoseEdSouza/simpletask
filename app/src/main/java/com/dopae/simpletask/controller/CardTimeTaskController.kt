@@ -13,7 +13,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_CLOCK
 import com.google.android.material.timepicker.TimeFormat
-import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -23,7 +22,7 @@ import java.util.TimeZone
 class CardTimeTaskController(
     binding: CardTaskTimeReminderBinding,
     private val supportFragmentManager: FragmentManager
-) {
+):CardController {
     private val cardExpandOptions = binding.constraintLayoutCardTaskExpandOptions
     private val cardSelectedTime = binding.txtViewSelectedTime
     private val card = binding.root
@@ -35,14 +34,17 @@ class CardTimeTaskController(
     private var selectedTime: Pair<Int, Int>? = null
     private var task: Task? = null
 
-    fun init() {
+    override fun init() {
         initTimeBtnTxt()
         cardSelectedTime.visibility = View.GONE
         cardExpandOptions.visibility = View.GONE
         card.setOnClickListener { changeState() }
         dateButton.setOnClickListener { openDateSelection() }
         timeButton.setOnClickListener { openTimeSelection() }
+    }
 
+    override fun setOnClickListener(onClickListener: View.OnClickListener) {
+        card.setOnClickListener(onClickListener)
     }
 
     private fun initTimeBtnTxt() {
@@ -68,7 +70,7 @@ class CardTimeTaskController(
         return this
     }
 
-    val isActivated: Boolean
+    override val isActivated: Boolean
         get() = activated
 
     val info: Date
@@ -82,9 +84,8 @@ class CardTimeTaskController(
             return calendar.time
         }
 
-    private fun changeState() {
+   override fun changeState() {
         activated = !activated
-        TransitionManager.beginDelayedTransition(card, AutoTransition())
         with(cardExpandOptions) {
             visibility = if (visibility == View.GONE) View.VISIBLE else View.GONE
         }

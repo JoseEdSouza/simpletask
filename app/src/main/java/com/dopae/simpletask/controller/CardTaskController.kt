@@ -2,40 +2,45 @@ package com.dopae.simpletask.controller
 
 import android.transition.AutoTransition
 import android.transition.TransitionManager
-import android.view.View
-import com.dopae.simpletask.R
-import com.dopae.simpletask.dao.TaskDAOImp
-import com.dopae.simpletask.databinding.TaskAdapterBinding
-import com.dopae.simpletask.model.Task
+import android.view.View.OnClickListener
+import androidx.fragment.app.FragmentManager
+import com.dopae.simpletask.databinding.CardsLayoutTaskBinding
 
-class CardTaskController(binding: TaskAdapterBinding, private val task: Task) {
-    private val taskCard = binding.root
-    private val taskName = binding.txtViewTaskName
-    val timeIndicator = binding.imgViewCalendar
-    val localIndicator = binding.imgViewLocation
-    private val descriptionIndicator = binding.imgViewDescription
-    private val taskCheckBox = binding.imgBtnCheckbox
+class CardTaskController(
+    private val binding: CardsLayoutTaskBinding,
+    supportFragmentManager: FragmentManager
+) {
+    val cardTime = CardTimeTaskController(binding.cardTimeAddTask, supportFragmentManager)
+    val cardLocal =
+        CardLocalTaskController(binding.cardLocalAddTask, supportFragmentManager)
+
+    private var lastClickedCard: CardController? = null
 
     fun init() {
-        set()
-        taskCheckBox.setOnClickListener { flipCheckbox() }
-    }
-
-    fun set() {
-        taskName.text = task.name
-        if (!task.hasDescription)
-            descriptionIndicator.visibility = View.GONE
-        if (task.concluded)
-            taskCheckBox.setImageResource(R.drawable.checkbox_concluded)
-    }
-
-    private fun flipCheckbox() {
-        task.concluded = !task.concluded
-        TransitionManager.beginDelayedTransition(taskCard, AutoTransition())
-        taskCheckBox
-            .setImageResource(if (task.concluded) R.drawable.checkbox_concluded else R.drawable.checkbox_empty)
-        TaskDAOImp.getInstance().update(task.id, task)
+        cardTime.init()
+        cardLocal.init()
+        cardTime.setOnClickListener { cardClicked(cardTime) }
+        cardLocal.setOnClickListener { cardClicked(cardLocal) }
     }
 
 
+    private fun cardClicked(clickedCard: CardController) {
+        TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
+        lastClickedCard?.let {
+            if (it == clickedCard) {
+                clickedCard.changeState()
+            } else {
+                clickedCard.changeState()
+                if (it.isActivated)
+                    it.changeState()
+                lastClickedCard = clickedCard
+            }
+
+        } ?: run {
+            clickedCard.changeState()
+            lastClickedCard = clickedCard
+        }
+    }
 }
+
+

@@ -24,14 +24,18 @@ data class Task(
     val tags: Iterator<Int>
         get() = tagSet.sorted().iterator()
 
-    fun addTag(tag: Int) {
+    fun addTag(tag: Int):Task {
         tagSet.add(tag)
+        return this
     }
 
-    fun removeTag(tag: Tag) = tagSet.remove(tag.id)
-    fun addAllTags(tags: Collection<Int>) {
-        tags.forEach {
-            this.tagSet.add(it)
-        }
+    fun removeTag(tag: Int): Task {
+        tagSet.remove(tag)
+        return this
+    }
+
+    fun addAllTags(tags: Collection<Int>): Task {
+        tagSet.addAll(tags)
+        return this
     }
 }

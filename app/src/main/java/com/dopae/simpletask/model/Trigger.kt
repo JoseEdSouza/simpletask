@@ -1,8 +1,9 @@
 package com.dopae.simpletask.model
 
-interface Trigger {
-    val type:String
-    fun getData()
+import com.dopae.simpletask.utils.TriggerType
 
+interface Trigger {
+    val type:TriggerType
+    val valid:Boolean
 
 }

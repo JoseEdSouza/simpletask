@@ -1,8 +1,15 @@
 package com.dopae.simpletask.model
 
-class TimeTrigger:Trigger {
-    override val type = "time"
-    override fun getData() {
-        TODO("Not yet implemented")
-    }
+import com.dopae.simpletask.utils.TriggerType
+import java.util.Calendar
+import java.util.Date
+
+class TimeTrigger(private val dateTrigger: Date):Trigger {
+    override val type = TriggerType.TIME
+    override val valid: Boolean
+        get(){
+            val today = Date(System.currentTimeMillis())
+            return dateTrigger >= today
+        }
+
 }
