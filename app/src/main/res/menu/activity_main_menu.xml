@@ -2,6 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/bottom_tasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:icon="@drawable/tasks"
         android:iconTint="@color/green_1"
         android:title="@string/bottom_task_name" />
@@ -11,7 +13,6 @@
         android:layout_height="wrap_content"
         android:icon="@drawable/habits"
         android:iconTint="@color/red_1"
-        android:iconTintMode="src_in"
         android:title="@string/bottom_habits_name" />
     <item
         android:id="@+id/bottom_tags"

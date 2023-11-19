@@ -11,6 +11,7 @@ class TaskDAOImp private constructor() : DAO<Task> {
     companion object {
         private lateinit var tasks: MutableList<Task>
         private var instance: DAO<Task>? = null
+        private var nextId: Int = 0
         fun getInstance(): DAO<Task> {
             if (instance == null)
                 instance = TaskDAOImp()
@@ -37,14 +38,14 @@ class TaskDAOImp private constructor() : DAO<Task> {
             it.name = model.name
             it.description = model.description
             it.concluded = model.concluded
-            model.tags.forEach { tag-> it.addTag(tag)}
+            model.tags.forEach { tag -> it.addTag(tag) }
             true
         } ?: false
     }
 
     override fun add(model: Task): Boolean {
-        get(model.id) ?: return tasks.add(model)
-        return false
+        model.id = nextId++
+        return tasks.add(model)
     }
 
     override fun size(): Int = tasks.size

@@ -1,15 +1,15 @@
 package com.dopae.simpletask.model
 
 data class Task(
-    val id: Int,
     var name: String,
     var description: String,
+    var id: Int = 0,
     var concluded: Boolean = false,
     private val tagSet: MutableSet<Int> = mutableSetOf(),
     var trigger: Trigger? = null
 ) {
     val hasDescription: Boolean
-        get() = description == ""
+        get() = description != ""
 
     val numTags: Int
         get() = tagSet.size
@@ -34,6 +34,4 @@ data class Task(
             this.tagSet.add(it)
         }
     }
-
-
 }

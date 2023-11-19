@@ -10,8 +10,8 @@
         <item name="colorSecondaryVariant">@color/green_2</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/design_default_color_background</item>
+        <item name="android:navigationBarColor">@color/design_default_color_background</item>
         <!-- Customize your theme here. -->
     </style>
 

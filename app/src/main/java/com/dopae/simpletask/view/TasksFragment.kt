@@ -37,7 +37,7 @@ class TasksFragment : Fragment() {
             //setting recycler view
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                val mAdapter = TaskAdapter(TaskDAOImp.getInstance())
+                val mAdapter = TaskAdapter()
                 mAdapter.setOnItemClickListener(object : TaskAdapter.OnItemClickListener {
                     override fun onItemClick(position: Int) {
                         startTaskDetailsActivity(position)
@@ -66,7 +66,6 @@ class TasksFragment : Fragment() {
                 }
             })
         }
-
         return view
     }
 

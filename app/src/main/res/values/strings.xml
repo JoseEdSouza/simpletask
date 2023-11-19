@@ -21,5 +21,12 @@
     <string name="delete">Deletar</string>
     <string name="save">Salvar</string>
     <string name="concluded">Concluir</string>
+    <string name="description">Descrição</string>
+    <string name="descriptionHint"><font size="16">Adicione uma Descrição...</font></string>
+    <string name="time">Tempo</string>
+    <string name="local">Local</string>
+    <string name="addTask">Adicionar Tarefa</string>
+    <string name="name">Nome</string>
+    <string name="nameHint"><font size="16">Nome...</font></string>
 
 </resources>

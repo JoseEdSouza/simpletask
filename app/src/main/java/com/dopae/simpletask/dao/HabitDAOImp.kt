@@ -11,6 +11,7 @@ class HabitDAOImp private constructor() : DAO<Habit> {
 
     companion object {
         private lateinit var habits: MutableList<Habit>
+        private var nextId = 0
         private var instance: DAO<Habit>? = null
         fun getInstance(): DAO<Habit> {
             if (instance == null)
@@ -47,8 +48,8 @@ class HabitDAOImp private constructor() : DAO<Habit> {
     }
 
     override fun add(model: Habit): Boolean {
-        get(model.id) ?: return habits.add(model)
-        return false
+        model.id = nextId++
+        return habits.add(model)
     }
 
     override fun size(): Int = habits.size

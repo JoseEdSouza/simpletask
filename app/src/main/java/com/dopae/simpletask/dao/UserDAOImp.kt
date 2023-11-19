@@ -9,6 +9,7 @@ class UserDAOImp private constructor():DAO<User>{
 
     companion object{
         private lateinit var users: MutableList<User>
+        private var nextId = 0
         private var instance:DAO<User>? = null
         fun getInstance():DAO<User>{
             if(instance == null)
@@ -41,8 +42,8 @@ class UserDAOImp private constructor():DAO<User>{
     }
 
     override fun add(model: User): Boolean {
-        get(model.id) ?: return users.add(model)
-        return false
+        model.id = nextId++
+        return users.add(model)
     }
 
     override fun size(): Int = users.size

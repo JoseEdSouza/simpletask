@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.ActivityTaskDetailsBinding
 import com.dopae.simpletask.model.Task
@@ -28,6 +29,10 @@ class TaskDetailsActivity : AppCompatActivity() {
         task?.let {
             with(it) {
                 binding.txtViewTaskDetailsName.text = name
+                binding.txtViewTaskDetailsDescription.text =
+                    if (hasDescription)
+                        description
+                    else ContextCompat.getString(this@TaskDetailsActivity, R.string.descriptionHint)
             }
         }
     }

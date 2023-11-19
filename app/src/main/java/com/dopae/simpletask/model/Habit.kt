@@ -4,11 +4,11 @@ import com.dopae.simpletask.utils.Frequency
 import java.util.Date
 
 data class Habit(
-    var id: Int,
     var name: String,
-    var actualStreak:Int = 0,
-    var bestStreak:Int = 0,
     var description: String,
     var frequency: Frequency,
-    var startDate: Date
+    var startDate: Date,
+    var id: Int = 0,
+    var actualStreak:Int = 0,
+    var bestStreak:Int = 0
 )

@@ -10,6 +10,7 @@ class TagDAOImp private constructor() : DAO<Tag> {
 
     companion object {
         private lateinit var tags: MutableList<Tag>
+        private var nextId = 0
         private var instance: DAO<Tag>? = null
         fun getInstance(): DAO<Tag> {
             if (instance == null)
@@ -42,8 +43,8 @@ class TagDAOImp private constructor() : DAO<Tag> {
     }
 
     override fun add(model: Tag): Boolean {
-        get(model.id) ?: return tags.add(model)
-        return false
+        model.id = nextId++
+        return tags.add(model)
     }
 
     override fun size(): Int = tags.size

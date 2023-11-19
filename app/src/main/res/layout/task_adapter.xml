@@ -141,20 +141,21 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:src="@drawable/three_dots"
-                    app:tint="@color/gray_1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/linearLayoutTasksTags"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/gray_1" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageButton
                 android:id="@+id/imgBtnCheckbox"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_marginEnd="20dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="10dp"
                 android:background="@android:color/transparent"
                 android:backgroundTint="@null"
+                android:padding="8dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/checkbox_empty"
                 app:layout_constraintBottom_toBottomOf="parent"

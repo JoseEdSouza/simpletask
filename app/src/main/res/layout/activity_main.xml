@@ -79,7 +79,7 @@
             android:scaleType="center"
             android:src="@drawable/plus"
             android:theme="@null"
-            app:backgroundTint="@color/green_1"
+            app:backgroundTint="@color/task_theme"
             app:fabCustomSize="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

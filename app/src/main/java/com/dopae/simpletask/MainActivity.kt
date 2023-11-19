@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val addActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
+                replaceFragment(TasksFragment())
             }
         }
 
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeFabColor(itemId: Int) {
         val color = when (itemId) {
-            R.id.bottom_tasks -> R.color.green_1
+            R.id.bottom_tasks -> R.color.task_theme
             R.id.bottom_habits -> R.color.red_1
             else -> R.color.blue_1
         }
@@ -121,18 +121,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDAOTask() {
-        var lastId = 0
         val tasks = listOf(
-            Task(++lastId, "comprar presente", ""),
-            Task(++lastId, "comprar carro", ""),
-            Task(++lastId, "mercado claro", "comprar pão"),
-            Task(++lastId, "mercado anatel", "comprar pão"),
-            Task(++lastId, "mercado livre", "comprar pão"),
-            Task(++lastId, "mercado livre aa", ""),
-            Task(++lastId, "comprar iphone ", "fingir ser rica "),
-            Task(++lastId, "comprar iphone teste teste teste", ""),
-            Task(++lastId, "comprar iphone teste teste teste teste teste teste teste", ""),
-            Task(++lastId, "comprar iphone a   b   c   d   e   f   g", ""),
+            Task( name = "comprar presente", description = ""),
             )
         val dao = TaskDAOImp.getInstance()
         tasks.forEach{ dao.add(it) }
