@@ -112,6 +112,7 @@
                         android:layout_margin="1dp"
                         android:layout_weight="1"
                         android:src="@drawable/full_circle"
+                        android:visibility="invisible"
                         app:tint="@color/red_1" />
 
                     <ImageView
@@ -121,6 +122,7 @@
                         android:layout_margin="1dp"
                         android:layout_weight="1"
                         android:src="@drawable/full_circle"
+                        android:visibility="invisible"
                         app:tint="@color/blue_1" />
 
                     <ImageView
@@ -130,6 +132,7 @@
                         android:layout_margin="1dp"
                         android:layout_weight="1"
                         android:src="@drawable/full_circle"
+                        android:visibility="invisible"
                         app:tint="@color/green_2" />
 
                 </LinearLayout>

@@ -50,4 +50,11 @@ class UserDAOImp private constructor():DAO<User>{
 
     override fun getByPosition(position: Int): User = users[position]
 
+    override fun getAll(): List<User> {
+        val ret = mutableListOf<User>()
+        users.forEach{
+            ret.add(it)
+        }
+        return ret
+    }
 }

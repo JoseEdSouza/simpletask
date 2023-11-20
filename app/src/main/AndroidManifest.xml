@@ -15,10 +15,15 @@
         android:theme="@style/Theme.SimpleTask"
         tools:targetApi="31">
         <activity
+            android:name=".EdtTaskActivity"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".TaskDetailsActivity"
             android:exported="false"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -31,9 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddTaskActivity"
+        <activity
+            android:name=".AddTaskActivity"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -21,4 +21,16 @@
     <color name="task_card_button">#5BBA6A</color>
     <color name="bottom_menu_icon">#525351</color>
     <color name="input_text_bakcground">#D9D9D9</color>
+    <!--tagColors-->
+    <color name="tagColorRED">#fc6f6a</color>
+    <color name="tagColorGREEN">#9bfc90</color>
+    <color name="tagColorYELLOW">#fcd890</color>
+    <color name="tagColorPURPLE">#caaffa</color>
+    <color name="tagColorBLUE">#a5bafa</color>
+    <color name="tagColorCIAN">#83fcde</color>
+    <color name="tagColorPINK">#ffabf5</color>
+    <color name="tagColorORANGE">#fca16d</color>
+    <color name="tagColorROSE">#f29d85</color>
+    <color name="tagColorLILAS">#c48fd9</color>
 </resources>
+

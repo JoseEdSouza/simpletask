@@ -1,5 +1,6 @@
 package com.dopae.simpletask.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,13 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     private val taskDAO = TaskDAOImp.getInstance()
     private val positionIdMap = HashMap<Int, Int>()
     private var mListener: OnItemClickListener? = null
+    private lateinit var context: Context
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val taskAdapterBinding =
             TaskAdapterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        context = parent.context
         return TaskViewHolder(taskAdapterBinding)
     }
 
@@ -28,7 +31,7 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = taskDAO.getByPosition(position)
         positionIdMap[position] = task.id
-        TaskAdapterController(holder.binding, task).init()
+        TaskAdapterController(context,holder.binding, task).init()
     }
 
     interface OnItemClickListener {

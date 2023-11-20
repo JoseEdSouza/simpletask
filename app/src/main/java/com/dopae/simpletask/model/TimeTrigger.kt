@@ -4,12 +4,14 @@ import com.dopae.simpletask.utils.TriggerType
 import java.util.Calendar
 import java.util.Date
 
-class TimeTrigger(private val dateTrigger: Date):Trigger {
+class TimeTrigger(private val dateTrigger: Date) : Trigger {
     override val type = TriggerType.TIME
     override val valid: Boolean
-        get(){
+        get() {
             val today = Date(System.currentTimeMillis())
             return dateTrigger >= today
         }
+    override val data: Date
+        get() = dateTrigger
 
 }

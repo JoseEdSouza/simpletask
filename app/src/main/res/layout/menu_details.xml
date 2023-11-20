@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayoutMenuDetails"
     android:layout_width="match_parent"
     android:layout_height="90dp"
     android:orientation="horizontal">
@@ -14,24 +15,24 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imgBtnSave"
+            android:id="@+id/imgBtnConcluded"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/save"
+            android:src="@drawable/concluded"
             app:tint="@color/bottom_menu_icon" />
 
         <TextView
-            android:id="@+id/txtViewSave"
+            android:id="@+id/txtViewConcluded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:fontFamily="@font/inter_bold"
-            android:text="@string/save"
+            android:text="@string/concluded"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="10sp"
@@ -48,29 +49,61 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imgBtnCancel"
+            android:id="@+id/imgBtnEdit"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:background="?selectableItemBackgroundBorderless"
-            android:src="@drawable/cancel"
+            android:src="@drawable/edit"
             app:tint="@color/bottom_menu_icon" />
 
         <TextView
-            android:id="@+id/txtViewCancel"
+            android:id="@+id/txtViewEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:fontFamily="@font/inter_bold"
-            android:text="@string/cancel"
+            android:text="@string/edit"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="10sp"
             android:textStyle="bold" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/imgBtnDelete"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/delete"
+            app:tint="@color/bottom_menu_icon" />
+
+        <TextView
+            android:id="@+id/txtViewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/inter_bold"
+            android:text="@string/delete"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

@@ -5,5 +5,6 @@ import com.dopae.simpletask.utils.TriggerType
 interface Trigger {
     val type:TriggerType
     val valid:Boolean
+    val data:Any
 
 }

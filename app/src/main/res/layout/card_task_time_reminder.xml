@@ -57,7 +57,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="Qua, 15/11 - 15:00"
                 android:textColor="@color/task_card_text"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/txtViewCardTaskTimeTitle1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtViewCardTaskTimeTitle1" />

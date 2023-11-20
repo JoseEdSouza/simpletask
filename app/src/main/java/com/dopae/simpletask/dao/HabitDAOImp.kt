@@ -56,4 +56,12 @@ class HabitDAOImp private constructor() : DAO<Habit> {
 
     override fun getByPosition(position: Int): Habit = habits[position]
 
+    override fun getAll(): List<Habit> {
+        val ret = mutableListOf<Habit>()
+        habits.forEach{
+            ret.add(it)
+        }
+        return ret
+    }
+
 }

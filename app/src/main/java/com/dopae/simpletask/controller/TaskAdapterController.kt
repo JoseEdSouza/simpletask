@@ -1,20 +1,33 @@
 package com.dopae.simpletask.controller
 
+import android.content.Context
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
 import com.dopae.simpletask.R
+import com.dopae.simpletask.dao.TagDAOImp
 import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.TaskAdapterBinding
 import com.dopae.simpletask.model.Task
+import com.dopae.simpletask.utils.TriggerType
 
-class TaskAdapterController(binding: TaskAdapterBinding, private val task: Task) {
+class TaskAdapterController(
+    private val context: Context,
+    binding: TaskAdapterBinding,
+    private val task: Task
+) {
+    private val tagDAO = TagDAOImp.getInstance()
     private val taskCard = binding.root
     private val taskName = binding.txtViewTaskName
-    val timeIndicator = binding.imgViewCalendar
-    val localIndicator = binding.imgViewLocation
+    private val timeIndicator = binding.imgViewCalendar
+    private val localIndicator = binding.imgViewLocation
     private val descriptionIndicator = binding.imgViewDescription
     private val taskCheckBox = binding.imgBtnCheckbox
+    private val treeDotsIndicator = binding.imgViewTreeDots
+    private val tagIndicator1 = binding.imgViewTag1
+    private val tagIndicator2 = binding.imgViewTag2
+    private val tagIndicator3 = binding.imgViewTag3
+    private val tagIndicators = listOf(tagIndicator1, tagIndicator2, tagIndicator3)
 
     fun init() {
         set()
@@ -25,9 +38,30 @@ class TaskAdapterController(binding: TaskAdapterBinding, private val task: Task)
         taskName.text = task.name
         if (!task.hasDescription)
             descriptionIndicator.visibility = View.GONE
+        task.trigger?.let {
+            when (it.type) {
+                TriggerType.TIME -> localIndicator.visibility = View.GONE
+                else -> timeIndicator.visibility = View.GONE
+            }
+        } ?: run{
+            localIndicator.visibility = View.GONE
+            timeIndicator.visibility = View.GONE
+        }
+
         if (task.concluded)
             taskCheckBox.setImageResource(R.drawable.checkbox_concluded)
+        if (task.numTags <= 3)
+            treeDotsIndicator.visibility = View.GONE
+        if (task.numTags > 0) {
+            val zip = tagIndicators zip task.tags
+            zip.forEach {
+                val color = tagDAO.get(it.second)!!.color.getColorStateList(context)
+                it.first.imageTintList = color
+                it.first.visibility = View.VISIBLE
+            }
+        }
     }
+
 
     private fun flipCheckbox() {
         task.flipStatus()

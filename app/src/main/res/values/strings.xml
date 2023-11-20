@@ -19,15 +19,26 @@
     <string name="back">Voltar</string>
     <string name="edit">Editar</string>
     <string name="delete">Deletar</string>
+    <string name="conclude">Concluir</string>
     <string name="save">Salvar</string>
     <string name="concluded">Concluir</string>
     <string name="description">Descrição</string>
-    <string name="descriptionHint"><font size="14">Adicione uma Descrição...</font></string>
+    <string name="descriptionHint"><font size="20">Adicione uma Descrição...</font></string>
     <string name="time">Tempo</string>
     <string name="local">Local</string>
     <string name="addTask">Adicionar Tarefa</string>
+    <string name="deleteTask">Apagar Tarefa</string>
+    <string name="deleteTaskConfirmation">Você realmente deseja apagar essa tarefa?</string>
+    <string name="taskDetails">Tarefa</string>
+    <string name="edtTask">Editar Tarefa</string>
     <string name="name">Nome</string>
-    <string name="nameHint"><font size="14">Nome...</font></string>
+    <string name="nameHint"><font size="20">Nome...</font></string>
+    <string name="tagHint">Adicione uma Tag...</string>
     <string name="localOptionEnter">Chegar</string>
     <string name="localOptionLeave">Sair</string>
+    <string name="addTag">Adicionar Tag</string>
+    <string name="noTagsAvaliable">Sem tags</string>
+    <string name="addReminderHint">Adicione um lembrete</string>
+
+
 </resources>

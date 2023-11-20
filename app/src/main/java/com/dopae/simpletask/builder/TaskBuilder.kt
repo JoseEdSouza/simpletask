@@ -33,7 +33,7 @@ class TaskBuilder {
         return this
     }
 
-    fun addTags(tags: List<Int>): TaskBuilder {
+    fun addTags(tags: Set<Int>): TaskBuilder {
         this.tags.addAll(tags)
         return this
     }

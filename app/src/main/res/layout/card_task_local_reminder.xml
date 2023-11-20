@@ -57,7 +57,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="Quando chegar em local"
                 android:textColor="@color/task_card_text"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/txtViewCardTaskLocalTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtViewCardTaskLocalTitle" />

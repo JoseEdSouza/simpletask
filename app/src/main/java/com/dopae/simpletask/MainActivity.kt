@@ -17,9 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.dopae.simpletask.dao.TagDAOImp
 import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.ActivityMainBinding
+import com.dopae.simpletask.model.Tag
 import com.dopae.simpletask.model.Task
+import com.dopae.simpletask.utils.TagColor
 import com.dopae.simpletask.view.TasksFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -30,8 +33,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var floatingActionButton: FloatingActionButton
     private var lastFragmentId: Int = Int.MIN_VALUE
     private val addActivityLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
                 replaceFragment(TasksFragment())
             }
         }
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDAOTask()
+        initDAOTag()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
@@ -122,10 +126,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun initDAOTask() {
         val tasks = listOf(
-            Task( name = "comprar presente", description = ""),
-            )
+            Task(name = "comprar presente", description = ""),
+        )
         val dao = TaskDAOImp.getInstance()
-        tasks.forEach{ dao.add(it) }
+        tasks.forEach { dao.add(it) }
+    }
+
+    private fun initDAOTag() {
+        val tags = listOf(
+            Tag("estudos", TagColor.YELLOW),
+            Tag("faculdade", TagColor.BLUE),
+            Tag("Trbalho", TagColor.LILAS)
+        )
+        val dao = TagDAOImp.getInstance()
+        tags.forEach { dao.add(it) }
     }
 
     fun startAddActivity(view: View) {

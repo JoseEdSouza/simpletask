@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayoutCardsAddTask"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,6 +15,13 @@
     <include
         android:id="@+id/cardLocalAddTask"
         layout="@layout/card_task_local_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+
+    <include
+        android:id="@+id/cardTagAddTask"
+        layout="@layout/tag_card_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp" />

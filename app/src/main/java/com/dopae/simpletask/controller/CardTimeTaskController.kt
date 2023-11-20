@@ -1,12 +1,15 @@
 package com.dopae.simpletask.controller
 
-import android.transition.AutoTransition
-import android.transition.TransitionManager
+import android.content.Context
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.dopae.simpletask.R
 import com.dopae.simpletask.databinding.CardTaskTimeReminderBinding
 import com.dopae.simpletask.model.Task
+import com.dopae.simpletask.model.TimeTrigger
+import com.dopae.simpletask.model.Trigger
+import com.dopae.simpletask.utils.TriggerType
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -20,9 +23,10 @@ import java.util.Locale
 import java.util.TimeZone
 
 class CardTimeTaskController(
+    private val context: Context,
     binding: CardTaskTimeReminderBinding,
     private val supportFragmentManager: FragmentManager
-):CardController {
+) : CardController {
     private val cardExpandOptions = binding.constraintLayoutCardTaskExpandOptions
     private val cardSelectedTime = binding.txtViewSelectedTime
     private val card = binding.root
@@ -35,19 +39,38 @@ class CardTimeTaskController(
     private var task: Task? = null
 
     override fun init() {
-        initTimeBtnTxt()
-        cardSelectedTime.visibility = View.GONE
-        cardExpandOptions.visibility = View.GONE
-        card.setOnClickListener { changeState() }
-        dateButton.setOnClickListener { openDateSelection() }
-        timeButton.setOnClickListener { openTimeSelection() }
+        if (readOnly) {
+            cardExpandOptions.visibility = View.GONE
+            initSelectedTimeView()
+        } else {
+            initTimeBtnView()
+            cardSelectedTime.visibility = View.GONE
+            cardExpandOptions.visibility = View.GONE
+            card.setOnClickListener { changeState() }
+            dateButton.setOnClickListener { openDateSelection() }
+            timeButton.setOnClickListener { openTimeSelection() }
+        }
+
     }
 
     override fun setOnClickListener(onClickListener: View.OnClickListener) {
         card.setOnClickListener(onClickListener)
     }
 
-    private fun initTimeBtnTxt() {
+    private fun initSelectedTimeView() {
+        val date = (task?.trigger?.data) as Date?
+        val text = date?.let {
+            val calendar = Calendar.getInstance()
+            calendar.time = it
+            val ret =
+                SimpleDateFormat("EEE dd/MM, HH:mm", Locale("pt", "BR"))
+                    .format(Date(calendar.timeInMillis))
+            ret
+        } ?: ContextCompat.getString(context, R.string.addReminderHint)
+        cardSelectedTime.text = text
+    }
+
+    private fun initTimeBtnView() {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
         dateButton.text =
@@ -73,6 +96,21 @@ class CardTimeTaskController(
     override val isActivated: Boolean
         get() = activated
 
+
+    fun setInfo(trigger: Trigger) {
+        if (trigger.type == TriggerType.TIME) {
+            val date = trigger.data as Date
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = date.time
+            val hour = calendar[Calendar.HOUR_OF_DAY]
+            val minute = calendar[Calendar.MINUTE]
+            setTime(hour, minute)
+            setDate(date)
+            changeState()
+        }
+
+    }
+
     val info: Date
         get(): Date {
             val date = selectedDate ?: Date(System.currentTimeMillis())
@@ -84,20 +122,19 @@ class CardTimeTaskController(
             return calendar.time
         }
 
-   override fun changeState() {
+    override fun changeState() {
         activated = !activated
         with(cardExpandOptions) {
             visibility = if (visibility == View.GONE) View.VISIBLE else View.GONE
         }
-        // todo - change State if readOnly
     }
 
-    private fun setDate(selection: Long) {
+    private fun setDate(date: Date) {
         val utc = Calendar.getInstance(TimeZone.getTimeZone("America/Brasilia"))
-        utc.timeInMillis = selection
+        utc.time = date
         val local = Calendar.getInstance()
         local.timeInMillis = utc.timeInMillis
-        local[Calendar.DAY_OF_MONTH] += 1
+        //local[Calendar.DAY_OF_MONTH] += 1
         val dateString = SimpleDateFormat("EEE dd/MM", Locale("pt", "BR")).format(local.time)
         dateButton.text = dateString
         selectedDate = local.time
@@ -121,7 +158,12 @@ class CardTimeTaskController(
             .setCalendarConstraints(constraints)
             .setTheme(R.style.MaterialCalendarTheme)
             .build()
-        datePicker.addOnPositiveButtonClickListener { setDate(it) }
+        datePicker.addOnPositiveButtonClickListener {
+            val calendar = Calendar.getInstance()
+            calendar.time = Date(it)
+            calendar[Calendar.DAY_OF_MONTH]+=1
+            setDate(Date(calendar.timeInMillis))
+        }
         datePicker.show(supportFragmentManager, "DATE_PICKER")
     }
 

@@ -38,7 +38,8 @@ class TaskDAOImp private constructor() : DAO<Task> {
             it.name = model.name
             it.description = model.description
             it.concluded = model.concluded
-            model.tags.forEach { tag -> it.addTag(tag) }
+            it.trigger = model.trigger
+            it.addAllTags(model.tags)
             true
         } ?: false
     }
@@ -51,5 +52,13 @@ class TaskDAOImp private constructor() : DAO<Task> {
     override fun size(): Int = tasks.size
 
     override fun getByPosition(position: Int): Task = tasks[position]
+
+    override fun getAll(): List<Task> {
+        val ret = mutableListOf<Task>()
+        tasks.forEach {
+            ret.add(it)
+        }
+        return ret
+    }
 
 }

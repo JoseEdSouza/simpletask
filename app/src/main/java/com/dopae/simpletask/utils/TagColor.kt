@@ -1,21 +1,30 @@
 package com.dopae.simpletask.utils
 
+import android.content.Context
 import android.content.res.ColorStateList
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import com.dopae.simpletask.R
 
-enum class TagColor(val color: Int) {
-    RED(0xfc6f6a),
-    GREEN(0x9bfc90),
-    YELLOW(0xfcd890),
-    PURPLE(0xcaaffa),
-    BLUE(0xa5bafa),
-    CIAN(0x83fcde),
-    PINK(0xffabf5),
-    ORANGE(0xfca16d),
-    ROSE(0xf29d85),
-    LILAS(0xc48fd9);
+enum class TagColor( val color: Int) {
+    RED(R.color.tagColorRED),
+    GREEN(R.color.tagColorGREEN),
+    YELLOW(R.color.tagColorYELLOW),
+    PURPLE(R.color.tagColorPURPLE),
+    BLUE(R.color.tagColorBLUE),
+    CIAN(R.color.tagColorCIAN),
+    PINK(R.color.tagColorPINK),
+    ORANGE(R.color.tagColorORANGE),
+    ROSE(R.color.tagColorROSE),
+    LILAS(R.color.tagColorLILAS);
 
-    fun getColorStateList(): ColorStateList {
-        return ColorStateList.valueOf(this.color)
+
+    fun getColor(context: Context):Int{
+        return ContextCompat.getColor(context, this.color)
     }
+
+    fun getColorStateList(context: Context):ColorStateList{
+        return ColorStateList.valueOf(getColor(context))
+    }
+
 }

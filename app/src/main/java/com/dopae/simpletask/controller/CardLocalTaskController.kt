@@ -1,19 +1,24 @@
 package com.dopae.simpletask.controller
 
+import android.content.Context
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
 import android.view.View.OnClickListener
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import com.dopae.simpletask.R
 import com.dopae.simpletask.databinding.CardTaskLocalReminderBinding
 import com.dopae.simpletask.model.Task
+import com.dopae.simpletask.model.Trigger
 import com.dopae.simpletask.utils.LocalOption
 import java.util.Date
 
 class CardLocalTaskController(
-    private val binding: CardTaskLocalReminderBinding,
+    private val context: Context,
+    binding: CardTaskLocalReminderBinding,
     private val supportFragmentManager: FragmentManager
-) :CardController {
+) : CardController {
     private val cardExpandOptions = binding.constraintLayoutCardTaskLocalExpandOptions
     private val cardSelectedLocal = binding.txtViewSelectedLocal
     private val card = binding.root
@@ -27,9 +32,28 @@ class CardLocalTaskController(
 
 
     override fun init() {
+        if (readOnly) {
+            initSelectedLocalView()
+            cardSelectedLocal.visibility = View.VISIBLE
+        } else {
+
+            cardSelectedLocal.visibility = View.GONE
+            card.setOnClickListener { changeState() }
+        }
         cardExpandOptions.visibility = View.GONE
-        cardSelectedLocal.visibility = View.GONE
-        card.setOnClickListener { changeState() }
+
+    }
+
+    val info:Any?
+        get() = null
+
+    fun setInfo(trigger:Trigger){
+        changeState()
+    }
+
+    private fun initSelectedLocalView(){
+        val text = ContextCompat.getString(context, R.string.addReminderHint)
+        cardSelectedLocal.text = text
     }
 
     override fun setOnClickListener(onClickListener: OnClickListener) {

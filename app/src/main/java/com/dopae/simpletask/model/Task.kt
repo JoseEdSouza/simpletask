@@ -21,8 +21,8 @@ data class Task(
         concluded = !concluded
     }
 
-    val tags: Iterator<Int>
-        get() = tagSet.sorted().iterator()
+    val tags: List<Int>
+        get() = tagSet.sorted().toList()
 
     fun addTag(tag: Int):Task {
         tagSet.add(tag)
@@ -36,6 +36,11 @@ data class Task(
 
     fun addAllTags(tags: Collection<Int>): Task {
         tagSet.addAll(tags)
+        return this
+    }
+
+    fun clearTags():Task{
+        tagSet.clear()
         return this
     }
 }

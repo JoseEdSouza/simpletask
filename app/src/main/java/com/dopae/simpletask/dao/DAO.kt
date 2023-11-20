@@ -8,4 +8,5 @@ interface DAO<T> {
     fun remove(id: Int): Boolean
     fun size(): Int
     fun getByPosition(position: Int): T
+    fun getAll(): List<T>
 }
