@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.dopae.simpletask.controller.MenuNavigationController
 import com.dopae.simpletask.dao.TagDAOImp
 import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.ActivityMainBinding
@@ -32,14 +33,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavView: BottomNavigationView
     private lateinit var floatingActionButton: FloatingActionButton
-    private var lastFragmentId: Int = 0
+    private lateinit var menu: MenuNavigationController
     private val addActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                replaceFragment(TasksFragment())
+                menu.reload()
             }
         }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,10 +53,15 @@ class MainActivity : AppCompatActivity() {
 
         floatingActionButton = binding.fabAdd
         bottomNavView = binding.bottomNavigation
-        swapFragment(binding.bottomNavigation.selectedItemId)
-        bottomNavView.setOnItemSelectedListener {
-            swapFragment(it.itemId)
-        }
+        menu = MenuNavigationController(
+            this,
+            supportFragmentManager,
+            binding.frameContainer,
+            bottomNavView,
+            floatingActionButton,
+            addActivityLauncher
+        )
+        menu.init()
 
         if (!checkNotificationPerm(this)) {
             askNotificationsPerm(this)
@@ -64,48 +69,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun swapFragment(itemId: Int): Boolean {
-        if (lastFragmentId == itemId)
-            return false
-        lastFragmentId = itemId
-        when (itemId) {
-            R.id.bottom_tasks -> replaceFragment(TasksFragment())
-            R.id.bottom_tags -> replaceFragment(TagsFragment())
-            else -> Toast.makeText(
-                this,
-                bottomNavView.menu.findItem(itemId).title,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        changeFabColor(itemId)
-        changeBottomNavItemColor(itemId)
-        return true
-    }
-
-    private fun replaceFragment(frag: Fragment) {
-        TransitionManager.beginDelayedTransition(binding.frameContainer, AutoTransition())
-        supportFragmentManager.beginTransaction().replace(binding.frameContainer.id, frag).commit()
-    }
-
-    private fun changeFabColor(itemId: Int) {
-        val color = when (itemId) {
-            R.id.bottom_tasks -> R.color.task_theme
-            R.id.bottom_habits -> R.color.red_1
-            else -> R.color.blue_1
-        }
-        floatingActionButton.backgroundTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(this, color))
-    }
-
-    private fun changeBottomNavItemColor(itemId: Int) {
-        val color = when (itemId) {
-            R.id.bottom_tasks -> R.color.color_item_task_bottom_nav
-            R.id.bottom_habits -> R.color.color_item_habit_bottom_nav
-            else -> R.color.color_item_tag_bottom_nav
-        }
-        bottomNavView.itemIconTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(this, color))
-    }
 
     private fun askNotificationsPerm(context: Context) {
         AlertDialog.Builder(context)
@@ -142,16 +105,6 @@ class MainActivity : AppCompatActivity() {
         )
         val dao = TagDAOImp.getInstance()
         tags.forEach { dao.add(it) }
-    }
-
-    fun startAddActivity(view: View) {
-        val act = when(lastFragmentId){
-            R.id.bottom_tasks ->  AddTaskActivity::class.java
-            R.id.bottom_tags -> AddTagActivity::class.java
-            else -> AddTaskActivity::class.java // todo - add habit
-        }
-        val intent = Intent(this, act)
-        addActivityLauncher.launch(intent)
     }
 
 
