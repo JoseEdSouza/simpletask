@@ -21,6 +21,7 @@
     <color name="task_card_button">#5BBA6A</color>
     <color name="bottom_menu_icon">#525351</color>
     <color name="input_text_bakcground">#D9D9D9</color>
+    <color name="tag_theme">#A3B7FF</color>
     <!--tagColors-->
     <color name="tagColorRED">#fc6f6a</color>
     <color name="tagColorGREEN">#9bfc90</color>

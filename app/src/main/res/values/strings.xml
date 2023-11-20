@@ -39,6 +39,17 @@
     <string name="addTag">Adicionar Tag</string>
     <string name="noTagsAvaliable">Sem tags</string>
     <string name="addReminderHint">Adicione um lembrete</string>
+    <!--TagColorString-->
+    <string name="RED">Vermelho</string>
+    <string name="GREEN">Verde</string>
+    <string name="YELLOW">Amarelo</string>
+    <string name="PURPLE">Roxo</string>
+    <string name="BLUE">Azul</string>
+    <string name="CIAN">Ciano</string>
+    <string name="ORANGE">Laranja</string>
+    <string name="PINK">Rosa</string>
+    <string name="ROSE">Rosê</string>
+    <string name="LILAS">Lilás</string>
 
 
 </resources>

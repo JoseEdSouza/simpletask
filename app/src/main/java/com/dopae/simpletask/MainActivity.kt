@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavView: BottomNavigationView
     private lateinit var floatingActionButton: FloatingActionButton
-    private var lastFragmentId: Int = Int.MIN_VALUE
+    private var lastFragmentId: Int = 0
     private val addActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
@@ -145,7 +145,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startAddActivity(view: View) {
-        val intent = Intent(this, AddTaskActivity::class.java)
+        val act = when(lastFragmentId){
+            R.id.bottom_tasks ->  AddTaskActivity::class.java
+            R.id.bottom_tags -> AddTagActivity::class.java
+            else -> AddTaskActivity::class.java // todo - add habit
+        }
+        val intent = Intent(this, act)
         addActivityLauncher.launch(intent)
     }
 
