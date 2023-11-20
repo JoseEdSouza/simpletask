@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.dopae.simpletask.controller.CardTaskController
@@ -89,7 +90,6 @@ class TaskDetailsActivity : AppCompatActivity() {
     }
 
     private fun onLongClickConcluded(): Boolean {
-        flipConcluded()
         dao.update(task.id, task)
         setResult(Activity.RESULT_OK)
         finish()
@@ -101,6 +101,7 @@ class TaskDetailsActivity : AppCompatActivity() {
         val color = if (task.concluded) R.color.green_2 else R.color.bottom_menu_icon
         concludedBtn.imageTintList =
             ColorStateList.valueOf(ContextCompat.getColor(this, color))
+        Toast.makeText(this, "Segure para salvar", Toast.LENGTH_SHORT).show()
     }
 
     private fun startEditActivity() {
@@ -110,8 +111,7 @@ class TaskDetailsActivity : AppCompatActivity() {
     }
 
     fun close(view: View) {
-        dao.update(task.id, task)
-        setResult(Activity.RESULT_OK)
+        setResult(Activity.RESULT_CANCELED)
         finish()
     }
 }

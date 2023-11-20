@@ -25,7 +25,8 @@ class TasksFragment : Fragment() {
     private val taskDetailsLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK){
-                taskRecyclerView.adapter?.notifyDataSetChanged()
+                val adapter = taskRecyclerView.adapter
+                adapter?.notifyDataSetChanged()
             }
 
 
@@ -66,7 +67,7 @@ class TasksFragment : Fragment() {
             }
         })
 
-        return taskRecyclerView
+        return binding.root
     }
 
     fun startTaskDetailsActivity(position: Int) {

@@ -25,13 +25,12 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     }
 
 
-
     override fun getItemCount(): Int = taskDAO.size()
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = taskDAO.getByPosition(position)
         positionIdMap[position] = task.id
-        TaskAdapterController(context,holder.binding, task).init()
+        TaskAdapterController(context, holder.binding, task).init()
     }
 
     interface OnItemClickListener {

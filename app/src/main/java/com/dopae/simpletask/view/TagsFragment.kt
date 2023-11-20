@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dopae.simpletask.AddTaskActivity
+import com.dopae.simpletask.EdtTagActivity
+import com.dopae.simpletask.EdtTaskActivity
 import com.dopae.simpletask.R
 import com.dopae.simpletask.adapter.TagAdapter
 import com.dopae.simpletask.databinding.FragmentTagsBinding
@@ -20,6 +22,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class TagsFragment : Fragment() {
     private lateinit var binding: FragmentTagsBinding
     private lateinit var tagRecyclerView: RecyclerView
+    private val edtTagLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                tagRecyclerView.adapter?.notifyDataSetChanged()
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +41,7 @@ class TagsFragment : Fragment() {
             val mAdapter = TagAdapter()
             mAdapter.setOnItemClickListener(object : TagAdapter.OnItemClickListener {
                 override fun onItemClick(position: Int) {
-                    // todo - add fun
+                    startTagEdtActivity(position)
                 }
             })
             adapter = mAdapter
@@ -56,7 +64,13 @@ class TagsFragment : Fragment() {
             }
         })
 
-        return tagRecyclerView
+        return binding.root
+    }
+
+    fun startTagEdtActivity(position: Int) {
+        val intent = Intent(activity, EdtTagActivity::class.java)
+        intent.putExtra("ID", position)
+        edtTagLauncher.launch(intent)
     }
 
 

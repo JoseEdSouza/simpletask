@@ -15,10 +15,13 @@
         android:theme="@style/Theme.SimpleTask"
         tools:targetApi="31">
         <activity
+            android:name=".EdtTagActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddTagActivity"
             android:exported="true"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".EdtTaskActivity"
             android:exported="false"

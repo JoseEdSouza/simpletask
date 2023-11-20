@@ -34,24 +34,23 @@ class TaskAdapterController(
         taskCheckBox.setOnClickListener { flipCheckbox() }
     }
 
-    fun build() {
+    private fun build() {
         taskName.text = task.name
-        if (!task.hasDescription)
-            descriptionIndicator.visibility = View.GONE
+        descriptionIndicator.visibility = if (!task.hasDescription) View.GONE else View.VISIBLE
+        localIndicator.visibility = View.GONE
+        timeIndicator.visibility = View.GONE
         task.trigger?.let {
             when (it.type) {
-                TriggerType.TIME -> localIndicator.visibility = View.GONE
-                else -> timeIndicator.visibility = View.GONE
+                TriggerType.TIME -> timeIndicator.visibility = View.VISIBLE
+                else -> localIndicator.visibility = View.VISIBLE
             }
-        } ?: run{
-            localIndicator.visibility = View.GONE
-            timeIndicator.visibility = View.GONE
         }
 
         if (task.concluded)
             taskCheckBox.setImageResource(R.drawable.checkbox_concluded)
-        if (task.numTags <= 3)
-            treeDotsIndicator.visibility = View.GONE
+        else
+            taskCheckBox.setImageResource(R.drawable.checkbox_empty)
+        treeDotsIndicator.visibility = if (task.numTags <= 3) View.GONE else View.VISIBLE
         if (task.numTags > 0) {
             val zip = tagIndicators zip task.tags
             zip.forEach {
@@ -68,7 +67,6 @@ class TaskAdapterController(
         TransitionManager.beginDelayedTransition(taskCard, AutoTransition())
         taskCheckBox
             .setImageResource(if (task.concluded) R.drawable.checkbox_concluded else R.drawable.checkbox_empty)
-        TaskDAOImp.getInstance().update(task.id, task)
     }
 
 

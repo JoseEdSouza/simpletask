@@ -27,7 +27,7 @@ class TagAdapter : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
         val tag = dao.getByPosition(position)
         positionIdMap[position] = tag.id
-        TagAdapterController(context, binding, tag).init()
+        TagAdapterController(context, holder.binding, tag).init()
 
     }
 
@@ -41,7 +41,7 @@ class TagAdapter : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
 
 
     inner class TagViewHolder(
-        private val binding: TagAdapterBinding
+        val binding: TagAdapterBinding
     ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         init {

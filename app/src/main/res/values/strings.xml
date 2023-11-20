@@ -23,20 +23,23 @@
     <string name="save">Salvar</string>
     <string name="concluded">Concluir</string>
     <string name="description">Descrição</string>
-    <string name="descriptionHint"><font size="20">Adicione uma Descrição...</font></string>
+    <string name="descriptionHint"><font size="20">Adicione uma Descrição…</font></string>
     <string name="time">Tempo</string>
     <string name="local">Local</string>
     <string name="addTask">Adicionar Tarefa</string>
     <string name="deleteTask">Apagar Tarefa</string>
+    <string name="deleteTag">Apagar tag</string>
     <string name="deleteTaskConfirmation">Você realmente deseja apagar essa tarefa?</string>
+    <string name="deleteTagConfirmation">Você realmente deseja apagar essa tag?</string>
     <string name="taskDetails">Tarefa</string>
     <string name="edtTask">Editar Tarefa</string>
     <string name="name">Nome</string>
-    <string name="nameHint"><font size="20">Nome...</font></string>
-    <string name="tagHint">Adicione uma Tag...</string>
+    <string name="nameHint"><font size="20">Nome…</font></string>
+    <string name="tagHint">Adicione uma Tag…</string>
     <string name="localOptionEnter">Chegar</string>
     <string name="localOptionLeave">Sair</string>
     <string name="addTag">Adicionar Tag</string>
+    <string name="edtTag">Editar Tag</string>
     <string name="noTagsAvaliable">Sem tags</string>
     <string name="addReminderHint">Adicione um lembrete</string>
     <!--TagColorString-->
