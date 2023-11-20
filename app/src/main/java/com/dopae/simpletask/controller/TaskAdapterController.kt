@@ -30,11 +30,11 @@ class TaskAdapterController(
     private val tagIndicators = listOf(tagIndicator1, tagIndicator2, tagIndicator3)
 
     fun init() {
-        set()
+        build()
         taskCheckBox.setOnClickListener { flipCheckbox() }
     }
 
-    fun set() {
+    fun build() {
         taskName.text = task.name
         if (!task.hasDescription)
             descriptionIndicator.visibility = View.GONE

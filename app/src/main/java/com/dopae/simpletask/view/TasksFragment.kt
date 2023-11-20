@@ -32,7 +32,8 @@ class TasksFragment : Fragment() {
         }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTasksBinding.inflate(inflater, container, false)
@@ -48,8 +49,7 @@ class TasksFragment : Fragment() {
             adapter = mAdapter
         }
 
-        val fab =
-            requireActivity().findViewById<FloatingActionButton>(R.id.fabAdd)
+        val fab = requireActivity().findViewById<FloatingActionButton>(R.id.fabAdd)
         taskRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

@@ -23,6 +23,7 @@ import com.dopae.simpletask.databinding.ActivityMainBinding
 import com.dopae.simpletask.model.Tag
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.utils.TagColor
+import com.dopae.simpletask.view.TagsFragment
 import com.dopae.simpletask.view.TasksFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         lastFragmentId = itemId
         when (itemId) {
             R.id.bottom_tasks -> replaceFragment(TasksFragment())
+            R.id.bottom_tags -> replaceFragment(TagsFragment())
             else -> Toast.makeText(
                 this,
                 bottomNavView.menu.findItem(itemId).title,
