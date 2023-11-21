@@ -54,9 +54,13 @@ class TaskAdapterController(
         if (task.numTags > 0) {
             val zip = tagIndicators zip task.tags
             zip.forEach {
-                val color = tagDAO.get(it.second)!!.color.getColorStateList(context)
-                it.first.imageTintList = color
-                it.first.visibility = View.VISIBLE
+                val tag = tagDAO.get(it.second)
+                tag?.let { t ->
+                    it.first.imageTintList = t.color.getColorStateList(context)
+                    it.first.visibility = View.VISIBLE
+                } ?: run {
+                    task.removeTag(it.second)
+                }
             }
         }
     }
