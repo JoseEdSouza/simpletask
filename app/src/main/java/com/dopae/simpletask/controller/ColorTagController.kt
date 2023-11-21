@@ -29,7 +29,7 @@ class ColorTagController(
         R.color.tagColorPINK to Pair(binding.itemTagColorOption7, binding.txtViewColorName7),
         R.color.tagColorORANGE to Pair(binding.itemTagColorOption8, binding.txtViewColorName8),
         R.color.tagColorROSE to Pair(binding.itemTagColorOption9, binding.txtViewColorName9),
-        R.color.tagColorLILAS to Pair(binding.itemTagColorOption10, binding.txtViewColorName10) // Add this line if you have a 10th color option
+        R.color.tagColorLILAS to Pair(binding.itemTagColorOption10, binding.txtViewColorName10)
     )
 
     val info: TagColor?

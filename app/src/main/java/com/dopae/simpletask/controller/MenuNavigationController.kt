@@ -66,7 +66,6 @@ class MenuNavigationController(
     private fun changeFabColor(itemId: Int) {
         val color = when (itemId) {
             R.id.bottom_tasks -> R.color.task_theme
-            R.id.bottom_habits -> R.color.red_1
             else -> R.color.blue_1
         }
         floatingActionButton.backgroundTintList =
@@ -76,8 +75,7 @@ class MenuNavigationController(
     private fun changeBottomNavItemColor(itemId: Int) {
         val color = when (itemId) {
             R.id.bottom_tasks -> R.color.color_item_task_bottom_nav
-            R.id.bottom_habits -> R.color.color_item_habit_bottom_nav
-            else -> R.color.color_item_tag_bottom_nav
+            else ->  R.color.color_item_tag_bottom_nav
         }
         bottomNavView.itemIconTintList =
             ColorStateList.valueOf(ContextCompat.getColor(context, color))
