@@ -1,11 +1,10 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
-import android.content.res.ColorStateList
 import com.dopae.simpletask.databinding.TagAdapterBinding
 import com.dopae.simpletask.model.Tag
 
-class TagAdapterController(
+class TagAdapterComponent(
     private val context: Context,
     binding: TagAdapterBinding,
     private val tag: Tag

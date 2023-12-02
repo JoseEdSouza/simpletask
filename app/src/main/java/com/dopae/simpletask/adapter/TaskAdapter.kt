@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
-import com.dopae.simpletask.controller.TaskAdapterController
+import com.dopae.simpletask.component.TaskAdapterComponent
 import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.TaskAdapterBinding
 
@@ -30,7 +30,7 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         val task = taskDAO.getByPosition(position)
         positionIdMap[position] = task.id
-        TaskAdapterController(context, holder.binding, task).init()
+        TaskAdapterComponent(context, holder.binding, task).init()
     }
 
     interface OnItemClickListener {

@@ -7,8 +7,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.dopae.simpletask.builder.TagBuilder
-import com.dopae.simpletask.controller.ColorTagController
-import com.dopae.simpletask.controller.MenuEditTagController
+import com.dopae.simpletask.component.ColorTagComponent
+import com.dopae.simpletask.component.MenuEditTagComponent
 import com.dopae.simpletask.dao.TagDAOImp
 import com.dopae.simpletask.databinding.ActivityEdtTagBinding
 import com.dopae.simpletask.exception.ColorNotReadyException
@@ -21,8 +21,8 @@ class EdtTagActivity : AppCompatActivity() {
     private lateinit var tag: Tag
     private lateinit var name: EditText
     private lateinit var binding: ActivityEdtTagBinding
-    private lateinit var menu: MenuEditTagController
-    private lateinit var colorController: ColorTagController
+    private lateinit var menu: MenuEditTagComponent
+    private lateinit var colorController: ColorTagComponent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEdtTagBinding.inflate(layoutInflater)
@@ -31,9 +31,9 @@ class EdtTagActivity : AppCompatActivity() {
         tag = dao.get(id)!!
         window.statusBarColor = ContextCompat.getColor(this, R.color.tag_theme)
         name = binding.editTextTagEdtName
-        menu = MenuEditTagController(binding.bottomMenuEdtTag)
+        menu = MenuEditTagComponent(binding.bottomMenuEdtTag)
         menu.init({ save() }, { close() }, { delete() })
-        colorController = ColorTagController(this, binding.constraintLayoutColorSelection)
+        colorController = ColorTagComponent(this, binding.constraintLayoutColorSelection)
         init()
     }
 

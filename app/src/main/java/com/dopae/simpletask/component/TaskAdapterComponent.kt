@@ -1,4 +1,4 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.transition.AutoTransition
@@ -6,12 +6,11 @@ import android.transition.TransitionManager
 import android.view.View
 import com.dopae.simpletask.R
 import com.dopae.simpletask.dao.TagDAOImp
-import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.TaskAdapterBinding
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.utils.TriggerType
 
-class TaskAdapterController(
+class TaskAdapterComponent(
     private val context: Context,
     binding: TaskAdapterBinding,
     private val task: Task

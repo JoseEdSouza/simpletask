@@ -1,9 +1,9 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.view.View.OnClickListener
 import com.dopae.simpletask.databinding.MenuAddEditBinding
 
-class MenuAddEditController(binding: MenuAddEditBinding) {
+class MenuAddEditComponent(binding: MenuAddEditBinding) {
     private val saveBtn = binding.imgBtnSave
     private val cancelBtn = binding.imgBtnCancel
 

@@ -1,8 +1,6 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.view.View
 import android.view.View.OnClickListener
 import androidx.core.content.ContextCompat
@@ -12,13 +10,12 @@ import com.dopae.simpletask.databinding.CardTaskLocalReminderBinding
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.model.Trigger
 import com.dopae.simpletask.utils.LocalOption
-import java.util.Date
 
-class CardLocalTaskController(
+class CardLocalTaskComponent(
     private val context: Context,
     binding: CardTaskLocalReminderBinding,
     private val supportFragmentManager: FragmentManager
-) : CardController {
+) : CardComponent {
     private val cardExpandOptions = binding.constraintLayoutCardTaskLocalExpandOptions
     private val cardSelectedLocal = binding.txtViewSelectedLocal
     private val card = binding.root
@@ -60,13 +57,13 @@ class CardLocalTaskController(
         card.setOnClickListener(onClickListener)
     }
 
-    fun setReadOnly(task: Task): CardLocalTaskController {
+    fun setReadOnly(task: Task): CardLocalTaskComponent {
         this.task = task
         readOnly = true
         return this
     }
 
-    fun setWriteRead(): CardLocalTaskController {
+    fun setWriteRead(): CardLocalTaskComponent {
         readOnly = false
         task = null
         return this

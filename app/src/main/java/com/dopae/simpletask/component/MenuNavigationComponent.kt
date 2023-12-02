@@ -1,4 +1,4 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.content.Intent
@@ -19,7 +19,7 @@ import com.dopae.simpletask.view.TasksFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MenuNavigationController(
+class MenuNavigationComponent(
     private val context: Context,
     private val supportFragmentManager: FragmentManager,
     private val frameContainer: FrameLayout,

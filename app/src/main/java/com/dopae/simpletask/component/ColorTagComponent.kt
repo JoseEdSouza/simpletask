@@ -1,4 +1,4 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -7,12 +7,11 @@ import android.transition.TransitionManager
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import com.dopae.simpletask.R
 import com.dopae.simpletask.databinding.ColorTagBinding
 import com.dopae.simpletask.utils.TagColor
 
-class ColorTagController(
+class ColorTagComponent(
     private val context: Context,
     binding: ColorTagBinding,
 ) {

@@ -4,12 +4,11 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.dopae.simpletask.builder.TagBuilder
-import com.dopae.simpletask.controller.ColorTagController
-import com.dopae.simpletask.controller.MenuAddEditController
+import com.dopae.simpletask.component.ColorTagComponent
+import com.dopae.simpletask.component.MenuAddEditComponent
 import com.dopae.simpletask.dao.TagDAOImp
 import com.dopae.simpletask.databinding.ActivityAddTagBinding
 import com.dopae.simpletask.databinding.ColorTagBinding
@@ -21,20 +20,20 @@ import com.dopae.simpletask.model.Tag
 class AddTagActivity : AppCompatActivity() {
     private val dao = TagDAOImp.getInstance()
     private lateinit var binding: ActivityAddTagBinding
-    private lateinit var menu: MenuAddEditController
+    private lateinit var menu: MenuAddEditComponent
     private lateinit var name: EditText
     private lateinit var colorsOptions: ColorTagBinding
-    private lateinit var colorController: ColorTagController
+    private lateinit var colorController: ColorTagComponent
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTagBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.statusBarColor = ContextCompat.getColor(this, R.color.tag_theme)
         name = binding.editTextTagAddName
-        menu = MenuAddEditController(binding.bottomMenuAddTag)
+        menu = MenuAddEditComponent(binding.bottomMenuAddTag)
         menu.init({ save() }, { close() })
         colorsOptions = binding.constraintLayoutColorSelection
-        colorController = ColorTagController(this, colorsOptions)
+        colorController = ColorTagComponent(this, colorsOptions)
         colorController.init()
     }
 

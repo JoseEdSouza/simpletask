@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.dopae.simpletask.controller.TagAdapterController
+import com.dopae.simpletask.component.TagAdapterComponent
 import com.dopae.simpletask.dao.TagDAOImp
 import com.dopae.simpletask.databinding.TagAdapterBinding
 
@@ -27,7 +27,7 @@ class TagAdapter : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
         val tag = dao.getByPosition(position)
         positionIdMap[position] = tag.id
-        TagAdapterController(context, holder.binding, tag).init()
+        TagAdapterComponent(context, holder.binding, tag).init()
 
     }
 

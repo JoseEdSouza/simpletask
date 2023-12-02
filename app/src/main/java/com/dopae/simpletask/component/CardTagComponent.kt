@@ -1,4 +1,4 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.transition.AutoTransition
@@ -9,10 +9,9 @@ import com.dopae.simpletask.R
 import com.dopae.simpletask.dao.TagDAOImp
 import com.dopae.simpletask.databinding.TagCardTaskBinding
 import com.dopae.simpletask.model.Task
-import com.dopae.simpletask.utils.TagColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class CardTagController(
+class CardTagComponent(
     private val context: Context,
     private val binding: TagCardTaskBinding
 ) {
@@ -58,7 +57,7 @@ class CardTagController(
         changeState()
     }
 
-    fun setReadOnly(task: Task): CardTagController {
+    fun setReadOnly(task: Task): CardTagComponent {
         this.task = task
         readOnly = true
         return this
@@ -67,7 +66,7 @@ class CardTagController(
     val isEmpty: Boolean
         get() = selectedTags.isEmpty()
 
-    fun setWriteRead(): CardTagController {
+    fun setWriteRead(): CardTagComponent {
         this.task = null
         readOnly = false
         return this

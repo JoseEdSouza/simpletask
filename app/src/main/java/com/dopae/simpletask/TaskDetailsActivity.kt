@@ -11,8 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.dopae.simpletask.controller.CardTaskController
-import com.dopae.simpletask.controller.MenuDetailsController
+import com.dopae.simpletask.component.CardTaskComponent
+import com.dopae.simpletask.component.MenuDetailsComponent
 import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.ActivityTaskDetailsBinding
 import com.dopae.simpletask.databinding.MenuDetailsBinding
@@ -22,7 +22,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class TaskDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTaskDetailsBinding
     private lateinit var task: Task
-    private lateinit var cards: CardTaskController
+    private lateinit var cards: CardTaskComponent
     private lateinit var menu: MenuDetailsBinding
     private lateinit var concludedBtn: ImageButton
     private lateinit var nameTextView: TextView
@@ -46,11 +46,11 @@ class TaskDetailsActivity : AppCompatActivity() {
         concludedBtn = menu.imgBtnConcluded
         nameTextView = binding.txtViewTaskDetailsName
         descriptionTextView = binding.txtViewTaskDetailsDescription
-        val menuController = MenuDetailsController(menu)
+        val menuController = MenuDetailsComponent(menu)
         menuController.init({ flipConcluded() }, { startEditActivity() }, { deleteTask() })
         menu.imgBtnConcluded.setOnLongClickListener { onLongClickConcluded() }
         cards =
-            CardTaskController(this, binding.cardsLayoutTaskDetails, supportFragmentManager)
+            CardTaskComponent(this, binding.cardsLayoutTaskDetails, supportFragmentManager)
         init()
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
     }

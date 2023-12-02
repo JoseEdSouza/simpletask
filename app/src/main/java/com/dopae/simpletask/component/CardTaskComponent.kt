@@ -1,4 +1,4 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.transition.AutoTransition
@@ -9,18 +9,18 @@ import com.dopae.simpletask.databinding.CardsLayoutTaskBinding
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.utils.TriggerType
 
-class CardTaskController(
+class CardTaskComponent(
     private val context: Context,
     private val binding: CardsLayoutTaskBinding,
     supportFragmentManager: FragmentManager
 ) {
-    val cardTime = CardTimeTaskController(context, binding.cardTimeAddTask, supportFragmentManager)
+    val cardTime = CardTimeTaskComponent(context, binding.cardTimeAddTask, supportFragmentManager)
     val cardLocal =
-        CardLocalTaskController(context, binding.cardLocalAddTask, supportFragmentManager)
-    val cardTag = CardTagController(context, binding.cardTagAddTask)
+        CardLocalTaskComponent(context, binding.cardLocalAddTask, supportFragmentManager)
+    val cardTag = CardTagComponent(context, binding.cardTagAddTask)
     private var readOnly = false
     private var task: Task? = null
-    private var lastClickedCard: CardController? = null
+    private var lastClickedCard: CardComponent? = null
 
     fun init() {
         cardTag.init()
@@ -53,7 +53,7 @@ class CardTaskController(
 
     }
 
-    fun setReadOnly(task: Task): CardTaskController {
+    fun setReadOnly(task: Task): CardTaskComponent {
         readOnly = true
         this.task = task
         cardTag.setReadOnly(task)
@@ -62,7 +62,7 @@ class CardTaskController(
         return this
     }
 
-    fun setWriteRead(): CardTaskController {
+    fun setWriteRead(): CardTaskComponent {
         readOnly = false
         cardTime.setWriteRead()
         cardLocal.setWriteRead()
@@ -70,7 +70,7 @@ class CardTaskController(
         return this
     }
 
-    private fun cardClicked(clickedCard: CardController) {
+    private fun cardClicked(clickedCard: CardComponent) {
         TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
         lastClickedCard?.let {
             if (it == clickedCard) {

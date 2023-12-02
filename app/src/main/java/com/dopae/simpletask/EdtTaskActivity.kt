@@ -4,15 +4,14 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.dopae.simpletask.builder.TaskBuilder
-import com.dopae.simpletask.controller.CardLocalTaskController
-import com.dopae.simpletask.controller.CardTagController
-import com.dopae.simpletask.controller.CardTaskController
-import com.dopae.simpletask.controller.CardTimeTaskController
-import com.dopae.simpletask.controller.MenuAddEditController
+import com.dopae.simpletask.component.CardLocalTaskComponent
+import com.dopae.simpletask.component.CardTagComponent
+import com.dopae.simpletask.component.CardTaskComponent
+import com.dopae.simpletask.component.CardTimeTaskComponent
+import com.dopae.simpletask.component.MenuAddEditComponent
 import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.ActivityTaskEdtBinding
 import com.dopae.simpletask.exception.NameNotReadyException
@@ -21,14 +20,13 @@ import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.model.TimeTrigger
 import com.dopae.simpletask.model.Trigger
 import com.dopae.simpletask.utils.TriggerType
-import org.w3c.dom.Text
 
 class EdtTaskActivity : AppCompatActivity() {
     private lateinit var binding:ActivityTaskEdtBinding
-    private lateinit var cards: CardTaskController
-    private lateinit var cardTime: CardTimeTaskController
-    private lateinit var cardLocal: CardLocalTaskController
-    private lateinit var cardTag: CardTagController
+    private lateinit var cards: CardTaskComponent
+    private lateinit var cardTime: CardTimeTaskComponent
+    private lateinit var cardLocal: CardLocalTaskComponent
+    private lateinit var cardTag: CardTagComponent
     private lateinit var edtTxtName: EditText
     private lateinit var edtTxtDescription: EditText
     private lateinit var task:Task
@@ -40,11 +38,11 @@ class EdtTaskActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
         val id = intent.extras!!.getInt("ID")
         task = dao.get(id)!!
-        val menu = MenuAddEditController(binding.bottomMenuEdtask)
+        val menu = MenuAddEditComponent(binding.bottomMenuEdtask)
         menu.init({ save() }, { close() })
         edtTxtName = binding.editTextTaskEdtName
         edtTxtDescription = binding.edtTxtEdtTaskDescription
-        cards = CardTaskController(this,binding.cardsLayoutTaskEdt,supportFragmentManager)
+        cards = CardTaskComponent(this,binding.cardsLayoutTaskEdt,supportFragmentManager)
         cards.init()
         cardTag = cards.cardTag
         cardTime = cards.cardTime

@@ -5,27 +5,17 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.transition.AutoTransition
-import android.transition.TransitionManager
-import android.view.View
-import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import com.dopae.simpletask.controller.MenuNavigationController
+import com.dopae.simpletask.component.MenuNavigationComponent
 import com.dopae.simpletask.dao.TagDAOImp
 import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.ActivityMainBinding
 import com.dopae.simpletask.model.Tag
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.utils.TagColor
-import com.dopae.simpletask.view.TagsFragment
-import com.dopae.simpletask.view.TasksFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -33,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavView: BottomNavigationView
     private lateinit var floatingActionButton: FloatingActionButton
-    private lateinit var menu: MenuNavigationController
+    private lateinit var menu: MenuNavigationComponent
     private val addActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
@@ -53,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         floatingActionButton = binding.fabAdd
         bottomNavView = binding.bottomNavigation
-        menu = MenuNavigationController(
+        menu = MenuNavigationComponent(
             this,
             supportFragmentManager,
             binding.frameContainer,
