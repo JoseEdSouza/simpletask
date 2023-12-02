@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
 
-
         floatingActionButton = binding.fabAdd
         bottomNavView = binding.bottomNavigation
         menu = MenuNavigationComponent(

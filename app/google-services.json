@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "684407642376",
+    "project_id": "simpletask-7d675",
+    "storage_bucket": "simpletask-7d675.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684407642376:android:3e77a9b2e7d3cd303374bd",
+        "android_client_info": {
+          "package_name": "com.dopae.simpletask"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk83kWFUw-Az4CNK6FDP1xImfwd1ag8Pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
