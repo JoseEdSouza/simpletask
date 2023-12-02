@@ -39,6 +39,12 @@ data class Task(
         return this
     }
 
+    fun setTags(tags: Collection<Int>):Task{
+        tagSet.clear()
+        tagSet.addAll(tags)
+        return this
+    }
+
     fun clearTags():Task{
         tagSet.clear()
         return this

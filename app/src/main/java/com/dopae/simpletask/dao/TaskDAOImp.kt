@@ -39,7 +39,7 @@ class TaskDAOImp private constructor() : DAO<Task> {
             it.description = model.description
             it.concluded = model.concluded
             it.trigger = model.trigger
-            it.addAllTags(model.tags)
+            it.setTags(model.tags)
             true
         } ?: false
     }

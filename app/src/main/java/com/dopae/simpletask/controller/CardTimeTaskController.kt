@@ -170,6 +170,10 @@ class CardTimeTaskController(
     private fun openTimeSelection() {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
+        selectedTime?.let {
+            calendar[Calendar.HOUR_OF_DAY] = it.first
+            calendar[Calendar.MINUTE] = it.second
+        }
         val timePicker =
             MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -182,6 +186,7 @@ class CardTimeTaskController(
         timePicker.addOnPositiveButtonClickListener { setTime(timePicker.hour, timePicker.minute) }
         timePicker.show(supportFragmentManager, "TIME_PICKER")
     }
+
 
 }
 

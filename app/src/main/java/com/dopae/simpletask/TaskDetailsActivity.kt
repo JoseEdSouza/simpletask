@@ -51,7 +51,6 @@ class TaskDetailsActivity : AppCompatActivity() {
         menu.imgBtnConcluded.setOnLongClickListener { onLongClickConcluded() }
         cards =
             CardTaskController(this, binding.cardsLayoutTaskDetails, supportFragmentManager)
-                .setReadOnly(task)
         init()
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
     }

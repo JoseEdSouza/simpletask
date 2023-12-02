@@ -19,6 +19,7 @@ class CardTagController(
     private val selectedTags = mutableSetOf<Int>()
     private val card = binding.root
     private val addBtn = binding.imgBtnAddTag
+    private val cardAdd = binding.cardViewAddTag
     private val tagView = binding.imgViewTag
     private val tagLayout = binding.linearLayoutTags
     private val hint = binding.txtViewAddTagHint
@@ -31,8 +32,10 @@ class CardTagController(
         if (readOnly) {
             addBtn.visibility = View.GONE
             task?.also {
-                if (it.numTags == 0)
+                if (it.numTags == 0) {
                     hint.visibility = View.VISIBLE
+                    tagLayout.removeAllViews()
+                }
                 else {
                     hint.visibility = View.GONE
                     selectedTags.addAll(it.tags)
@@ -41,7 +44,7 @@ class CardTagController(
 
             }
         } else {
-            addBtn.setOnClickListener { openTagPicker() }
+            cardAdd.setOnClickListener { openTagPicker() }
         }
 
     }
@@ -81,7 +84,7 @@ class CardTagController(
                 if (checked)
                     selectedTags.add(dao.getByPosition(index).id)
                 else if (index in selectedTags)
-                    selectedTags.remove(index)
+                    selectedTags.remove(dao.getByPosition(index).id)
             }
                 .setPositiveButton("OK") { _, _ -> changeState() }
         }
