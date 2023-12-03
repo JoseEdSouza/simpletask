@@ -113,6 +113,7 @@
             android:ems="10"
             android:hint="@string/passwordHint"
             android:inputType="textPassword"
+            android:textColor="@color/black"
             android:textColorHint="@color/gray_1" />
     </androidx.cardview.widget.CardView>
 

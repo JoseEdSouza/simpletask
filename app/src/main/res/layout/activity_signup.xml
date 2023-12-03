@@ -115,6 +115,7 @@
             android:ems="10"
             android:hint="@string/passwordHint"
             android:inputType="textPassword"
+            android:textColor="@color/black"
             android:textColorHint="@color/gray_1"
             tools:layout_editor_absoluteX="43dp"
             tools:layout_editor_absoluteY="451dp" />
@@ -143,6 +144,7 @@
             android:ems="10"
             android:hint="@string/confirmPasswordHint"
             android:inputType="textPassword"
+            android:textColor="@color/black"
             android:textColorHint="@color/gray_1"
             tools:layout_editor_absoluteX="43dp"
             tools:layout_editor_absoluteY="451dp" />
