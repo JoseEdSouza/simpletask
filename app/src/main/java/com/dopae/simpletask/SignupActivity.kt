@@ -110,7 +110,7 @@ class SignupActivity : AppCompatActivity() {
 
                 }
         }
-        progressBar.post(signupThread)
+        signupThread.start()
     }
 
     private fun startMainActivity() {

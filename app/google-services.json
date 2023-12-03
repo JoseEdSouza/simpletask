@@ -12,7 +12,20 @@
           "package_name": "com.dopae.simpletask"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "684407642376-9q5l6521qtdv8unfsl4nj3epelf41bvc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dopae.simpletask",
+            "certificate_hash": "03296abb4fe81f3ab61017e93bfeb92a25f88e71"
+          }
+        },
+        {
+          "client_id": "684407642376-s9ulh2qhkhunqc1pb71utitdghdrqidg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCk83kWFUw-Az4CNK6FDP1xImfwd1ag8Pk"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684407642376-s9ulh2qhkhunqc1pb71utitdghdrqidg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

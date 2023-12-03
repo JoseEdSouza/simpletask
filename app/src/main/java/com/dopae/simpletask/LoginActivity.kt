@@ -93,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
         }
-        progressBar.post(loginThread)
+        loginThread.start()
     }
 
     private fun startMainActivity() {

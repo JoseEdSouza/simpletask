@@ -55,7 +55,7 @@ class UserBuilder {
         return UserPreBuilder()
     }
 
-    inner class UserPreBuilder internal constructor() {
+    inner class UserPreBuilder internal constructor(){
         fun build(): User {
             return User(email, password)
         }
