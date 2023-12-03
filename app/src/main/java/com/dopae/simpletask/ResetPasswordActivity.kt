@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.dopae.simpletask.databinding.ActivityResetPasswordBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
@@ -42,6 +43,15 @@ class ResetPasswordActivity : AppCompatActivity() {
         resetBtn.setOnClickListener { resetPassword() }
     }
 
+    private fun showInfoSendEmail() {
+        val alertDialog = MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+            .setCancelable(false)
+            .setTitle(R.string.explainSendEmailTitle)
+            .setMessage(R.string.explainSendEmailMessage)
+            .setPositiveButton(R.string.understand) { _, _ -> finish() }
+        alertDialog.show()
+    }
+
     private fun resetPassword() {
         val email = edtTxtEmail.text.toString()
         if (email.isEmpty()) {
@@ -58,12 +68,8 @@ class ResetPasswordActivity : AppCompatActivity() {
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         runOnUiThread {
-                            Toast.makeText(
-                                this,
-                                R.string.sendEmailSuccess,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            finish()
+                            progressBar.visibility = View.GONE
+                            showInfoSendEmail()
                         }
 
                     } else {

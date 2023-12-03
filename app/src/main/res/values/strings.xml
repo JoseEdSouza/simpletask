@@ -7,17 +7,21 @@
     <string name="settings">Configurações</string>
     <string name="leave">Sair</string>
     <string name="logout">Logout?</string>
-    <string name="askLogoutMessage">Realmente deseja sair?\nVocê precisará fazer login novamente para entrar.</string>
     <string name="edit">Editar</string>
     <string name="delete">Deletar</string>
     <string name="conclude">Concluir</string>
     <string name="save">Salvar</string>
     <string name="concluded">Concluir</string>
     <string name="back">Voltar</string>
+    <string name="understand">Entendi</string>
 
     <!-- Ask/Confirmation -->
     <string name="askPermissionNotificationMessage">Por favor permita o uso de notificações nas configurações.</string>
     <string name="askPermissionNotificationsTitle">Permitir Notificações</string>
+    <string name="askLogoutMessage">Realmente deseja sair?\nVocê precisará fazer login novamente para entrar.</string>
+    <string name="explainSendEmailTitle">Email Enviado!</string>
+    <string name="explainSendEmailMessage">Você receberá um e-mail com instruções para a troca de senha. Por favor, verifique sua caixa de entrada e a pasta de spam.</string>
+
 
     <!-- Hints/Instructions -->
     <string name="description">Descrição</string>
