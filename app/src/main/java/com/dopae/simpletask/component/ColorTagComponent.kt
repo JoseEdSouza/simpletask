@@ -32,12 +32,12 @@ class ColorTagComponent(
     )
 
     val info: TagColor?
-        get() = selectedPos?.let { TagColor.values()[it] }
+        get() = selectedPos?.let { TagColor.entries[it] }
 
     fun setInfo(tagColor: TagColor) {
         val pos = tagColor.ordinal
         selectedPos = pos
-        colorMap[tagColor.color]?.let { (option, name) ->
+        colorMap[tagColor.color]?.let { (_, name) ->
             name.setTextColor(
                 ColorStateList.valueOf(
                     ContextCompat.getColor(context, R.color.black)

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,29 +16,21 @@
         android:theme="@style/Theme.SimpleTask"
         tools:targetApi="31">
         <activity
-            android:name=".EdtTagActivity"
+            android:name=".UserDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".AddTagActivity"
-            android:exported="true"
-            android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".EdtTaskActivity"
+            android:name=".SignupActivity"
             android:exported="false"
-            android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity" />
+            android:screenOrientation="sensorPortrait" />
         <activity
-            android:name=".TaskDetailsActivity"
+            android:name=".LoginActivity"
             android:exported="false"
-            android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity" />
+            android:screenOrientation="sensorPortrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".PresentationActivity"
+            android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.SimpleTask"
-            tools:ignore="LockedOrientationActivity">
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,9 +38,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddTaskActivity"
+            android:name=".EdtTagActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddTagActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".EdtTaskActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".TaskDetailsActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:exported="true"
             android:screenOrientation="sensorPortrait"
-            tools:ignore="LockedOrientationActivity" />
+            android:theme="@style/Theme.SimpleTask"></activity>
+        <activity
+            android:name=".AddTaskActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="sensorPortrait" />
 
         <meta-data
             android:name="preloaded_fonts"

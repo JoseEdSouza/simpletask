@@ -16,6 +16,25 @@
     <string name="paragraph_placeholder">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.
     </string>
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="confirmPassword">Confirme sua senha</string>
+    <string name="passwordHint">Digite aqui sua senha...</string>
+    <string name="confirmPasswordHint">Confirme sua senha...</string>
+    <string name="emailHint">seunome@exemplo.com</string>
+    <string name="fillAllFields">Preencha todos os campos</string>
+    <string name="passwordNotMatch">As senhas não coincidem</string>
+    <string name="userNotFound">Email não cadastrado</string>
+    <string name="loginError">Erro ao tentar fazer login</string>
+    <string name="signupError">Error ao cadastrar</string>
+    <string name="weakPassword">Senha muito fraca</string>
+    <string name="invalidEmail">Email inválido</string>
+    <string name="alreadyExists">Já existe um cadastro com esse email</string>
+    <string name="noConnection">Sem conexão com a internet</string>
+    <string name="signup">Cadastre-se</string>
+    <string name="login">Login</string>
+    <string name="failedLogin">Email ou Senha incorretos</string>
+    <string name="AskToLoginHint">Já possui uma conta? toque aqui</string>
     <string name="back">Voltar</string>
     <string name="edit">Editar</string>
     <string name="delete">Deletar</string>

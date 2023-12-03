@@ -18,7 +18,7 @@ class CardTagComponent(
     private val selectedTags = mutableSetOf<Int>()
     private val card = binding.root
     private val addBtn = binding.imgBtnAddTag
-    private val cardAdd = binding.cardViewAddTag
+    private val cardAdd = binding.cardAddTag
     private val tagView = binding.imgViewTag
     private val tagLayout = binding.linearLayoutTags
     private val hint = binding.txtViewAddTagHint
