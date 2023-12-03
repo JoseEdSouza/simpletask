@@ -44,8 +44,7 @@ class MainActivity : AppCompatActivity() {
         logoutBtn = binding.imgBtnLogout
         floatingActionButton = binding.fabAdd
         bottomNavView = binding.bottomNavigation
-        menu = MenuNavigationComponent(
-            this,
+        menu = MenuNavigationComponent(this,
             supportFragmentManager,
             binding.frameContainer,
             bottomNavView,
