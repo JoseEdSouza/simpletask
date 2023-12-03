@@ -40,6 +40,7 @@ class TaskDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         val id = intent.extras!!.getInt("ID")
         task = dao.get(id)!!
         menu = binding.bottomMenuTaskDetails

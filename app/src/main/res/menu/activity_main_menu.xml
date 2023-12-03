@@ -6,20 +6,20 @@
         android:layout_height="wrap_content"
         android:icon="@drawable/tasks"
         android:iconTint="@color/green_1"
-        android:title="@string/bottom_task_name" />
+        android:title="@string/bottomTaskName" />
     <item
         android:id="@+id/bottom_habits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/habits"
         android:iconTint="@color/red_1"
-        android:title="@string/bottom_habits_name" />
+        android:title="@string/bottomHabitsName" />
     <item
         android:id="@+id/bottom_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/tags"
         android:iconTint="@color/blue_1"
-        android:title="@string/bottom_tags_name" />
+        android:title="@string/bottomTagsName" />
 
 </menu>

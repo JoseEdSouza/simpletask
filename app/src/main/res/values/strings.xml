@@ -1,21 +1,70 @@
 <resources>
-    <string name="app_name">Simple Task</string>
-    <string name="bottom_task_name">Tarefas</string>
-    <string name="bottom_habits_name">Hábitos</string>
-    <string name="bottom_tags_name">Tags</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="ask_permission_notifications_msg">
-        Por favor permita o uso de notificações nas configurações.
-    </string>
-    <string name="settings">Configurações</string>
+    <string name="titleActivityMain">MainActivity</string>
+    <string name="appName">Simple Task</string>
+
+    <!-- Actions -->
     <string name="cancel">Cancelar</string>
-    <string name="ask_permission_notifications_title">
-        Permitir Notificações
-    </string>
-    <string name="line_placeholder">Lorem ipsum dolor sit amet</string>
-    <string name="paragraph_placeholder">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.
-    </string>
+    <string name="settings">Configurações</string>
+    <string name="leave">Sair</string>
+    <string name="logout">Logout?</string>
+    <string name="askLogoutMessage">Realmente deseja sair?\nVocê precisará fazer login novamente para entrar.</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
+    <string name="conclude">Concluir</string>
+    <string name="save">Salvar</string>
+    <string name="concluded">Concluir</string>
+    <string name="back">Voltar</string>
+
+    <!-- Ask/Confirmation -->
+    <string name="askPermissionNotificationMessage">Por favor permita o uso de notificações nas configurações.</string>
+    <string name="askPermissionNotificationsTitle">Permitir Notificações</string>
+
+    <!-- Hints/Instructions -->
+    <string name="description">Descrição</string>
+    <string name="descriptionHint"><font size="20">Adicione uma Descrição…</font></string>
+    <string name="tagHint">Adicione uma Tag…</string>
+    <string name="addReminderHint">Adicione um lembrete</string>
+
+    <!-- Password-related -->
+    <string name="resetPassword">Redefinir senha</string>
+    <string name="forgotPassword">Esqueceu sua senha?</string>
+    <string name="unexpectedError">Erro inesperado</string>
+    <string name="sendEmailError">Erro, email não enviado</string>
+    <string name="sendEmailSuccess">Email enviado</string>
+
+    <!-- TagColors -->
+    <string name="RED">Vermelho</string>
+    <string name="GREEN">Verde</string>
+    <string name="YELLOW">Amarelo</string>
+    <string name="PURPLE">Roxo</string>
+    <string name="BLUE">Azul</string>
+    <string name="CIAN">Ciano</string>
+    <string name="ORANGE">Laranja</string>
+    <string name="PINK">Rosa</string>
+    <string name="ROSE">Rosê</string>
+    <string name="LILAS">Lilás</string>
+
+    <!-- Tags -->
+    <string name="addTag">Adicionar Tag</string>
+    <string name="edtTag">Editar Tag</string>
+    <string name="deleteTag">Apagar tag</string>
+    <string name="deleteTagConfirmation">Você realmente deseja apagar essa tag?</string>
+    <string name="noTagsAvaliable">Sem tags</string>
+
+    <!-- Tasks -->
+    <string name="addTask">Adicionar Tarefa</string>
+    <string name="deleteTask">Apagar Tarefa</string>
+    <string name="deleteTaskConfirmation">Você realmente deseja apagar essa tarefa?</string>
+    <string name="taskDetails">Tarefa</string>
+    <string name="edtTask">Editar Tarefa</string>
+    <string name="name">Nome</string>
+    <string name="nameHint"><font size="20">Nome…</font></string>
+    <string name="localOptionEnter">Chegar</string>
+    <string name="localOptionLeave">Sair</string>
+    <string name="time">Tempo</string>
+    <string name="local">Local</string>
+
+    <!-- User/Authentication -->
     <string name="email">Email</string>
     <string name="password">Senha</string>
     <string name="confirmPassword">Confirme sua senha</string>
@@ -35,43 +84,15 @@
     <string name="login">Login</string>
     <string name="failedLogin">Email ou Senha incorretos</string>
     <string name="AskToLoginHint">Já possui uma conta? toque aqui</string>
-    <string name="back">Voltar</string>
-    <string name="edit">Editar</string>
-    <string name="delete">Deletar</string>
-    <string name="conclude">Concluir</string>
-    <string name="save">Salvar</string>
-    <string name="concluded">Concluir</string>
-    <string name="description">Descrição</string>
-    <string name="descriptionHint"><font size="20">Adicione uma Descrição…</font></string>
-    <string name="time">Tempo</string>
-    <string name="local">Local</string>
-    <string name="addTask">Adicionar Tarefa</string>
-    <string name="deleteTask">Apagar Tarefa</string>
-    <string name="deleteTag">Apagar tag</string>
-    <string name="deleteTaskConfirmation">Você realmente deseja apagar essa tarefa?</string>
-    <string name="deleteTagConfirmation">Você realmente deseja apagar essa tag?</string>
-    <string name="taskDetails">Tarefa</string>
-    <string name="edtTask">Editar Tarefa</string>
-    <string name="name">Nome</string>
-    <string name="nameHint"><font size="20">Nome…</font></string>
-    <string name="tagHint">Adicione uma Tag…</string>
-    <string name="localOptionEnter">Chegar</string>
-    <string name="localOptionLeave">Sair</string>
-    <string name="addTag">Adicionar Tag</string>
-    <string name="edtTag">Editar Tag</string>
-    <string name="noTagsAvaliable">Sem tags</string>
-    <string name="addReminderHint">Adicione um lembrete</string>
-    <!--TagColorString-->
-    <string name="RED">Vermelho</string>
-    <string name="GREEN">Verde</string>
-    <string name="YELLOW">Amarelo</string>
-    <string name="PURPLE">Roxo</string>
-    <string name="BLUE">Azul</string>
-    <string name="CIAN">Ciano</string>
-    <string name="ORANGE">Laranja</string>
-    <string name="PINK">Rosa</string>
-    <string name="ROSE">Rosê</string>
-    <string name="LILAS">Lilás</string>
+
+    <!-- menu -->
+    <string name="bottomTagsName">Tags</string>
+    <string name="bottomTaskName">Tarefas</string>
+    <string name="bottomHabitsName">Hábitos</string>
+
+    <!-- Others -->
+    <string name="linePlaceholder">Lorem ipsum dolor sit amet</string>
+    <string name="paragraphPlaceholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.</string>
 
 
 </resources>

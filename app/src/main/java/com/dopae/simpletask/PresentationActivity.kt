@@ -25,6 +25,7 @@ class PresentationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPresentationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         signupBtn = binding.singupBtn
         loginBtn = binding.loginBtn
         init()

@@ -27,6 +27,7 @@ class EdtTagActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEdtTagBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         val id = intent.extras!!.getInt("ID")
         tag = dao.get(id)!!
         window.statusBarColor = ContextCompat.getColor(this, R.color.tag_theme)

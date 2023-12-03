@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.dopae.simpletask.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
@@ -23,15 +24,18 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var edtTxtPassword: EditText
     private lateinit var backBtn: Button
     private lateinit var loginBtn: Button
+    private lateinit var forgotPasswordBtn: Button
     private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         edtTxtEmail = binding.editTextLoginEmail
         edtTxtPassword = binding.editTextTextPassword
         backBtn = binding.backBtn
         loginBtn = binding.loginBtn
+        forgotPasswordBtn = binding.forgotPasswordBtn
         progressBar = binding.progressBarLogin
         init()
     }
@@ -40,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
         backBtn.setOnClickListener { close() }
         loginBtn.setOnClickListener { login() }
+        forgotPasswordBtn.setOnClickListener { startResetPasswordActivity() }
 
     }
 
@@ -94,6 +99,11 @@ class LoginActivity : AppCompatActivity() {
 
         }
         loginThread.start()
+    }
+
+    private fun startResetPasswordActivity(){
+        val intent = Intent(this,ResetPasswordActivity::class.java)
+        startActivity(intent)
     }
 
     private fun startMainActivity() {

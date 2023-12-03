@@ -35,6 +35,7 @@ class EdtTaskActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskEdtBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
         val id = intent.extras!!.getInt("ID")
         task = dao.get(id)!!

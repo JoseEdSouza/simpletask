@@ -1,27 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Purple Theme -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
+
+    <!-- Teal Theme -->
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+
+    <!-- Basic Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Green Theme -->
     <color name="green_1">#79D782</color>
     <color name="green_2">#15FF00</color>
-    <color name="task_theme">#79D782</color>
+
+    <!-- Red Theme -->
     <color name="red_1">#FF9292</color>
+
+    <!-- Blue Theme -->
     <color name="blue_1">#A3B7FF</color>
+
+    <!-- Gray Theme -->
     <color name="gray_1">#A0A0A0</color>
     <color name="gray_2">#CDCDCD</color>
     <color name="gray_3">#525351</color>
     <color name="gray_4">#E3E3E3</color>
+
+    <!-- Task Card Theme -->
     <color name="task_card">#CDFFD5</color>
     <color name="task_card_text">#26492C</color>
     <color name="task_card_button">#5BBA6A</color>
+
+    <!-- Icon Colors -->
     <color name="bottom_menu_icon">#525351</color>
+
+    <!-- Input Text Background -->
     <color name="input_text_bakcground">#D9D9D9</color>
+
+    <!-- Task Theme -->
+    <color name="task_theme">#79D782</color>
+
+    <!-- Tag Theme -->
     <color name="tag_theme">#A3B7FF</color>
+
+    <!-- User Theme -->
+    <color name="user_theme">#525351</color>
+
     <!--tagColors-->
     <color name="tagColorRED">#fc6f6a</color>
     <color name="tagColorGREEN">#9bfc90</color>
@@ -33,5 +60,5 @@
     <color name="tagColorORANGE">#fca16d</color>
     <color name="tagColorROSE">#f29d85</color>
     <color name="tagColorLILAS">#c48fd9</color>
-</resources>
 
+</resources>

@@ -28,6 +28,7 @@ class AddTagActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTagBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.tag_theme)
         name = binding.editTextTagAddName
         menu = MenuAddEditComponent(binding.bottomMenuAddTag)

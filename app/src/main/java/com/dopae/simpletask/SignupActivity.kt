@@ -34,6 +34,7 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         backBtn = binding.backBtn
         signupBtn = binding.singupBtn
         edtTxtEmail = binding.editTextSignupEmail
