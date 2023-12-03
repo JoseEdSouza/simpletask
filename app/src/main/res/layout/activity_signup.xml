@@ -86,6 +86,7 @@
             android:linksClickable="false"
             android:maxLines="1"
             android:textColor="@color/black"
+            android:textColorHint="@color/gray_1"
             tools:layout_editor_absoluteX="43dp"
             tools:layout_editor_absoluteY="352dp" />
 
@@ -114,6 +115,7 @@
             android:ems="10"
             android:hint="@string/passwordHint"
             android:inputType="textPassword"
+            android:textColorHint="@color/gray_1"
             tools:layout_editor_absoluteX="43dp"
             tools:layout_editor_absoluteY="451dp" />
     </androidx.cardview.widget.CardView>
@@ -141,6 +143,7 @@
             android:ems="10"
             android:hint="@string/confirmPasswordHint"
             android:inputType="textPassword"
+            android:textColorHint="@color/gray_1"
             tools:layout_editor_absoluteX="43dp"
             tools:layout_editor_absoluteY="451dp" />
     </androidx.cardview.widget.CardView>

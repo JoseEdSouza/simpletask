@@ -85,7 +85,8 @@
             android:inputType="textEmailAddress"
             android:linksClickable="false"
             android:maxLines="1"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray_1" />
 
     </androidx.cardview.widget.CardView>
 
@@ -111,7 +112,8 @@
             android:background="@null"
             android:ems="10"
             android:hint="@string/passwordHint"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColorHint="@color/gray_1" />
     </androidx.cardview.widget.CardView>
 
     <Button
