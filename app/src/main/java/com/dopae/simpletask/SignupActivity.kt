@@ -10,16 +10,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.dopae.simpletask.builder.UserBuilder
 import com.dopae.simpletask.databinding.ActivitySignupBinding
 import com.dopae.simpletask.model.User
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.auth.auth
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -29,7 +29,7 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var edtTxtPassword: EditText
     private lateinit var edtTxtConfirmPassword: EditText
     private lateinit var progressBar: ProgressBar
-    private val auth = FirebaseAuth.getInstance()
+    private val auth = Firebase.auth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)

@@ -7,13 +7,14 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import com.dopae.simpletask.databinding.ActivityPresentationBinding
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class PresentationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPresentationBinding
     private lateinit var signupBtn: Button
     private lateinit var loginBtn: Button
-    private val auth = FirebaseAuth.getInstance()
+    private val auth = Firebase.auth
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {

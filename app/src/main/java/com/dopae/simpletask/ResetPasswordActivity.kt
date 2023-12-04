@@ -12,11 +12,12 @@ import android.widget.Toast
 import com.dopae.simpletask.databinding.ActivityResetPasswordBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.auth
 
 class ResetPasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResetPasswordBinding
@@ -24,7 +25,7 @@ class ResetPasswordActivity : AppCompatActivity() {
     private lateinit var resetBtn: Button
     private lateinit var backBtn: Button
     private lateinit var progressBar: ProgressBar
-    private val auth = FirebaseAuth.getInstance()
+    private val auth = Firebase.auth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityResetPasswordBinding.inflate(layoutInflater)
