@@ -5,36 +5,36 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import com.dopae.simpletask.component.MenuNavigationComponent
-import com.dopae.simpletask.dao.TagDAOImp
-import com.dopae.simpletask.dao.TaskDAOImp
 import com.dopae.simpletask.databinding.ActivityMainBinding
-import com.dopae.simpletask.model.Tag
-import com.dopae.simpletask.model.Task
-import com.dopae.simpletask.utils.TagColor
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavView: BottomNavigationView
     private lateinit var floatingActionButton: FloatingActionButton
+    private lateinit var progressBar: ProgressBar
     private lateinit var logoutBtn: ImageButton
+    private lateinit var emptyContentTxtView:TextView
     private lateinit var menu: MenuNavigationComponent
     private val auth = Firebase.auth
-    private val db = Firebase.firestore
     private val addActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            menu.reload()
             if (it.resultCode == Activity.RESULT_OK) {
-                menu.reload()
+                emptyContentTxtView.visibility = View.INVISIBLE
+
             }
         }
 
@@ -46,24 +46,28 @@ class MainActivity : AppCompatActivity() {
         logoutBtn = binding.imgBtnLogout
         floatingActionButton = binding.fabAdd
         bottomNavView = binding.bottomNavigation
-        menu = MenuNavigationComponent(this,
+        progressBar = binding.progressBarMain
+        emptyContentTxtView = binding.txtViewMainEmptyContent
+        menu = MenuNavigationComponent(
+            this,
+            binding.root,
             supportFragmentManager,
             binding.frameContainer,
             bottomNavView,
             floatingActionButton,
+            progressBar,
+            emptyContentTxtView,
             addActivityLauncher
         )
         init()
     }
 
     private fun init() {
-        initDAOTask()
-        initDAOTag()
-        menu.init()
         if (!checkNotificationPerm(this)) {
             askNotificationsPerm(this)
         }
         logoutBtn.setOnClickListener { logout() }
+        menu.init()
     }
 
     private fun logout() {
@@ -98,24 +102,4 @@ class MainActivity : AppCompatActivity() {
         return NotificationManagerCompat.from(context).areNotificationsEnabled()
 
     }
-
-    private fun initDAOTask() {
-        val tasks = listOf(
-            Task(name = "comprar presente", description = ""),
-        )
-        val dao = TaskDAOImp.getInstance()
-        tasks.forEach { dao.add(it) }
-    }
-
-    private fun initDAOTag() {
-        val tags = listOf(
-            Tag("estudos", TagColor.YELLOW),
-            Tag("faculdade", TagColor.BLUE),
-            Tag("Trabalho", TagColor.LILAS)
-        )
-        val dao = TagDAOImp.getInstance()
-        tags.forEach { dao.add(it) }
-    }
-
-
 }

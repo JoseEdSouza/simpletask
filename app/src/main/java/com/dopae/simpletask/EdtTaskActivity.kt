@@ -1,18 +1,20 @@
 package com.dopae.simpletask
 
 import android.app.Activity
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.dopae.simpletask.builder.TaskBuilder
 import com.dopae.simpletask.component.CardLocalTaskComponent
 import com.dopae.simpletask.component.CardTagComponent
 import com.dopae.simpletask.component.CardTaskComponent
 import com.dopae.simpletask.component.CardTimeTaskComponent
 import com.dopae.simpletask.component.MenuAddEditComponent
-import com.dopae.simpletask.dao.TaskDAOImp
+import com.dopae.simpletask.dao.TaskDAOFirebase
 import com.dopae.simpletask.databinding.ActivityTaskEdtBinding
 import com.dopae.simpletask.exception.NameNotReadyException
 import com.dopae.simpletask.exception.TriggerNotReadyException
@@ -20,6 +22,15 @@ import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.model.TimeTrigger
 import com.dopae.simpletask.model.Trigger
 import com.dopae.simpletask.utils.TriggerType
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EdtTaskActivity : AppCompatActivity() {
     private lateinit var binding:ActivityTaskEdtBinding
@@ -29,18 +40,29 @@ class EdtTaskActivity : AppCompatActivity() {
     private lateinit var cardTag: CardTagComponent
     private lateinit var edtTxtName: EditText
     private lateinit var edtTxtDescription: EditText
-    private lateinit var task:Task
-    private val dao = TaskDAOImp.getInstance()
+    private lateinit var task: Task
+    private val dao = TaskDAOFirebase.getInstance()
+    private val handler = CoroutineExceptionHandler { context, err ->
+        context.cancel()
+        val errorMsg = when (err) {
+            is FirebaseNetworkException -> R.string.noConnection
+            is FirebaseFirestoreException -> R.string.saveContentError
+            else -> R.string.unexpectedError
+        }
+        lifecycleScope.launch(Dispatchers.Main) {
+            val snackbar = Snackbar.make(binding.root, errorMsg, Snackbar.LENGTH_SHORT)
+            snackbar.setBackgroundTint(Color.RED)
+            snackbar.show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskEdtBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
-        val id = intent.extras!!.getInt("ID")
-        task = dao.get(id)!!
-        val menu = MenuAddEditComponent(binding.bottomMenuEdtask)
-        menu.init({ save() }, { close() })
+        val id = intent.extras!!.getString("ID")!!
         edtTxtName = binding.editTextTaskEdtName
         edtTxtDescription = binding.edtTxtEdtTaskDescription
         cards = CardTaskComponent(this,binding.cardsLayoutTaskEdt,supportFragmentManager)
@@ -48,7 +70,14 @@ class EdtTaskActivity : AppCompatActivity() {
         cardTag = cards.cardTag
         cardTime = cards.cardTime
         cardLocal = cards.cardLocal
-        init()
+        val menu = MenuAddEditComponent(binding.bottomMenuEdtask)
+        menu.init({ save() }, { close() })
+        lifecycleScope.launch(Dispatchers.IO+handler) {
+            task = dao.get(id)!!
+            withContext(Dispatchers.Main){
+                init()
+            }
+        }
     }
 
     fun init(){
@@ -88,13 +117,21 @@ class EdtTaskActivity : AppCompatActivity() {
             toast.show()
         }
         newTask?.let {
-            dao.update(task.id,it)
-            setResult(Activity.RESULT_OK)
-            finish()
+            lifecycleScope.launch(Dispatchers.IO+handler) {
+                dao.update(task.id,it)
+                withContext(Dispatchers.Main){
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+            }
         }
     }
 
     private fun close() {
+        with(Dispatchers.IO) {
+            if (isActive)
+                cancel()
+        }
         setResult(Activity.RESULT_CANCELED)
         finish()
     }

@@ -51,7 +51,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun signup() {
-        var user: User? = null
+        val user: User
         val email = edtTxtEmail.text.toString()
         val password = edtTxtPassword.text.toString()
         val confirmPassword = edtTxtConfirmPassword.text.toString()

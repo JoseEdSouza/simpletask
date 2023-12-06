@@ -54,6 +54,7 @@
     <string name="deleteTag">Apagar tag</string>
     <string name="deleteTagConfirmation">Você realmente deseja apagar essa tag?</string>
     <string name="noTagsAvaliable">Sem tags</string>
+    <string name="emptyTags">Sem tags, que tal adicionar uma?</string>
 
     <!-- Tasks -->
     <string name="addTask">Adicionar Tarefa</string>
@@ -67,6 +68,7 @@
     <string name="localOptionLeave">Sair</string>
     <string name="time">Tempo</string>
     <string name="local">Local</string>
+    <string name="emptyTasks">Sem tarefas, que tal adicionar uma?</string>
 
     <!-- User/Authentication -->
     <string name="email">Email</string>
@@ -93,6 +95,14 @@
     <string name="bottomTagsName">Tags</string>
     <string name="bottomTaskName">Tarefas</string>
     <string name="bottomHabitsName">Hábitos</string>
+
+    <!-- errors -->
+    <string name="loadContentError">Error ao carregar</string>
+    <string name="saveContentError">Error ao salvar</string>
+    <string name="noNameProvidedError">Adicione um nome</string>
+    <string name="invalidTimeProvidedError">Tempo inválido</string>
+    <string name="invalidLocalProvidedError">Local inválido</string>
+    <string name="noColorProvidedError">Selecione uma cor</string>
 
     <!-- Others -->
     <string name="linePlaceholder">Lorem ipsum dolor sit amet</string>

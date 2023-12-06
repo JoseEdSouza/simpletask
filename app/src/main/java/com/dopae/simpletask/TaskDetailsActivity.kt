@@ -3,6 +3,7 @@ package com.dopae.simpletask
 import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,13 +12,23 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.dopae.simpletask.component.CardTaskComponent
 import com.dopae.simpletask.component.MenuDetailsComponent
-import com.dopae.simpletask.dao.TaskDAOImp
+import com.dopae.simpletask.dao.TaskDAOFirebase
 import com.dopae.simpletask.databinding.ActivityTaskDetailsBinding
 import com.dopae.simpletask.databinding.MenuDetailsBinding
 import com.dopae.simpletask.model.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TaskDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTaskDetailsBinding
@@ -27,12 +38,29 @@ class TaskDetailsActivity : AppCompatActivity() {
     private lateinit var concludedBtn: ImageButton
     private lateinit var nameTextView: TextView
     private lateinit var descriptionTextView: TextView
-    private val dao = TaskDAOImp.getInstance()
+    private val dao = TaskDAOFirebase.getInstance()
+    private val handler = CoroutineExceptionHandler { context, err ->
+        context.cancel()
+        val errorMsg = when (err) {
+            is FirebaseNetworkException -> R.string.noConnection
+            is FirebaseFirestoreException -> R.string.saveContentError
+            else -> R.string.unexpectedError
+        }
+        lifecycleScope.launch(Dispatchers.Main) {
+            val snackbar = Snackbar.make(binding.root, errorMsg, Snackbar.LENGTH_SHORT)
+            snackbar.setBackgroundTint(Color.RED)
+            snackbar.show()
+        }
+    }
     private val edtTaskLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                task = dao.get(task.id)!!
-                init()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    task = dao.get(task.id)!!
+                    withContext(Dispatchers.Main) {
+                        init()
+                    }
+                }
             }
         }
 
@@ -41,20 +69,25 @@ class TaskDetailsActivity : AppCompatActivity() {
         binding = ActivityTaskDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        val id = intent.extras!!.getInt("ID")
-        task = dao.get(id)!!
+        window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
+        val id = intent.extras!!.getString("ID")!!
         menu = binding.bottomMenuTaskDetails
         concludedBtn = menu.imgBtnConcluded
         nameTextView = binding.txtViewTaskDetailsName
         descriptionTextView = binding.txtViewTaskDetailsDescription
         val menuController = MenuDetailsComponent(menu)
-        menuController.init({ flipConcluded() }, { startEditActivity() }, { deleteTask() })
-        menu.imgBtnConcluded.setOnLongClickListener { onLongClickConcluded() }
         cards =
             CardTaskComponent(this, binding.cardsLayoutTaskDetails, supportFragmentManager)
-        init()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
+        menuController.init({ flipConcluded() }, { startEditActivity() }, { deleteTask() })
+        menu.imgBtnConcluded.setOnLongClickListener { onLongClickConcluded() }
+        lifecycleScope.launch(Dispatchers.IO + handler) {
+            task = dao.get(id)!!
+            withContext(Dispatchers.Main) {
+                init()
+            }
+        }
     }
+
 
     fun init() {
         cards.setReadOnly(task)
@@ -81,18 +114,28 @@ class TaskDetailsActivity : AppCompatActivity() {
             .setTitle(R.string.deleteTask)
             .setMessage(R.string.deleteTaskConfirmation)
             .setPositiveButton("OK") { _, _ ->
-                dao.remove(task.id)
-                setResult(Activity.RESULT_OK)
-                finish()
+                lifecycleScope.launch(Dispatchers.IO+handler){
+                    dao.remove(task.id)
+                    withContext(Dispatchers.Main){
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+                }
             }
             .setNegativeButton(R.string.cancel, null)
         alertDialog.show()
     }
 
     private fun onLongClickConcluded(): Boolean {
-        dao.update(task.id, task)
-        setResult(Activity.RESULT_OK)
-        finish()
+        lifecycleScope.launch(Dispatchers.IO+handler){
+            launch {
+                dao.update(task.id, task)
+            }.join()
+            withContext(Dispatchers.Main){
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }
         return true
     }
 
@@ -111,6 +154,10 @@ class TaskDetailsActivity : AppCompatActivity() {
     }
 
     fun close(view: View) {
+        with(Dispatchers.IO){
+            if(isActive)
+                cancel()
+        }
         setResult(Activity.RESULT_CANCELED)
         finish()
     }

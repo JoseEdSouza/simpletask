@@ -6,13 +6,14 @@ import android.transition.TransitionManager
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.dopae.simpletask.databinding.CardsLayoutTaskBinding
+import com.dopae.simpletask.model.Tag
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.utils.TriggerType
 
 class CardTaskComponent(
     private val context: Context,
     private val binding: CardsLayoutTaskBinding,
-    supportFragmentManager: FragmentManager
+    supportFragmentManager: FragmentManager,
 ) {
     val cardTime = CardTimeTaskComponent(context, binding.cardTimeAddTask, supportFragmentManager)
     val cardLocal =
