@@ -78,6 +78,7 @@ class TaskDetailsActivity : AppCompatActivity() {
         val menuController = MenuDetailsComponent(menu)
         cards =
             CardTaskComponent(this, binding.cardsLayoutTaskDetails, supportFragmentManager)
+        cards.setOnClickListener { startEditActivity() }
         menuController.init({ flipConcluded() }, { startEditActivity() }, { deleteTask() })
         menu.imgBtnConcluded.setOnLongClickListener { onLongClickConcluded() }
         lifecycleScope.launch(Dispatchers.IO + handler) {
@@ -114,9 +115,9 @@ class TaskDetailsActivity : AppCompatActivity() {
             .setTitle(R.string.deleteTask)
             .setMessage(R.string.deleteTaskConfirmation)
             .setPositiveButton("OK") { _, _ ->
-                lifecycleScope.launch(Dispatchers.IO+handler){
+                lifecycleScope.launch(Dispatchers.IO + handler) {
                     dao.remove(task.id)
-                    withContext(Dispatchers.Main){
+                    withContext(Dispatchers.Main) {
                         setResult(Activity.RESULT_OK)
                         finish()
                     }
@@ -127,11 +128,11 @@ class TaskDetailsActivity : AppCompatActivity() {
     }
 
     private fun onLongClickConcluded(): Boolean {
-        lifecycleScope.launch(Dispatchers.IO+handler){
+        lifecycleScope.launch(Dispatchers.IO + handler) {
             launch {
                 dao.update(task.id, task)
             }.join()
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 setResult(Activity.RESULT_OK)
                 finish()
             }
@@ -154,8 +155,8 @@ class TaskDetailsActivity : AppCompatActivity() {
     }
 
     fun close(view: View) {
-        with(Dispatchers.IO){
-            if(isActive)
+        with(Dispatchers.IO) {
+            if (isActive)
                 cancel()
         }
         setResult(Activity.RESULT_CANCELED)

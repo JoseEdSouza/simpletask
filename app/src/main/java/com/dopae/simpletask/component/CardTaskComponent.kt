@@ -4,6 +4,7 @@ import android.content.Context
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
+import android.view.View.OnClickListener
 import androidx.fragment.app.FragmentManager
 import com.dopae.simpletask.databinding.CardsLayoutTaskBinding
 import com.dopae.simpletask.model.Tag
@@ -51,7 +52,6 @@ class CardTaskComponent(
             }
         }
 
-
     }
 
     fun setReadOnly(task: Task): CardTaskComponent {
@@ -87,6 +87,10 @@ class CardTaskComponent(
             clickedCard.changeState()
             lastClickedCard = clickedCard
         }
+    }
+
+    fun setOnClickListener(listener: OnClickListener){
+        binding.root.setOnClickListener(listener)
     }
 }
 
