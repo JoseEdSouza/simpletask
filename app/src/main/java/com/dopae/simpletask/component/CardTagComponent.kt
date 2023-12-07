@@ -110,8 +110,10 @@ class CardTagComponent(
         tagLayout.removeAllViews()
         if (selectedTags.size > 0)
             hint.visibility = View.GONE
-        else
+        else{
             hint.visibility = View.VISIBLE
+            return
+        }
         val selectedTagsList = tagList.filter { it.id in selectedTags }
         selectedTagsList.forEach {
             val tagColor = it.color

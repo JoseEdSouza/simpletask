@@ -63,20 +63,12 @@ class TaskDetailsActivity : AppCompatActivity() {
     private val edtTaskLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                flipLoading()
                 lifecycleScope.launch(Dispatchers.IO) {
                     task = dao.get(task.id)!!
                     withContext(Dispatchers.Main) {
                         init()
                     }
                 }
-            }
-        }
-
-    private val startLocalActivity =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                //todo
             }
         }
 
@@ -100,7 +92,6 @@ class TaskDetailsActivity : AppCompatActivity() {
                 this,
                 cardsLayout,
                 supportFragmentManager,
-                startLocalActivity
             )
         cards.setOnClickListener { startEditActivity() }
         menuController.init({ flipConcluded() }, { startEditActivity() }, { deleteTask() })
@@ -109,6 +100,7 @@ class TaskDetailsActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO + handler) {
             task = dao.get(id)!!
             withContext(Dispatchers.Main) {
+                flipLoading()
                 init()
             }
         }
@@ -116,7 +108,6 @@ class TaskDetailsActivity : AppCompatActivity() {
 
 
     fun init() {
-        flipLoading()
         cards.setReadOnly(task)
         if (task.concluded) {
             concludedBtn.imageTintList = ColorStateList.valueOf(

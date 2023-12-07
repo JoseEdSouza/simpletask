@@ -62,7 +62,7 @@ class AddTaskActivity : AppCompatActivity() {
         }
     }
 
-    private val startLocalActivity =
+    private val localActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 //todo
@@ -88,12 +88,12 @@ class AddTaskActivity : AppCompatActivity() {
                 this,
                 binding.cardsLayoutTaskAdd,
                 supportFragmentManager,
-                startLocalActivity
             )
         cards.init()
         cardTag = cards.cardTag
         cardTime = cards.cardTime
         cardLocal = cards.cardLocal
+        cardLocal.setLauncher(localActivityLauncher)
     }
 
     private fun save() {

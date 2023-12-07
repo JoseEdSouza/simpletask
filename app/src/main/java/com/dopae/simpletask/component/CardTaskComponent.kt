@@ -17,11 +17,10 @@ class CardTaskComponent(
     private val context: Context,
     private val binding: CardsLayoutTaskBinding,
     supportFragmentManager: FragmentManager,
-    launcher: ActivityResultLauncher<Intent>,
 ) {
     val cardTime = CardTimeTaskComponent(context, binding.cardTimeAddTask, supportFragmentManager)
     val cardLocal =
-        CardLocalTaskComponent(context, binding.cardLocalAddTask, supportFragmentManager,launcher)
+        CardLocalTaskComponent(context, binding.cardLocalAddTask, supportFragmentManager)
     val cardTag = CardTagComponent(context, binding.cardTagAddTask)
     private var readOnly = false
     private var task: Task? = null
