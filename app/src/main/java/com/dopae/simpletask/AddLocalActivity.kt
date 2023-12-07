@@ -3,7 +3,6 @@ package com.dopae.simpletask
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -73,15 +72,16 @@ class AddLocalActivity : AppCompatActivity(), OnMapReadyCallback {
         init()
     }
 
-    fun init(){
+    fun init() {
         radioGroup.check(radioBntArrive.id)
         menu.init({ save() }, { close() })
         getLastLocation()
         seekBar.progress = 50
-        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 changeCircleRadius(progress.toDouble())
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
@@ -102,9 +102,6 @@ class AddLocalActivity : AppCompatActivity(), OnMapReadyCallback {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -121,13 +118,14 @@ class AddLocalActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun changeCircleRadius(progress:Double){
-        circle?.radius = progress
+    private fun changeCircleRadius(progress: Double) {
+        circle?.radius = progress + 20.0
     }
 
     override fun onMapReady(p0: GoogleMap) {
         map = p0
         val radiusColor = ContextCompat.getColor(this, R.color.marker_circle_radius)
+        val strokeColor = ContextCompat.getColor(this,R.color.task_theme)
         val curr = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
         map.addMarker(
             MarkerOptions()
@@ -137,8 +135,8 @@ class AddLocalActivity : AppCompatActivity(), OnMapReadyCallback {
         circle = map.addCircle(
             CircleOptions()
                 .center(curr)
-                .radius(seekBar.progress.toDouble())
-                .strokeColor(Color.BLACK)
+                .radius(seekBar.progress.toDouble() + 20.0)
+                .strokeColor(strokeColor)
                 .strokeWidth(2.0f)
                 .fillColor(radiusColor)
 
@@ -151,8 +149,8 @@ class AddLocalActivity : AppCompatActivity(), OnMapReadyCallback {
             circle = map.addCircle(
                 CircleOptions()
                     .center(markerPosition)
-                    .radius(seekBar.progress.toDouble())
-                    .strokeColor(Color.BLACK)
+                    .radius(seekBar.progress.toDouble() + 20.0)
+                    .strokeColor(strokeColor)
                     .strokeWidth(2.0f)
                     .fillColor(radiusColor)
             )

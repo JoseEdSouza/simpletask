@@ -31,17 +31,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
-        xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/mapFragmentLocal"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="20dp"
+        app:cameraZoom="18"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-        map:cameraZoom="16"/>
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
     <TextView
         android:id="@+id/textView4"
