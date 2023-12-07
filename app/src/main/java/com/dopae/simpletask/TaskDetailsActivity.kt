@@ -63,6 +63,7 @@ class TaskDetailsActivity : AppCompatActivity() {
     private val edtTaskLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
+                flipLoading()
                 lifecycleScope.launch(Dispatchers.IO) {
                     task = dao.get(task.id)!!
                     withContext(Dispatchers.Main) {
