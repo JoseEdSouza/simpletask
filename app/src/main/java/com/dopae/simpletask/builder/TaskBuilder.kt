@@ -10,7 +10,7 @@ class TaskBuilder {
     private var name = ""
     private var description  = ""
     private var concluded = false
-    private val tags = mutableSetOf<Int>()
+    private val tags = mutableSetOf<String>()
     private var trigger: Trigger? = null
     private var nameReadyToGo = false
     private var triggerReadyToGo = true
@@ -33,7 +33,7 @@ class TaskBuilder {
         return this
     }
 
-    fun addTags(tags: Set<Int>): TaskBuilder {
+    fun addTags(tags: Collection<String>): TaskBuilder {
         this.tags.addAll(tags)
         return this
     }
@@ -52,7 +52,7 @@ class TaskBuilder {
             return Task(
                 name = name,
                 description = description,
-                id = 0,
+                id = "",
                 concluded = concluded,
                 trigger = trigger
             ).addAllTags(tags)

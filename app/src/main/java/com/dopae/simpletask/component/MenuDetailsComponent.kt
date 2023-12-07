@@ -1,9 +1,9 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.view.View.OnClickListener
 import com.dopae.simpletask.databinding.MenuDetailsBinding
 
-class MenuDetailsController(binding: MenuDetailsBinding) {
+class MenuDetailsComponent(binding: MenuDetailsBinding) {
     private val concludedBtn = binding.imgBtnConcluded
     private val editBtn = binding.imgBtnEdit
     private val deleteBtn = binding.imgBtnDelete

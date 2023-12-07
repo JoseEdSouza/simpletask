@@ -1,22 +1,29 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
 import com.dopae.simpletask.R
-import com.dopae.simpletask.dao.TagDAOImp
-import com.dopae.simpletask.dao.TaskDAOImp
+import com.dopae.simpletask.dao.TaskDAOFirebase
 import com.dopae.simpletask.databinding.TaskAdapterBinding
+import com.dopae.simpletask.model.Tag
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.utils.TriggerType
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
-class TaskAdapterController(
+class TaskAdapterComponent(
     private val context: Context,
-    binding: TaskAdapterBinding,
-    private val task: Task
+    val binding: TaskAdapterBinding,
+    private val task: Task,
+    private val tagList: List<Tag>
 ) {
-    private val tagDAO = TagDAOImp.getInstance()
+    private val dao = TaskDAOFirebase.getInstance()
     private val taskCard = binding.root
     private val taskName = binding.txtViewTaskName
     private val timeIndicator = binding.imgViewCalendar
@@ -28,6 +35,11 @@ class TaskAdapterController(
     private val tagIndicator2 = binding.imgViewTag2
     private val tagIndicator3 = binding.imgViewTag3
     private val tagIndicators = listOf(tagIndicator1, tagIndicator2, tagIndicator3)
+    private val handler = CoroutineExceptionHandler { context, _ ->
+        context.cancel()
+    }
+    private val scope = CoroutineScope(Dispatchers.IO + handler)
+    private val updateTaskJob = scope.launch(start = CoroutineStart.LAZY) { dao.update(task.id,task) }
 
     fun init() {
         build()
@@ -35,10 +47,12 @@ class TaskAdapterController(
     }
 
     private fun build() {
+        TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
         taskName.text = task.name
         descriptionIndicator.visibility = if (!task.hasDescription) View.GONE else View.VISIBLE
         localIndicator.visibility = View.GONE
         timeIndicator.visibility = View.GONE
+        tagIndicators.forEach { it.visibility = View.INVISIBLE }
         task.trigger?.let {
             when (it.type) {
                 TriggerType.TIME -> timeIndicator.visibility = View.VISIBLE
@@ -51,16 +65,13 @@ class TaskAdapterController(
         else
             taskCheckBox.setImageResource(R.drawable.checkbox_empty)
         treeDotsIndicator.visibility = if (task.numTags <= 3) View.GONE else View.VISIBLE
+
         if (task.numTags > 0) {
-            val zip = tagIndicators zip task.tags
+            val filteredTags = tagList.filter { it.id in task.tags }
+            val zip = tagIndicators zip filteredTags
             zip.forEach {
-                val tag = tagDAO.get(it.second)
-                tag?.let { t ->
-                    it.first.imageTintList = t.color.getColorStateList(context)
-                    it.first.visibility = View.VISIBLE
-                } ?: run {
-                    task.removeTag(it.second)
-                }
+                it.first.imageTintList = it.second.color.getColorStateList(context)
+                it.first.visibility = View.VISIBLE
             }
         }
     }
@@ -71,6 +82,11 @@ class TaskAdapterController(
         TransitionManager.beginDelayedTransition(taskCard, AutoTransition())
         taskCheckBox
             .setImageResource(if (task.concluded) R.drawable.checkbox_concluded else R.drawable.checkbox_empty)
+        with(updateTaskJob){
+            if(!isActive || isCompleted)
+                start()
+        }
+
     }
 
 

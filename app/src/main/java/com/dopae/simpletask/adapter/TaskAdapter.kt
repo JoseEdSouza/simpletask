@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
-import com.dopae.simpletask.controller.TaskAdapterController
-import com.dopae.simpletask.dao.TaskDAOImp
+import com.dopae.simpletask.component.TaskAdapterComponent
 import com.dopae.simpletask.databinding.TaskAdapterBinding
+import com.dopae.simpletask.model.Tag
+import com.dopae.simpletask.model.Task
 
-class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
-    private val taskDAO = TaskDAOImp.getInstance()
-    private val positionIdMap = HashMap<Int, Int>()
+class TaskAdapter(private val taskList: List<Task>, private val tagList: List<Tag>) :
+    RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+    private val positionIdMap = HashMap<Int, String>()
     private var mListener: OnItemClickListener? = null
     private lateinit var context: Context
 
@@ -25,16 +26,16 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
     }
 
 
-    override fun getItemCount(): Int = taskDAO.size()
+    override fun getItemCount(): Int = taskList.size
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        val task = taskDAO.getByPosition(position)
+        val task = taskList[position]
         positionIdMap[position] = task.id
-        TaskAdapterController(context, holder.binding, task).init()
+        TaskAdapterComponent(context, holder.binding, task, tagList).init()
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
+    fun interface OnItemClickListener {
+        fun onItemClick(id: String)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -51,8 +52,8 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
         override fun onClick(v: View) {
             mListener?.let {
-                val id = positionIdMap[absoluteAdapterPosition] ?: RecyclerView.NO_POSITION
-                if (id != RecyclerView.NO_POSITION) {
+                val id = positionIdMap[absoluteAdapterPosition] ?: ""
+                if (id != "") {
                     it.onItemClick(id)
                 }
             }

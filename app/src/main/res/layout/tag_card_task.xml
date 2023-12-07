@@ -7,6 +7,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewEmail"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="@color/task_card"
@@ -25,13 +26,14 @@
                 android:id="@+id/imgBtnAddTag"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@android:color/transparent"
                 android:padding="16dp"
                 android:src="@drawable/add"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/task_card_text" />
+                app:tint="@color/task_card_text"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/txtViewAddTagHint"
@@ -52,6 +54,7 @@
                 android:layout_marginStart="20dp"
                 android:gravity="center|left"
                 android:orientation="horizontal"
+                android:scrollbars="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

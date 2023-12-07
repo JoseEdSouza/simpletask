@@ -34,7 +34,7 @@
                 android:autoSizeMinTextSize="16sp"
                 android:autoSizeTextType="uniform"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/line_placeholder"
+                android:text="@string/linePlaceholder"
                 android:textColor="@color/gray_3"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"

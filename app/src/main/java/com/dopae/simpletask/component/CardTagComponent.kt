@@ -1,4 +1,4 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.transition.AutoTransition
@@ -6,56 +6,74 @@ import android.transition.TransitionManager
 import android.view.View
 import android.widget.ImageView
 import com.dopae.simpletask.R
-import com.dopae.simpletask.dao.TagDAOImp
+import com.dopae.simpletask.dao.TagDAOFirebase
 import com.dopae.simpletask.databinding.TagCardTaskBinding
+import com.dopae.simpletask.model.Tag
 import com.dopae.simpletask.model.Task
-import com.dopae.simpletask.utils.TagColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
-class CardTagController(
+class CardTagComponent(
     private val context: Context,
     private val binding: TagCardTaskBinding
 ) {
-    private val selectedTags = mutableSetOf<Int>()
+    private var dao = TagDAOFirebase.getInstance()
+    private var tagList: List<Tag> = emptyList()
+    private val selectedTags = mutableSetOf<String>()
     private val card = binding.root
     private val addBtn = binding.imgBtnAddTag
+    private val cardAdd = binding.cardAddTag
     private val tagView = binding.imgViewTag
     private val tagLayout = binding.linearLayoutTags
     private val hint = binding.txtViewAddTagHint
     private var task: Task? = null
     private var readOnly = false
-    private val dao = TagDAOImp.getInstance()
+    private val handler = CoroutineExceptionHandler { context, _ ->
+        context.cancel()
+    }
+    private val scope = CoroutineScope(Dispatchers.IO + handler)
+    private val fetchTagList = scope.launch(start = CoroutineStart.LAZY) { tagList = dao.getAll() }
 
+    init {
+        fetchTagList.start()
+    }
 
     fun init() {
         if (readOnly) {
             addBtn.visibility = View.GONE
-            task?.also {
-                if (it.numTags == 0)
+            task?.let {
+                if (it.numTags == 0) {
                     hint.visibility = View.VISIBLE
-                else {
+                    tagLayout.removeAllViews()
+                } else {
                     hint.visibility = View.GONE
+                    selectedTags.clear()
                     selectedTags.addAll(it.tags)
                     changeState()
                 }
-
             }
         } else {
+            cardAdd.setOnClickListener { openTagPicker() }
             addBtn.setOnClickListener { openTagPicker() }
         }
 
     }
 
-    val info: Set<Int>
+    val info: Set<String>
         get() = selectedTags
 
-    fun setInfo(tags: Collection<Int>) {
+    fun setInfo(tags: Collection<String>) {
         selectedTags.clear()
         selectedTags.addAll(tags)
         changeState()
     }
 
-    fun setReadOnly(task: Task): CardTagController {
+    fun setReadOnly(task: Task): CardTagComponent {
         this.task = task
         readOnly = true
         return this
@@ -64,27 +82,26 @@ class CardTagController(
     val isEmpty: Boolean
         get() = selectedTags.isEmpty()
 
-    fun setWriteRead(): CardTagController {
+    fun setWriteRead(): CardTagComponent {
         this.task = null
         readOnly = false
         return this
     }
 
     private fun openTagPicker() {
-        val tagNames = dao.getAll().map { it.name }.toTypedArray()
-        val checkedItems = dao.getAll().map { it.id in selectedTags }.toBooleanArray()
+        val tagNames = tagList.map { it.name }.toTypedArray()
+        val checkedItems = tagList.map { it.id in selectedTags }.toBooleanArray()
         val picker = MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme)
             .setTitle(R.string.addTag)
-        when (dao.size()) {
-            0 -> picker.setMessage(R.string.noTagsAvaliable)
-            else -> picker.setMultiChoiceItems(tagNames, checkedItems) { _, index, checked ->
+        if (tagList.isEmpty())
+            picker.setMessage(R.string.noTagsAvaliable)
+        else
+            picker.setMultiChoiceItems(tagNames, checkedItems) { _, index, checked ->
                 if (checked)
-                    selectedTags.add(dao.getByPosition(index).id)
-                else if (index in selectedTags)
-                    selectedTags.remove(index)
-            }
-                .setPositiveButton("OK") { _, _ -> changeState() }
-        }
+                    selectedTags.add(tagList[index].id)
+                else if (tagList[index].id in selectedTags)
+                    selectedTags.remove(tagList[index].id)
+            }.setPositiveButton("OK") { _, _ -> changeState() }
         picker.show()
     }
 
@@ -95,9 +112,10 @@ class CardTagController(
             hint.visibility = View.GONE
         else
             hint.visibility = View.VISIBLE
-        selectedTags.forEach {
-            val tagColor = dao.get(it)?.color
-            tagColor?.let {tg ->
+        val selectedTagsList = tagList.filter { it.id in selectedTags }
+        selectedTagsList.forEach {
+            val tagColor = it.color
+            tagColor.let { tg ->
                 val view = ImageView(context)
                 with(tagView) {
                     view.layoutParams = layoutParams
@@ -109,7 +127,6 @@ class CardTagController(
                 view.visibility = View.VISIBLE
                 tagLayout.addView(view)
             }
-
         }
 
     }

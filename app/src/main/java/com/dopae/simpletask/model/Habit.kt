@@ -8,7 +8,7 @@ data class Habit(
     var description: String,
     var frequency: Frequency,
     var startDate: Date,
-    var id: Int = 0,
+    var id:Int = 0,
     var actualStreak:Int = 0,
     var bestStreak:Int = 0
 )
