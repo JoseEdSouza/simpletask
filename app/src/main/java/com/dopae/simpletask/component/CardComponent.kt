@@ -4,7 +4,9 @@ import android.view.View.OnClickListener
 
 interface CardComponent {
     fun init()
-    fun changeState()
+    fun flipState()
+    fun setActivated()
+    fun setDeactivated()
     fun setOnClickListener(onClickListener: OnClickListener)
     val isActivated:Boolean
 }

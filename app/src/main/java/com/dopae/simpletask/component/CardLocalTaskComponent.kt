@@ -39,7 +39,7 @@ class CardLocalTaskComponent(
         } else {
             localBtn.setOnClickListener { startLocalActivity() }
             cardSelectedLocal.visibility = View.GONE
-            card.setOnClickListener { changeState() }
+            card.setOnClickListener { flipState() }
         }
         cardExpandOptions.visibility = View.GONE
 
@@ -49,7 +49,7 @@ class CardLocalTaskComponent(
         get() = null
 
     fun setInfo(trigger: Trigger) {
-        changeState()
+        flipState()
     }
 
     override fun setOnClickListener(onClickListener: OnClickListener) {
@@ -75,12 +75,23 @@ class CardLocalTaskComponent(
     override val isActivated: Boolean
         get() = activated
 
-    override fun changeState() {
+    override fun flipState() {
         activated = !activated
         with(cardExpandOptions) {
             visibility = if (visibility == View.GONE) View.VISIBLE else View.GONE
         }
     }
+
+    override fun setActivated() {
+        activated = true
+        cardExpandOptions.visibility = View.VISIBLE
+    }
+
+    override fun setDeactivated() {
+        activated = false
+        cardExpandOptions.visibility = View.GONE
+    }
+
     private fun startLocalActivity() {
         launcher?.let {
             val intent = Intent(context, AddLocalActivity::class.java)
