@@ -1,8 +1,8 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.view.View.OnClickListener
 
-interface CardController {
+interface CardComponent {
     fun init()
     fun changeState()
     fun setOnClickListener(onClickListener: OnClickListener)

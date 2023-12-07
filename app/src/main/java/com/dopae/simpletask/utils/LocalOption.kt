@@ -1,6 +1,6 @@
 package com.dopae.simpletask.utils
 
-enum class LocalOption {
+enum class LocalTrigger {
     ENTER,
     LEAVE
 }

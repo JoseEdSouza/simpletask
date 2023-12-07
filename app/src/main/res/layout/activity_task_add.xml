@@ -32,7 +32,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewEmail"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="30dp"
@@ -74,7 +74,7 @@
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toBottomOf="@+id/cardViewEmail">
 
         <EditText
             android:id="@+id/edtTxtAddTaskDescription"
@@ -100,10 +100,11 @@
         android:id="@+id/cardsLayoutTaskAdd"
         layout="@layout/cards_layout_task"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomMenuAddTask"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView3" />

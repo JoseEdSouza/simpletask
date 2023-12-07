@@ -1,4 +1,4 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.view.View
@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager
 import com.dopae.simpletask.R
 import com.dopae.simpletask.databinding.CardTaskTimeReminderBinding
 import com.dopae.simpletask.model.Task
-import com.dopae.simpletask.model.TimeTrigger
 import com.dopae.simpletask.model.Trigger
 import com.dopae.simpletask.utils.TriggerType
 import com.google.android.material.datepicker.CalendarConstraints
@@ -22,11 +21,11 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class CardTimeTaskController(
+class CardTimeTaskComponent(
     private val context: Context,
     binding: CardTaskTimeReminderBinding,
     private val supportFragmentManager: FragmentManager
-) : CardController {
+) : CardComponent {
     private val cardExpandOptions = binding.constraintLayoutCardTaskExpandOptions
     private val cardSelectedTime = binding.txtViewSelectedTime
     private val card = binding.root
@@ -81,13 +80,13 @@ class CardTimeTaskController(
         String.format("%02d:%02d", hour, minute).also { timeButton.text = it }
     }
 
-    fun setReadOnly(task: Task): CardTimeTaskController {
+    fun setReadOnly(task: Task): CardTimeTaskComponent {
         this.task = task
         readOnly = true
         return this
     }
 
-    fun setWriteRead(): CardTimeTaskController {
+    fun setWriteRead(): CardTimeTaskComponent {
         readOnly = false
         task = null
         return this
@@ -134,7 +133,6 @@ class CardTimeTaskController(
         utc.time = date
         val local = Calendar.getInstance()
         local.timeInMillis = utc.timeInMillis
-        //local[Calendar.DAY_OF_MONTH] += 1
         val dateString = SimpleDateFormat("EEE dd/MM", Locale("pt", "BR")).format(local.time)
         dateButton.text = dateString
         selectedDate = local.time
@@ -170,6 +168,10 @@ class CardTimeTaskController(
     private fun openTimeSelection() {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
+        selectedTime?.let {
+            calendar[Calendar.HOUR_OF_DAY] = it.first
+            calendar[Calendar.MINUTE] = it.second
+        }
         val timePicker =
             MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -182,6 +184,7 @@ class CardTimeTaskController(
         timePicker.addOnPositiveButtonClickListener { setTime(timePicker.hour, timePicker.minute) }
         timePicker.show(supportFragmentManager, "TIME_PICKER")
     }
+
 
 }
 

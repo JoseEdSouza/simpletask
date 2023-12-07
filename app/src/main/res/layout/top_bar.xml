@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:fontFamily="@font/inter_bold"
-        android:text="@string/line_placeholder"
+        android:text="@string/linePlaceholder"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton"

@@ -1,18 +1,24 @@
 package com.dopae.simpletask
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.dopae.simpletask.controller.MenuAddEditController
-import com.dopae.simpletask.controller.CardLocalTaskController
-import com.dopae.simpletask.controller.CardTaskController
-import com.dopae.simpletask.controller.CardTimeTaskController
+import androidx.lifecycle.lifecycleScope
+import com.dopae.simpletask.component.MenuAddEditComponent
+import com.dopae.simpletask.component.CardLocalTaskComponent
+import com.dopae.simpletask.component.CardTaskComponent
+import com.dopae.simpletask.component.CardTimeTaskComponent
 import com.dopae.simpletask.builder.TaskBuilder
-import com.dopae.simpletask.controller.CardTagController
-import com.dopae.simpletask.dao.TaskDAOImp
+import com.dopae.simpletask.component.CardTagComponent
+import com.dopae.simpletask.dao.TaskDAOFirebase
 import com.dopae.simpletask.databinding.ActivityTaskAddBinding
 import com.dopae.simpletask.exception.NameNotReadyException
 import com.dopae.simpletask.exception.TriggerNotReadyException
@@ -20,26 +26,70 @@ import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.model.TimeTrigger
 import com.dopae.simpletask.model.Trigger
 import com.dopae.simpletask.utils.TriggerType
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddTaskActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTaskAddBinding
-    private lateinit var cardTime: CardTimeTaskController
-    private lateinit var cardLocal: CardLocalTaskController
-    private lateinit var cardTag: CardTagController
+    private lateinit var cardTime: CardTimeTaskComponent
+    private lateinit var cardLocal: CardLocalTaskComponent
+    private lateinit var cardTag: CardTagComponent
     private lateinit var edtTxtName: EditText
     private lateinit var edtTxtDescription: EditText
-    private val dao = TaskDAOImp.getInstance()
+    private lateinit var progressBar: ProgressBar
+    private lateinit var saveBtn: ImageButton
+    private val dao = TaskDAOFirebase.getInstance()
+    private val handler = CoroutineExceptionHandler { context, err ->
+        context.cancel()
+        val errorMsg = when (err) {
+            is FirebaseNetworkException -> R.string.noConnection
+            is FirebaseFirestoreException -> R.string.saveContentError
+            else -> R.string.unexpectedError
+        }
+        lifecycleScope.launch(Dispatchers.Main) {
+            progressBar.visibility = View.GONE
+            saveBtn.visibility = View.VISIBLE
+            val snackbar = Snackbar.make(binding.root, errorMsg, Snackbar.LENGTH_SHORT)
+            snackbar.setBackgroundTint(Color.RED)
+            snackbar.show()
+        }
+    }
+
+    private val startLocalActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                //todo
+            }
+        }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskAddBinding.inflate(layoutInflater)
+        supportActionBar?.hide()
         setContentView(binding.root)
         supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
-        val menu = MenuAddEditController(binding.bottomMenuAddTask)
-        menu.init({ save() }, { close() })
         edtTxtName = binding.editTextTaskAddName
         edtTxtDescription = binding.edtTxtAddTaskDescription
-        val cards = CardTaskController(this, binding.cardsLayoutTaskAdd, supportFragmentManager)
+        progressBar = binding.bottomMenuAddTask.progressBar
+        saveBtn = binding.bottomMenuAddTask.imgBtnSave
+        val menu = MenuAddEditComponent(binding.bottomMenuAddTask)
+        menu.init({ save() }, { close() })
+        val cards =
+            CardTaskComponent(
+                this,
+                binding.cardsLayoutTaskAdd,
+                supportFragmentManager,
+                startLocalActivity
+            )
         cards.init()
         cardTag = cards.cardTag
         cardTime = cards.cardTime
@@ -61,22 +111,44 @@ class AddTaskActivity : AppCompatActivity() {
                 .allReadyToGo()
                 .build()
         } catch (e: NameNotReadyException) {
-            Toast.makeText(this, "Adicione um nome", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.noNameProvidedError, Toast.LENGTH_SHORT).show()
         } catch (e: TriggerNotReadyException) {
             val toast = when (trigger!!.type) {
-                TriggerType.TIME -> Toast.makeText(this, "Tempo inválido", Toast.LENGTH_SHORT)
-                else -> Toast.makeText(this, "Local inválido", Toast.LENGTH_SHORT)
+                TriggerType.TIME -> Toast.makeText(
+                    this,
+                    R.string.invalidTimeProvidedError,
+                    Toast.LENGTH_SHORT
+                )
+
+                else -> Toast.makeText(
+                    this,
+                    R.string.invalidLocalProvidedError,
+                    Toast.LENGTH_SHORT
+                )
             }
             toast.show()
         }
         task?.let {
-            dao.add(it)
-            setResult(Activity.RESULT_OK)
-            finish()
+            progressBar.visibility = View.VISIBLE
+            saveBtn.visibility = View.INVISIBLE
+
+            lifecycleScope.launch(Dispatchers.IO + handler) {
+                launch {
+                    dao.add(it)
+                }
+                withContext(Dispatchers.Main) {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+            }
         }
     }
 
     private fun close() {
+        with(Dispatchers.IO) {
+            if (isActive)
+                cancel()
+        }
         setResult(Activity.RESULT_CANCELED)
         finish()
     }

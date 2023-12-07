@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.dopae.simpletask.controller.TagAdapterController
-import com.dopae.simpletask.dao.TagDAOImp
+import com.dopae.simpletask.component.TagAdapterComponent
 import com.dopae.simpletask.databinding.TagAdapterBinding
+import com.dopae.simpletask.model.Tag
 
-class TagAdapter : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
+class TagAdapter(private val tagList:List<Tag>) : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
     private lateinit var binding: TagAdapterBinding
-    private val dao = TagDAOImp.getInstance()
     private var mListener: OnItemClickListener? = null
-    private val positionIdMap = HashMap<Int, Int>()
+    private val positionIdMap = HashMap<Int, String>()
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
@@ -22,17 +21,17 @@ class TagAdapter : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
         return TagViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = dao.size()
+    override fun getItemCount(): Int = tagList.size
 
     override fun onBindViewHolder(holder: TagViewHolder, position: Int) {
-        val tag = dao.getByPosition(position)
+        val tag = tagList[position]
         positionIdMap[position] = tag.id
-        TagAdapterController(context, holder.binding, tag).init()
+        TagAdapterComponent(context, holder.binding, tag).init()
 
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
+    fun interface OnItemClickListener {
+        fun onItemClick(id:String)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
@@ -50,8 +49,8 @@ class TagAdapter : RecyclerView.Adapter<TagAdapter.TagViewHolder>() {
 
         override fun onClick(v: View) {
             mListener?.let {
-                val id = positionIdMap[absoluteAdapterPosition] ?: RecyclerView.NO_POSITION
-                if (id != RecyclerView.NO_POSITION) {
+                val id = positionIdMap[absoluteAdapterPosition] ?: ""
+                if (id != "") {
                     it.onItemClick(id)
                 }
             }

@@ -1,48 +1,44 @@
 <resources>
-    <string name="app_name">Simple Task</string>
-    <string name="bottom_task_name">Tarefas</string>
-    <string name="bottom_habits_name">Hábitos</string>
-    <string name="bottom_tags_name">Tags</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="ask_permission_notifications_msg">
-        Por favor permita o uso de notificações nas configurações.
-    </string>
-    <string name="settings">Configurações</string>
+    <string name="titleActivityMain">MainActivity</string>
+    <string name="appName">Simple Task</string>
+
+    <!-- Actions -->
     <string name="cancel">Cancelar</string>
-    <string name="ask_permission_notifications_title">
-        Permitir Notificações
-    </string>
-    <string name="line_placeholder">Lorem ipsum dolor sit amet</string>
-    <string name="paragraph_placeholder">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.
-    </string>
-    <string name="back">Voltar</string>
+    <string name="settings">Configurações</string>
+    <string name="leave">Sair</string>
+    <string name="logout">Logout?</string>
     <string name="edit">Editar</string>
     <string name="delete">Deletar</string>
     <string name="conclude">Concluir</string>
     <string name="save">Salvar</string>
     <string name="concluded">Concluir</string>
+    <string name="back">Voltar</string>
+    <string name="understand">Entendi</string>
+
+    <!-- Ask/Confirmation -->
+    <string name="askPermissionNotificationMessage">Por favor permita o uso de notificações nas configurações.</string>
+    <string name="askPermissionNotificationsTitle">Permitir Notificações</string>
+    <string name="askLogoutMessage">Realmente deseja sair?\nVocê precisará fazer login novamente para entrar.</string>
+    <string name="explainSendEmailTitle">Email Enviado!</string>
+    <string name="explainSendEmailMessage">Você receberá um e-mail com instruções para a troca de senha. Por favor, verifique sua caixa de entrada e a pasta de spam.</string>
+    <string name="locationPermissionDeniedTitle">Permissão Negada</string>
+    <string name="locationPermissionDeniedMessage">Por favor permita o acesso à sua localização. Sem o acesso não temos como enviar os lembretes de local </string>
+
+
+    <!-- Hints/Instructions -->
     <string name="description">Descrição</string>
     <string name="descriptionHint"><font size="20">Adicione uma Descrição…</font></string>
-    <string name="time">Tempo</string>
-    <string name="local">Local</string>
-    <string name="addTask">Adicionar Tarefa</string>
-    <string name="deleteTask">Apagar Tarefa</string>
-    <string name="deleteTag">Apagar tag</string>
-    <string name="deleteTaskConfirmation">Você realmente deseja apagar essa tarefa?</string>
-    <string name="deleteTagConfirmation">Você realmente deseja apagar essa tag?</string>
-    <string name="taskDetails">Tarefa</string>
-    <string name="edtTask">Editar Tarefa</string>
-    <string name="name">Nome</string>
-    <string name="nameHint"><font size="20">Nome…</font></string>
     <string name="tagHint">Adicione uma Tag…</string>
-    <string name="localOptionEnter">Chegar</string>
-    <string name="localOptionLeave">Sair</string>
-    <string name="addTag">Adicionar Tag</string>
-    <string name="edtTag">Editar Tag</string>
-    <string name="noTagsAvaliable">Sem tags</string>
     <string name="addReminderHint">Adicione um lembrete</string>
-    <!--TagColorString-->
+
+    <!-- Password-related -->
+    <string name="resetPassword">Redefinir senha</string>
+    <string name="forgotPassword">Esqueceu sua senha?</string>
+    <string name="unexpectedError">Erro inesperado</string>
+    <string name="sendEmailError">Erro, email não enviado</string>
+    <string name="sendEmailSuccess">Email enviado</string>
+
+    <!-- TagColors -->
     <string name="RED">Vermelho</string>
     <string name="GREEN">Verde</string>
     <string name="YELLOW">Amarelo</string>
@@ -53,6 +49,70 @@
     <string name="PINK">Rosa</string>
     <string name="ROSE">Rosê</string>
     <string name="LILAS">Lilás</string>
+
+    <!-- Tags -->
+    <string name="addTag">Adicionar Tag</string>
+    <string name="edtTag">Editar Tag</string>
+    <string name="deleteTag">Apagar tag</string>
+    <string name="deleteTagConfirmation">Você realmente deseja apagar essa tag?</string>
+    <string name="noTagsAvaliable">Sem tags</string>
+    <string name="emptyTags">Sem tags, que tal adicionar uma?</string>
+
+    <!-- Tasks -->
+    <string name="addTask">Adicionar Tarefa</string>
+    <string name="deleteTask">Apagar Tarefa</string>
+    <string name="deleteTaskConfirmation">Você realmente deseja apagar essa tarefa?</string>
+    <string name="taskDetails">Tarefa</string>
+    <string name="edtTask">Editar Tarefa</string>
+    <string name="name">Nome</string>
+    <string name="nameHint"><font size="20">Nome…</font></string>
+    <string name="localOptionEnter">Chegar</string>
+    <string name="localOptionLeave">Sair</string>
+    <string name="time">Tempo</string>
+    <string name="local">Local</string>
+    <string name="emptyTasks">Sem tarefas, que tal adicionar uma?</string>
+    <string name="radius">Raio</string>
+    <string name="whenArrive">Quando chegar</string>
+    <string name="whenLeave">Quando sair</string>
+    <string name="currentLocation">Localização atual</string>
+
+    <!-- User/Authentication -->
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="confirmPassword">Confirme sua senha</string>
+    <string name="passwordHint">Digite aqui sua senha...</string>
+    <string name="confirmPasswordHint">Confirme sua senha...</string>
+    <string name="emailHint">seunome@exemplo.com</string>
+    <string name="fillAllFields">Preencha todos os campos</string>
+    <string name="passwordNotMatch">As senhas não coincidem</string>
+    <string name="userNotFound">Email não cadastrado</string>
+    <string name="loginError">Erro ao tentar fazer login</string>
+    <string name="signupError">Error ao cadastrar</string>
+    <string name="weakPassword">Senha muito fraca</string>
+    <string name="invalidEmail">Email inválido</string>
+    <string name="alreadyExists">Já existe um cadastro com esse email</string>
+    <string name="noConnection">Sem conexão com a internet</string>
+    <string name="signup">Cadastre-se</string>
+    <string name="login">Login</string>
+    <string name="failedLogin">Email ou Senha incorretos</string>
+    <string name="AskToLoginHint">Já possui uma conta? toque aqui</string>
+
+    <!-- menu -->
+    <string name="bottomTagsName">Tags</string>
+    <string name="bottomTaskName">Tarefas</string>
+    <string name="bottomHabitsName">Hábitos</string>
+
+    <!-- errors -->
+    <string name="loadContentError">Error ao carregar</string>
+    <string name="saveContentError">Error ao salvar</string>
+    <string name="noNameProvidedError">Adicione um nome</string>
+    <string name="invalidTimeProvidedError">Tempo inválido</string>
+    <string name="invalidLocalProvidedError">Local inválido</string>
+    <string name="noColorProvidedError">Selecione uma cor</string>
+
+    <!-- Others -->
+    <string name="linePlaceholder">Lorem ipsum dolor sit amet</string>
+    <string name="paragraphPlaceholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.</string>
 
 
 </resources>

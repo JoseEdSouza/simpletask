@@ -3,36 +3,79 @@ package com.dopae.simpletask
 import android.app.Activity
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.dopae.simpletask.controller.CardTaskController
-import com.dopae.simpletask.controller.MenuDetailsController
-import com.dopae.simpletask.dao.TaskDAOImp
+import androidx.lifecycle.lifecycleScope
+import com.dopae.simpletask.component.CardTaskComponent
+import com.dopae.simpletask.component.MenuDetailsComponent
+import com.dopae.simpletask.dao.TaskDAOFirebase
 import com.dopae.simpletask.databinding.ActivityTaskDetailsBinding
+import com.dopae.simpletask.databinding.CardsLayoutTaskBinding
 import com.dopae.simpletask.databinding.MenuDetailsBinding
 import com.dopae.simpletask.model.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TaskDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTaskDetailsBinding
     private lateinit var task: Task
-    private lateinit var cards: CardTaskController
+    private lateinit var cards: CardTaskComponent
+    private lateinit var cardsLayout: CardsLayoutTaskBinding
     private lateinit var menu: MenuDetailsBinding
     private lateinit var concludedBtn: ImageButton
     private lateinit var nameTextView: TextView
     private lateinit var descriptionTextView: TextView
-    private val dao = TaskDAOImp.getInstance()
+    private lateinit var line: ImageView
+    private lateinit var progressBar: ProgressBar
+    private val dao = TaskDAOFirebase.getInstance()
+    private val handler = CoroutineExceptionHandler { context, err ->
+        context.cancel()
+        val errorMsg = when (err) {
+            is FirebaseNetworkException -> R.string.noConnection
+            is FirebaseFirestoreException -> R.string.saveContentError
+            else -> R.string.unexpectedError
+        }
+        lifecycleScope.launch(Dispatchers.Main) {
+            val snackbar = Snackbar.make(binding.root, errorMsg, Snackbar.LENGTH_SHORT)
+            snackbar.setBackgroundTint(Color.RED)
+            snackbar.show()
+        }
+    }
     private val edtTaskLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                task = dao.get(task.id)!!
-                init()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    task = dao.get(task.id)!!
+                    withContext(Dispatchers.Main) {
+                        init()
+                    }
+                }
+            }
+        }
+
+    private val startLocalActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                //todo
             }
         }
 
@@ -40,23 +83,39 @@ class TaskDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val id = intent.extras!!.getInt("ID")
-        task = dao.get(id)!!
+        supportActionBar?.hide()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
+        val id = intent.extras!!.getString("ID")!!
+        cardsLayout = binding.cardsLayoutTaskDetails
         menu = binding.bottomMenuTaskDetails
+        line = binding.imgViewLine
+        progressBar = binding.progressBarTaskDetails
         concludedBtn = menu.imgBtnConcluded
         nameTextView = binding.txtViewTaskDetailsName
         descriptionTextView = binding.txtViewTaskDetailsDescription
-        val menuController = MenuDetailsController(menu)
+        val menuController = MenuDetailsComponent(menu)
+        cards =
+            CardTaskComponent(
+                this,
+                cardsLayout,
+                supportFragmentManager,
+                startLocalActivity
+            )
+        cards.setOnClickListener { startEditActivity() }
         menuController.init({ flipConcluded() }, { startEditActivity() }, { deleteTask() })
         menu.imgBtnConcluded.setOnLongClickListener { onLongClickConcluded() }
-        cards =
-            CardTaskController(this, binding.cardsLayoutTaskDetails, supportFragmentManager)
-                .setReadOnly(task)
-        init()
-        window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
+        flipLoading()
+        lifecycleScope.launch(Dispatchers.IO + handler) {
+            task = dao.get(id)!!
+            withContext(Dispatchers.Main) {
+                init()
+            }
+        }
     }
 
+
     fun init() {
+        flipLoading()
         cards.setReadOnly(task)
         if (task.concluded) {
             concludedBtn.imageTintList = ColorStateList.valueOf(
@@ -76,23 +135,53 @@ class TaskDetailsActivity : AppCompatActivity() {
         cards.init()
     }
 
+    private fun flipLoading() {
+        TransitionManager.beginDelayedTransition(binding.root,AutoTransition())
+        when (progressBar.visibility) {
+            View.GONE -> {
+                progressBar.visibility = View.VISIBLE
+                line.visibility = View.GONE
+                nameTextView.visibility = View.GONE
+                descriptionTextView.visibility = View.GONE
+                cardsLayout.linearLayoutCardsAddTask.visibility = View.GONE
+            }
+            else -> {
+                progressBar.visibility = View.GONE
+                line.visibility = View.VISIBLE
+                nameTextView.visibility = View.VISIBLE
+                descriptionTextView.visibility = View.VISIBLE
+                cardsLayout.linearLayoutCardsAddTask.visibility = View.VISIBLE
+            }
+        }
+    }
+
     private fun deleteTask() {
         val alertDialog = MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
             .setTitle(R.string.deleteTask)
             .setMessage(R.string.deleteTaskConfirmation)
             .setPositiveButton("OK") { _, _ ->
-                dao.remove(task.id)
-                setResult(Activity.RESULT_OK)
-                finish()
+                lifecycleScope.launch(Dispatchers.IO + handler) {
+                    dao.remove(task.id)
+                    withContext(Dispatchers.Main) {
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+                }
             }
             .setNegativeButton(R.string.cancel, null)
         alertDialog.show()
     }
 
     private fun onLongClickConcluded(): Boolean {
-        dao.update(task.id, task)
-        setResult(Activity.RESULT_OK)
-        finish()
+        lifecycleScope.launch(Dispatchers.IO + handler) {
+            launch {
+                dao.update(task.id, task)
+            }.join()
+            withContext(Dispatchers.Main) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }
         return true
     }
 
@@ -111,6 +200,10 @@ class TaskDetailsActivity : AppCompatActivity() {
     }
 
     fun close(view: View) {
+        with(Dispatchers.IO) {
+            if (isActive)
+                cancel()
+        }
         setResult(Activity.RESULT_CANCELED)
         finish()
     }

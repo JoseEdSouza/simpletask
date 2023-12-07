@@ -1,11 +1,15 @@
-package com.dopae.simpletask.controller
+package com.dopae.simpletask.component
 
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
@@ -14,23 +18,27 @@ import androidx.fragment.app.FragmentManager
 import com.dopae.simpletask.AddTagActivity
 import com.dopae.simpletask.AddTaskActivity
 import com.dopae.simpletask.R
-import com.dopae.simpletask.view.TagsFragment
-import com.dopae.simpletask.view.TasksFragment
+import com.dopae.simpletask.fragment.TagsFragment
+import com.dopae.simpletask.fragment.TasksFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MenuNavigationController(
+class MenuNavigationComponent(
     private val context: Context,
+    private val root: ViewGroup,
     private val supportFragmentManager: FragmentManager,
     private val frameContainer: FrameLayout,
     private val bottomNavView: BottomNavigationView,
     private val floatingActionButton: FloatingActionButton,
+    private val progressBar: ProgressBar,
+    private val emptyContent: TextView,
     private val launcher:ActivityResultLauncher<Intent>
 ) {
 
     private var lastFragmentId = 0
 
     fun init() {
+        progressBar.visibility = View.GONE
         swapFragment(bottomNavView.selectedItemId)
         bottomNavView.setOnItemSelectedListener {
             swapFragment(it.itemId)
@@ -43,6 +51,8 @@ class MenuNavigationController(
     }
 
     private fun swapFragment(itemId: Int): Boolean {
+        TransitionManager.beginDelayedTransition(root, AutoTransition())
+        emptyContent.visibility = View.INVISIBLE
         lastFragmentId = itemId
         when (itemId) {
             R.id.bottom_tasks -> replaceFragment(TasksFragment())

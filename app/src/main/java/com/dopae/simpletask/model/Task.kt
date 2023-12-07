@@ -3,9 +3,9 @@ package com.dopae.simpletask.model
 data class Task(
     var name: String,
     var description: String,
-    var id: Int = 0,
+    var id: String = "",
     var concluded: Boolean = false,
-    private val tagSet: MutableSet<Int> = mutableSetOf(),
+    private val tagSet: MutableSet<String> = mutableSetOf(),
     var trigger: Trigger? = null
 ) {
     val hasDescription: Boolean
@@ -21,26 +21,28 @@ data class Task(
         concluded = !concluded
     }
 
-    val tags: List<Int>
+    val tags: List<String>
         get() = tagSet.sorted().toList()
 
-    fun addTag(tag: Int):Task {
-        tagSet.add(tag)
+    fun addTag(tagId: String):Task {
+        tagSet.add(tagId)
         return this
     }
 
-    fun removeTag(tag: Int): Task {
-        tagSet.remove(tag)
+    fun removeTag(tagId: String): Task {
+        tagSet.remove(tagId)
         return this
     }
 
-    fun addAllTags(tags: Collection<Int>): Task {
+    fun addAllTags(tags: Collection<String>): Task {
         tagSet.addAll(tags)
         return this
     }
 
-    fun clearTags():Task{
+    fun setTags(tags: Collection<String>):Task{
         tagSet.clear()
+        tagSet.addAll(tags)
         return this
     }
+
 }
