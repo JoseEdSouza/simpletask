@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -65,7 +64,7 @@ class EdtTaskActivity : AppCompatActivity() {
         }
     }
 
-    private val startLocalActivity =
+    private val localActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 //todo
@@ -83,11 +82,12 @@ class EdtTaskActivity : AppCompatActivity() {
         edtTxtName = binding.editTextTaskEdtName
         edtTxtDescription = binding.edtTxtEdtTaskDescription
         cardsLayout = binding.cardsLayoutTaskEdt
-        cards = CardTaskComponent(this,cardsLayout,supportFragmentManager,startLocalActivity)
+        cards = CardTaskComponent(this,cardsLayout,supportFragmentManager)
         cards.init()
         cardTag = cards.cardTag
         cardTime = cards.cardTime
         cardLocal = cards.cardLocal
+        cardLocal.setLauncher(localActivityLauncher)
         val menu = MenuAddEditComponent(binding.bottomMenuEdtask)
         menu.init({ save() }, { close() })
         flipLoading()

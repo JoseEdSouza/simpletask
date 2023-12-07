@@ -17,8 +17,7 @@ import com.dopae.simpletask.utils.LocalTrigger
 class CardLocalTaskComponent(
     private val context: Context,
     binding: CardTaskLocalReminderBinding,
-    private val supportFragmentManager: FragmentManager,
-    private val launcher: ActivityResultLauncher<Intent>
+    private val supportFragmentManager: FragmentManager
 ) : CardComponent {
     private val cardExpandOptions = binding.constraintLayoutCardTaskLocalExpandOptions
     private val cardSelectedLocal = binding.txtViewSelectedLocal
@@ -30,6 +29,7 @@ class CardLocalTaskComponent(
     private var selectedLocalTrigger: LocalTrigger? = null
     private var selectedPlace = null
     private var task: Task? = null
+    private var launcher: ActivityResultLauncher<Intent>? = null
 
 
     override fun init() {
@@ -37,9 +37,9 @@ class CardLocalTaskComponent(
             cardSelectedLocal.text = ContextCompat.getString(context, R.string.addReminderHint)
             cardSelectedLocal.visibility = View.VISIBLE
         } else {
-            localBtn.setOnClickListener{ startLocalActivity() }
+            localBtn.setOnClickListener { startLocalActivity() }
             cardSelectedLocal.visibility = View.GONE
-            card.setOnClickListener { changeState() }
+            card.setOnClickListener { flipState() }
         }
         cardExpandOptions.visibility = View.GONE
 
@@ -49,11 +49,15 @@ class CardLocalTaskComponent(
         get() = null
 
     fun setInfo(trigger: Trigger) {
-        changeState()
+        flipState()
     }
 
     override fun setOnClickListener(onClickListener: OnClickListener) {
         card.setOnClickListener(onClickListener)
+    }
+
+    fun setLauncher(launcher: ActivityResultLauncher<Intent>){
+        this.launcher = launcher
     }
 
     fun setReadOnly(task: Task): CardLocalTaskComponent {
@@ -71,15 +75,27 @@ class CardLocalTaskComponent(
     override val isActivated: Boolean
         get() = activated
 
-    override fun changeState() {
+    override fun flipState() {
         activated = !activated
         with(cardExpandOptions) {
             visibility = if (visibility == View.GONE) View.VISIBLE else View.GONE
         }
     }
 
-    private fun startLocalActivity(){
-        val intent = Intent(context,AddLocalActivity::class.java)
-        launcher.launch(intent)
+    override fun setActivated() {
+        activated = true
+        cardExpandOptions.visibility = View.VISIBLE
+    }
+
+    override fun setDeactivated() {
+        activated = false
+        cardExpandOptions.visibility = View.GONE
+    }
+
+    private fun startLocalActivity() {
+        launcher?.let {
+            val intent = Intent(context, AddLocalActivity::class.java)
+            it.launch(intent)
+        }
     }
 }

@@ -1,15 +1,12 @@
 package com.dopae.simpletask.component
 
 import android.content.Context
-import android.content.Intent
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
 import android.view.View.OnClickListener
-import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.FragmentManager
 import com.dopae.simpletask.databinding.CardsLayoutTaskBinding
-import com.dopae.simpletask.model.Tag
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.utils.TriggerType
 
@@ -17,11 +14,10 @@ class CardTaskComponent(
     private val context: Context,
     private val binding: CardsLayoutTaskBinding,
     supportFragmentManager: FragmentManager,
-    launcher: ActivityResultLauncher<Intent>,
 ) {
     val cardTime = CardTimeTaskComponent(context, binding.cardTimeAddTask, supportFragmentManager)
     val cardLocal =
-        CardLocalTaskComponent(context, binding.cardLocalAddTask, supportFragmentManager,launcher)
+        CardLocalTaskComponent(context, binding.cardLocalAddTask, supportFragmentManager)
     val cardTag = CardTagComponent(context, binding.cardTagAddTask)
     private var readOnly = false
     private var task: Task? = null
@@ -78,16 +74,18 @@ class CardTaskComponent(
         TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
         lastClickedCard?.let {
             if (it == clickedCard) {
-                clickedCard.changeState()
+                clickedCard.flipState()
             } else {
-                clickedCard.changeState()
+                clickedCard.flipState()
                 if (it.isActivated)
-                    it.changeState()
+                    it.flipState()
                 lastClickedCard = clickedCard
             }
 
         } ?: run {
-            clickedCard.changeState()
+            cardLocal.setDeactivated()
+            cardTime.setDeactivated()
+            clickedCard.flipState()
             lastClickedCard = clickedCard
         }
     }

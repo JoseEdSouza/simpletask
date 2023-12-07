@@ -45,7 +45,7 @@ class CardTimeTaskComponent(
             initTimeBtnView()
             cardSelectedTime.visibility = View.GONE
             cardExpandOptions.visibility = View.GONE
-            card.setOnClickListener { changeState() }
+            card.setOnClickListener { flipState() }
             dateButton.setOnClickListener { openDateSelection() }
             timeButton.setOnClickListener { openTimeSelection() }
         }
@@ -105,7 +105,7 @@ class CardTimeTaskComponent(
             val minute = calendar[Calendar.MINUTE]
             setTime(hour, minute)
             setDate(date)
-            changeState()
+            flipState()
         }
 
     }
@@ -121,11 +121,21 @@ class CardTimeTaskComponent(
             return calendar.time
         }
 
-    override fun changeState() {
+    override fun flipState() {
         activated = !activated
         with(cardExpandOptions) {
             visibility = if (visibility == View.GONE) View.VISIBLE else View.GONE
         }
+    }
+
+    override fun setActivated() {
+        activated = true
+        cardExpandOptions.visibility = View.VISIBLE
+    }
+
+    override fun setDeactivated() {
+        activated = false
+        cardExpandOptions.visibility = View.GONE
     }
 
     private fun setDate(date: Date) {

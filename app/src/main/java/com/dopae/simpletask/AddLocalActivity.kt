@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.SeekBar
@@ -110,6 +112,7 @@ class AddLocalActivity : AppCompatActivity(), OnMapReadyCallback {
         val task: Task<Location> = fusedLocationProviderClient.lastLocation
         task.addOnSuccessListener {
             it?.let {
+                TransitionManager.beginDelayedTransition(binding.root,AutoTransition())
                 currentLocation = it
                 val mapFrag =
                     supportFragmentManager.findFragmentById(mapFragment.id) as SupportMapFragment
