@@ -4,7 +4,12 @@ import android.app.Activity
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +21,7 @@ import com.dopae.simpletask.component.CardTimeTaskComponent
 import com.dopae.simpletask.component.MenuAddEditComponent
 import com.dopae.simpletask.dao.TaskDAOFirebase
 import com.dopae.simpletask.databinding.ActivityTaskEdtBinding
+import com.dopae.simpletask.databinding.CardsLayoutTaskBinding
 import com.dopae.simpletask.exception.NameNotReadyException
 import com.dopae.simpletask.exception.TriggerNotReadyException
 import com.dopae.simpletask.model.Task
@@ -35,11 +41,13 @@ import kotlinx.coroutines.withContext
 class EdtTaskActivity : AppCompatActivity() {
     private lateinit var binding:ActivityTaskEdtBinding
     private lateinit var cards: CardTaskComponent
+    private lateinit var cardsLayout: CardsLayoutTaskBinding
     private lateinit var cardTime: CardTimeTaskComponent
     private lateinit var cardLocal: CardLocalTaskComponent
     private lateinit var cardTag: CardTagComponent
     private lateinit var edtTxtName: EditText
     private lateinit var edtTxtDescription: EditText
+    private lateinit var progressBar: ProgressBar
     private lateinit var task: Task
     private val dao = TaskDAOFirebase.getInstance()
     private val handler = CoroutineExceptionHandler { context, err ->
@@ -63,15 +71,18 @@ class EdtTaskActivity : AppCompatActivity() {
         supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
         val id = intent.extras!!.getString("ID")!!
+        progressBar = binding.progressBarEdtTask
         edtTxtName = binding.editTextTaskEdtName
         edtTxtDescription = binding.edtTxtEdtTaskDescription
-        cards = CardTaskComponent(this,binding.cardsLayoutTaskEdt,supportFragmentManager)
+        cardsLayout = binding.cardsLayoutTaskEdt
+        cards = CardTaskComponent(this,cardsLayout,supportFragmentManager)
         cards.init()
         cardTag = cards.cardTag
         cardTime = cards.cardTime
         cardLocal = cards.cardLocal
         val menu = MenuAddEditComponent(binding.bottomMenuEdtask)
         menu.init({ save() }, { close() })
+        flipLoading()
         lifecycleScope.launch(Dispatchers.IO+handler) {
             task = dao.get(id)!!
             withContext(Dispatchers.Main){
@@ -81,6 +92,7 @@ class EdtTaskActivity : AppCompatActivity() {
     }
 
     fun init(){
+        flipLoading()
         edtTxtName.setText(task.name)
         if(task.hasDescription)
             edtTxtDescription.setText(task.description)
@@ -91,6 +103,24 @@ class EdtTaskActivity : AppCompatActivity() {
             }
         }
         cardTag.setInfo(task.tags)
+    }
+
+    private fun flipLoading(){
+        TransitionManager.beginDelayedTransition(binding.root,AutoTransition())
+        when(progressBar.visibility){
+            View.GONE -> {
+                progressBar.visibility = View.VISIBLE
+                edtTxtName.visibility = View.GONE
+                edtTxtDescription.visibility = View.GONE
+                cardsLayout.linearLayoutCardsAddTask.visibility = View.GONE
+            }
+            else -> {
+                progressBar.visibility = View.GONE
+                edtTxtName.visibility = View.VISIBLE
+                edtTxtDescription.visibility = View.VISIBLE
+                cardsLayout.linearLayoutCardsAddTask.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun save() {

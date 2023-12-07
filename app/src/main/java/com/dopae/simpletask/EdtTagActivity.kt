@@ -4,7 +4,11 @@ import android.app.Activity
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
+import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +18,7 @@ import com.dopae.simpletask.component.MenuEditTagComponent
 import com.dopae.simpletask.dao.TagDAOFirebase
 import com.dopae.simpletask.dao.TaskDAOFirebase
 import com.dopae.simpletask.databinding.ActivityEdtTagBinding
+import com.dopae.simpletask.databinding.ColorTagBinding
 import com.dopae.simpletask.exception.ColorNotReadyException
 import com.dopae.simpletask.exception.NameNotReadyException
 import com.dopae.simpletask.model.Tag
@@ -31,11 +36,13 @@ import kotlinx.coroutines.withContext
 class EdtTagActivity : AppCompatActivity() {
     private val daoTag = TagDAOFirebase.getInstance()
     private val daoTask = TaskDAOFirebase.getInstance()
-    private lateinit var tag: Tag
-    private lateinit var name: EditText
     private lateinit var binding: ActivityEdtTagBinding
+    private lateinit var tag: Tag
+    private lateinit var edtTxtName: EditText
+    private lateinit var progressBar: ProgressBar
+    private lateinit var colorLayout: ColorTagBinding
     private lateinit var menu: MenuEditTagComponent
-    private lateinit var colorController: ColorTagComponent
+    private lateinit var colorComponent: ColorTagComponent
     private val handler = CoroutineExceptionHandler { context, err ->
         context.cancel()
         val errorMsg = when (err) {
@@ -54,12 +61,15 @@ class EdtTagActivity : AppCompatActivity() {
         binding = ActivityEdtTagBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        val id = intent.extras!!.getString("ID")!!
         window.statusBarColor = ContextCompat.getColor(this, R.color.tag_theme)
-        name = binding.editTextTagEdtName
+        val id = intent.extras!!.getString("ID")!!
+        colorLayout = binding.constraintLayoutColorSelection
+        progressBar = binding.progressBarEdtTag
+        edtTxtName = binding.editTextTagEdtName
         menu = MenuEditTagComponent(binding.bottomMenuEdtTag)
         menu.init({ save() }, { close() }, { delete() })
-        colorController = ColorTagComponent(this, binding.constraintLayoutColorSelection)
+        colorComponent = ColorTagComponent(this, colorLayout)
+        flipLoading()
         lifecycleScope.launch(Dispatchers.IO + handler) {
             tag = daoTag.get(id)!!
             withContext(Dispatchers.Main) {
@@ -69,9 +79,26 @@ class EdtTagActivity : AppCompatActivity() {
     }
 
     private fun init(){
-        name.setText(tag.name)
-        colorController.setInfo(tag.color)
-        colorController.init()
+        flipLoading()
+        edtTxtName.setText(tag.name)
+        colorComponent.setInfo(tag.color)
+        colorComponent.init()
+    }
+
+    private fun flipLoading(){
+        TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
+        when(progressBar.visibility){
+            View.GONE -> {
+                progressBar.visibility = View.VISIBLE
+                edtTxtName.visibility = View.GONE
+                colorLayout.linearLayoutTagColors.visibility = View.GONE
+            }
+            else -> {
+                progressBar.visibility = View.GONE
+                edtTxtName.visibility = View.VISIBLE
+                colorLayout.linearLayoutTagColors.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun close() {
@@ -108,8 +135,8 @@ class EdtTagActivity : AppCompatActivity() {
     }
 
     private fun save() {
-        val name = name.text.toString()
-        val color = colorController.info
+        val name = edtTxtName.text.toString()
+        val color = colorComponent.info
         var newTag: Tag? = null
         try {
             newTag = TagBuilder()

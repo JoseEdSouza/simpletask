@@ -3,6 +3,7 @@ package com.dopae.simpletask
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import com.dopae.simpletask.component.MenuAddEditComponent
@@ -15,6 +16,8 @@ class AddLocalActivity : AppCompatActivity() {
     private lateinit var menu: MenuAddEditComponent
     private lateinit var mapView :MapView
     private lateinit var radioGroup: RadioGroup
+    private lateinit var radioBntArrive: RadioButton
+    private lateinit var radioBntLeave: RadioButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +26,11 @@ class AddLocalActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
+        radioGroup = binding.radioGroupLocalTrigger
+        radioBntArrive = binding.radioBtnLocalArrive
+        radioBntLeave = binding.radioBtnLocalLeave
         menu = MenuAddEditComponent(binding.menuAddEdtLocal)
+        radioGroup.check(radioBntArrive.id)
         menu.init({ save() }, { close() })
     }
 
