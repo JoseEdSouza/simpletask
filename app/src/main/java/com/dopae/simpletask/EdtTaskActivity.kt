@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.dopae.simpletask.builder.TaskBuilder
@@ -64,6 +65,13 @@ class EdtTaskActivity : AppCompatActivity() {
         }
     }
 
+    private val startLocalActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                //todo
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskEdtBinding.inflate(layoutInflater)
@@ -75,7 +83,7 @@ class EdtTaskActivity : AppCompatActivity() {
         edtTxtName = binding.editTextTaskEdtName
         edtTxtDescription = binding.edtTxtEdtTaskDescription
         cardsLayout = binding.cardsLayoutTaskEdt
-        cards = CardTaskComponent(this,cardsLayout,supportFragmentManager)
+        cards = CardTaskComponent(this,cardsLayout,supportFragmentManager,startLocalActivity)
         cards.init()
         cardTag = cards.cardTag
         cardTime = cards.cardTime

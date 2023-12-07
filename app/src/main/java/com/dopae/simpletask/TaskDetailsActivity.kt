@@ -6,8 +6,12 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +21,7 @@ import com.dopae.simpletask.component.CardTaskComponent
 import com.dopae.simpletask.component.MenuDetailsComponent
 import com.dopae.simpletask.dao.TaskDAOFirebase
 import com.dopae.simpletask.databinding.ActivityTaskDetailsBinding
+import com.dopae.simpletask.databinding.CardsLayoutTaskBinding
 import com.dopae.simpletask.databinding.MenuDetailsBinding
 import com.dopae.simpletask.model.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -34,10 +39,13 @@ class TaskDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTaskDetailsBinding
     private lateinit var task: Task
     private lateinit var cards: CardTaskComponent
+    private lateinit var cardsLayout: CardsLayoutTaskBinding
     private lateinit var menu: MenuDetailsBinding
     private lateinit var concludedBtn: ImageButton
     private lateinit var nameTextView: TextView
     private lateinit var descriptionTextView: TextView
+    private lateinit var line: ImageView
+    private lateinit var progressBar: ProgressBar
     private val dao = TaskDAOFirebase.getInstance()
     private val handler = CoroutineExceptionHandler { context, err ->
         context.cancel()
@@ -64,6 +72,13 @@ class TaskDetailsActivity : AppCompatActivity() {
             }
         }
 
+    private val startLocalActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                //todo
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTaskDetailsBinding.inflate(layoutInflater)
@@ -71,16 +86,25 @@ class TaskDetailsActivity : AppCompatActivity() {
         supportActionBar?.hide()
         window.statusBarColor = ContextCompat.getColor(this, R.color.task_theme)
         val id = intent.extras!!.getString("ID")!!
+        cardsLayout = binding.cardsLayoutTaskDetails
         menu = binding.bottomMenuTaskDetails
+        line = binding.imgViewLine
+        progressBar = binding.progressBarTaskDetails
         concludedBtn = menu.imgBtnConcluded
         nameTextView = binding.txtViewTaskDetailsName
         descriptionTextView = binding.txtViewTaskDetailsDescription
         val menuController = MenuDetailsComponent(menu)
         cards =
-            CardTaskComponent(this, binding.cardsLayoutTaskDetails, supportFragmentManager)
+            CardTaskComponent(
+                this,
+                cardsLayout,
+                supportFragmentManager,
+                startLocalActivity
+            )
         cards.setOnClickListener { startEditActivity() }
         menuController.init({ flipConcluded() }, { startEditActivity() }, { deleteTask() })
         menu.imgBtnConcluded.setOnLongClickListener { onLongClickConcluded() }
+        flipLoading()
         lifecycleScope.launch(Dispatchers.IO + handler) {
             task = dao.get(id)!!
             withContext(Dispatchers.Main) {
@@ -91,6 +115,7 @@ class TaskDetailsActivity : AppCompatActivity() {
 
 
     fun init() {
+        flipLoading()
         cards.setReadOnly(task)
         if (task.concluded) {
             concludedBtn.imageTintList = ColorStateList.valueOf(
@@ -108,6 +133,26 @@ class TaskDetailsActivity : AppCompatActivity() {
             descriptionTextView.setTextColor(ContextCompat.getColor(this, R.color.gray_3))
         }
         cards.init()
+    }
+
+    private fun flipLoading() {
+        TransitionManager.beginDelayedTransition(binding.root,AutoTransition())
+        when (progressBar.visibility) {
+            View.GONE -> {
+                progressBar.visibility = View.VISIBLE
+                line.visibility = View.GONE
+                nameTextView.visibility = View.GONE
+                descriptionTextView.visibility = View.GONE
+                cardsLayout.linearLayoutCardsAddTask.visibility = View.GONE
+            }
+            else -> {
+                progressBar.visibility = View.GONE
+                line.visibility = View.VISIBLE
+                nameTextView.visibility = View.VISIBLE
+                descriptionTextView.visibility = View.VISIBLE
+                cardsLayout.linearLayoutCardsAddTask.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun deleteTask() {

@@ -80,8 +80,8 @@
         android:text="@string/taskDetails"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imgViewLine"
+        app:layout_constraintStart_toStartOf="@+id/imgViewLine"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <TextView
@@ -94,12 +94,12 @@
         android:text="@string/descriptionHint"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintEnd_toEndOf="@+id/imgViewLine"
+        app:layout_constraintStart_toStartOf="@+id/imgViewLine"
+        app:layout_constraintTop_toBottomOf="@+id/imgViewLine" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgViewLine"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="30dp"
@@ -109,4 +109,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtViewTaskDetailsName" />
+
+    <ProgressBar
+        android:id="@+id/progressBarTaskDetails"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/black"
+        android:indeterminateTint="@color/black"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottomMenuTaskDetails"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

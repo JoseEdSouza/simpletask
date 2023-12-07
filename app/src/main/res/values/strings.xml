@@ -21,6 +21,8 @@
     <string name="askLogoutMessage">Realmente deseja sair?\nVocê precisará fazer login novamente para entrar.</string>
     <string name="explainSendEmailTitle">Email Enviado!</string>
     <string name="explainSendEmailMessage">Você receberá um e-mail com instruções para a troca de senha. Por favor, verifique sua caixa de entrada e a pasta de spam.</string>
+    <string name="locationPermissionDeniedTitle">Permissão Negada</string>
+    <string name="locationPermissionDeniedMessage">Por favor permita o acesso à sua localização. Sem o acesso não temos como enviar os lembretes de local </string>
 
 
     <!-- Hints/Instructions -->
@@ -72,6 +74,7 @@
     <string name="radius">Raio</string>
     <string name="whenArrive">Quando chegar</string>
     <string name="whenLeave">Quando sair</string>
+    <string name="currentLocation">Localização atual</string>
 
     <!-- User/Authentication -->
     <string name="email">Email</string>

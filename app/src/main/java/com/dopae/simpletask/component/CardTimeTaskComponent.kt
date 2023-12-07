@@ -133,7 +133,6 @@ class CardTimeTaskComponent(
         utc.time = date
         val local = Calendar.getInstance()
         local.timeInMillis = utc.timeInMillis
-        //local[Calendar.DAY_OF_MONTH] += 1
         val dateString = SimpleDateFormat("EEE dd/MM", Locale("pt", "BR")).format(local.time)
         dateButton.text = dateString
         selectedDate = local.time

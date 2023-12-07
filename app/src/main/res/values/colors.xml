@@ -33,6 +33,7 @@
     <color name="task_card">#CDFFD5</color>
     <color name="task_card_text">#26492C</color>
     <color name="task_card_button">#5BBA6A</color>
+    <color name="marker_circle_radius">#2300FF40</color>
 
     <!-- Icon Colors -->
     <color name="bottom_menu_icon">#525351</color>

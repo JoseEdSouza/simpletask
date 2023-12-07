@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -61,6 +62,13 @@ class AddTaskActivity : AppCompatActivity() {
         }
     }
 
+    private val startLocalActivity =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                //todo
+            }
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +84,12 @@ class AddTaskActivity : AppCompatActivity() {
         val menu = MenuAddEditComponent(binding.bottomMenuAddTask)
         menu.init({ save() }, { close() })
         val cards =
-            CardTaskComponent(this, binding.cardsLayoutTaskAdd, supportFragmentManager)
+            CardTaskComponent(
+                this,
+                binding.cardsLayoutTaskAdd,
+                supportFragmentManager,
+                startLocalActivity
+            )
         cards.init()
         cardTag = cards.cardTag
         cardTime = cards.cardTime

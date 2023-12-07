@@ -1,39 +1,43 @@
 package com.dopae.simpletask.component
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.View.OnClickListener
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import com.dopae.simpletask.AddLocalActivity
 import com.dopae.simpletask.R
 import com.dopae.simpletask.databinding.CardTaskLocalReminderBinding
 import com.dopae.simpletask.model.Task
 import com.dopae.simpletask.model.Trigger
-import com.dopae.simpletask.utils.LocalOption
+import com.dopae.simpletask.utils.LocalTrigger
 
 class CardLocalTaskComponent(
     private val context: Context,
     binding: CardTaskLocalReminderBinding,
-    private val supportFragmentManager: FragmentManager
+    private val supportFragmentManager: FragmentManager,
+    private val launcher: ActivityResultLauncher<Intent>
 ) : CardComponent {
     private val cardExpandOptions = binding.constraintLayoutCardTaskLocalExpandOptions
     private val cardSelectedLocal = binding.txtViewSelectedLocal
     private val card = binding.root
-    private val localOptionButton = binding.btnLocalOptionCardTaskLocal
-    private val localButton = binding.btnTimeCardTaskLocal
+    private val localTriggerBtn = binding.btnLocalOptionCardTaskLocal
+    private val localBtn = binding.btnTimeCardTaskLocal
     private var readOnly = false
     private var activated = false
-    private var selectedLocalOption: LocalOption? = null
+    private var selectedLocalTrigger: LocalTrigger? = null
     private var selectedPlace = null
     private var task: Task? = null
 
 
     override fun init() {
         if (readOnly) {
-            initSelectedLocalView()
+            cardSelectedLocal.text = ContextCompat.getString(context, R.string.addReminderHint)
             cardSelectedLocal.visibility = View.VISIBLE
         } else {
-
+            localBtn.setOnClickListener{ startLocalActivity() }
             cardSelectedLocal.visibility = View.GONE
             card.setOnClickListener { changeState() }
         }
@@ -41,16 +45,11 @@ class CardLocalTaskComponent(
 
     }
 
-    val info:Any?
+    val info: Any?
         get() = null
 
-    fun setInfo(trigger:Trigger){
+    fun setInfo(trigger: Trigger) {
         changeState()
-    }
-
-    private fun initSelectedLocalView(){
-        val text = ContextCompat.getString(context, R.string.addReminderHint)
-        cardSelectedLocal.text = text
     }
 
     override fun setOnClickListener(onClickListener: OnClickListener) {
@@ -77,6 +76,10 @@ class CardLocalTaskComponent(
         with(cardExpandOptions) {
             visibility = if (visibility == View.GONE) View.VISIBLE else View.GONE
         }
-        // todo - change State if readOnly
+    }
+
+    private fun startLocalActivity(){
+        val intent = Intent(context,AddLocalActivity::class.java)
+        launcher.launch(intent)
     }
 }

@@ -30,15 +30,18 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapViewLocal"
+    <androidx.fragment.app.FragmentContainerView
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/mapFragmentLocal"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        map:cameraZoom="16"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -58,6 +61,8 @@
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:progressTint="@color/task_theme"
+        android:thumbTint="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/radioGroupLocalTrigger"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -84,6 +89,7 @@
             android:id="@+id/radioBtnLocalArrive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/whenArrive"
             android:textColor="@color/black" />
 
