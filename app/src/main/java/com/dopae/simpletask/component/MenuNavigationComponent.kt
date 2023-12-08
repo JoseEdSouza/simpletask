@@ -56,12 +56,7 @@ class MenuNavigationComponent(
         lastFragmentId = itemId
         when (itemId) {
             R.id.bottom_tasks -> replaceFragment(TasksFragment())
-            R.id.bottom_tags -> replaceFragment(TagsFragment())
-            else -> Toast.makeText(
-                context,
-                bottomNavView.menu.findItem(itemId).title,
-                Toast.LENGTH_SHORT
-            ).show()
+            else -> replaceFragment(TagsFragment())
         }
         changeFabColor(itemId)
         changeBottomNavItemColor(itemId)
@@ -94,8 +89,7 @@ class MenuNavigationComponent(
     private fun startAddActivity() {
         val act = when (lastFragmentId) {
             R.id.bottom_tasks -> AddTaskActivity::class.java
-            R.id.bottom_tags -> AddTagActivity::class.java
-            else -> AddTaskActivity::class.java // todo - add habit
+            else -> AddTagActivity::class.java
         }
         val intent = Intent(context, act)
         launcher.launch(intent)
